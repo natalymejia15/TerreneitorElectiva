@@ -1,13 +1,11 @@
-import { AuthProvider } from "./auth"
-import { AppRouter } from "./router/AppRouter"
+import './App.css'
 
-export const App = () => {
+function App() {
   return (
     <>
-      <AuthProvider>
-        <AppRouter/>
-      </AuthProvider>
+     
     </>
   )
 }
 
+export default App
