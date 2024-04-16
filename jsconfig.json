@@ -15,7 +15,7 @@
                 "src/products/*"
             ],
             "~router/*": [
-                "src/products/router/*"
+                "src/router/*"
             ],
             "~ui/*": [
                 "src/ui/*"
