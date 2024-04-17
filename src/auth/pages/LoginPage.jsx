@@ -14,7 +14,7 @@ export const LoginPage = () => {
   const handleLogin = () => {
     if (username === "Alexander" && password === "12345") {
       login(username);
-      navigate("/dashboard");
+      navigate("/HomeProduct");
     } else {
       setError("Incorrect credentials. Please try again.");
     }
