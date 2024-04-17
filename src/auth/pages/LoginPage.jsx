@@ -22,7 +22,7 @@ export const LoginPage = () => {
 
   return (
     <div className="min-h-screen flex justify-center items-center bg-gray-100">
-      <div className="bg-gray-600 shadow-md rounded px-8 pt-6 pb-8 mb-4">
+      <div className="bg-gray-600 shadow-md rounded px-16 pt-6 pb-12 mb-4">
         <div className="text-center">
           <h1 className="text-3xl mb-4 font-semibold">Login Page</h1>
           <hr className="my-4" />

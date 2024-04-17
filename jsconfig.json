@@ -5,9 +5,6 @@
             "~assets/*": [
                 "src/assets/*"
             ],
-            "~/*": [
-                "src/*"
-            ],
             "~auth/*": [
                 "src/auth/*"
             ],
@@ -20,26 +17,20 @@
             "~ui/*": [
                 "src/ui/*"
             ],
-            "~components/*": [
-                "src/products/components/*"
+            "~/*": [
+                "src/*"
             ],
             "~context/*": [
                 "src/auth/context/*"
             ],
             "~pages/*": [
-                "src/products/pages/*"
+                "src/auth/pages/*"
             ],
             "~reducers/*": [
                 "src/auth/reducers/*"
             ],
             "~types/*": [
                 "src/auth/types/*"
-            ],
-            "~helpers/*": [
-                "src/ui/helpers/*"
-            ],
-            "~routers/*": [
-                "src/products/routers/*"
             ]
         }
     }
