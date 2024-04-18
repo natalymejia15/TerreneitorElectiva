@@ -15,9 +15,11 @@ const ProductList = () => {
   }, []);
 
   return (
-    <div>
-      <h5 className="text-xl mt-6 mb-4 text-gray-700 hover:text-blue-600">Products</h5>
-
+    <div className="mr-10 ml-10 mb-2">
+    <div className="bg-white rounded-lg shadow-lg p-2 w-3/10 border text-center">
+      <h2 className="text-2xl font-bold mb-2 text-red-600">Welcome!</h2>
+      <p className="text-gray-700 ">Thank you for visiting our site.</p>
+    </div>
       <ul>
         {products.map((product) => (
           <div key={product.id}>
