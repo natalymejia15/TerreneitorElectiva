@@ -63,8 +63,7 @@ import UpvoteButton from "../components/UpvoteButton";
             upvoted={upvoted}
             variant="outlined"
             disableRipple={true}
-            onclick={handleUpvote}
-           
+            onclick={handleUpvote} 
           >
             {upvotes}
           </UpvoteButton>
