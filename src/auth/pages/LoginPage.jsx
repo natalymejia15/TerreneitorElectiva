@@ -2,6 +2,7 @@ import { useState } from "react";
 import { useContext } from "react";
 import { useNavigate } from "react-router-dom";
 import { AuthContext } from "../context";
+import { Register } from "./Register";
 
 export const LoginPage = () => {
   const { login } = useContext(AuthContext);
@@ -20,11 +21,15 @@ export const LoginPage = () => {
     }
   };
 
+  const handRegister = () => {
+      navigate("/Register");
+    }
+
   return (
     <div className="min-h-screen flex justify-center items-center bg-gray-100">
       <div className="bg-gray-600 shadow-md rounded px-16 pt-6 pb-12 mb-4">
         <div className="text-center">
-          <h1 className="text-3xl mb-4 font-semibold">Login Page</h1>
+          <h1 className="text-3xl mb-4 font-semibold">Product Home</h1>
           <hr className="my-4" />
           <label htmlFor="username" className="block text-black-700 text-sm font-bold mb-2">Username</label>
           <input 
@@ -46,7 +51,7 @@ export const LoginPage = () => {
           <div className="mt-6">
             <button
               className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mr-2 focus:outline-none focus:shadow-outline"
-              onClick={handleLogin}
+              onClick={handRegister}
             >
               Register
             </button>

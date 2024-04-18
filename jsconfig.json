@@ -37,6 +37,12 @@
             ],
             "~routers/*": [
                 "src/products/routers/*"
+            ],
+            "~image/*": [
+                "src/image/*"
+            ],
+            "~/*": [
+                "src/*"
             ]
         }
     }
