@@ -1,5 +1,5 @@
 import { Navigate, Routes, Route } from 'react-router-dom';
-
+//import { Navbar } from '../../ui';
 
 export const ProductRouter = () => {
     return (
@@ -7,8 +7,8 @@ export const ProductRouter = () => {
 
             <div className='container'>
                 <Routes>
-                    <Route path='/retro' element={<RetroPage />} />
-                    <Route path='/' element={<Navigate to="/retro" />} />
+                    <Route path='/homeProduct' element={<HomeProduct />} />
+                    <Route path='/' element={<Navigate to="/homeProduct" />} />
                 </Routes>
             </div>
         </>
