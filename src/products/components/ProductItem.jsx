@@ -10,13 +10,13 @@ import UpvoteButton from "../components/UpvoteButton";
     isUpvoted = false,
     _id,
  }) => {
-
+ 
     const [upvoted, setUpvoted] = React.useState(isUpvoted);
-
+ 
     const tagNames = tags.map((tag) => {
       return tag.label;
     });
-  
+ 
     const handleUpvote = () => {
       setUpvoted(!upvoted);
       fetch(`https://product-hunt-18dcc2.can.canonic.dev/api/upvotes`, {
@@ -34,7 +34,7 @@ import UpvoteButton from "../components/UpvoteButton";
         .then((res) => res.json())
         .then((json) => json?.data);
       };
-  
+ 
     return (
       <div className="md:flex max-w-md mx-auto bg-white rounded-xl shadow-md overflow-hidden md:max-w-2xl m-3">
         <div className="w-16 rounded-full flex-row bg-violet-900"
@@ -57,12 +57,12 @@ import UpvoteButton from "../components/UpvoteButton";
             {tagNames.join(" ・ ")}
           </p>
         </div>
-        <div className='ml-auto'>       
+        <div className='ml-auto'>      
           <UpvoteButton
             upvoted={upvoted}
             variant="outlined"
             disableRipple={true}
-            onclick={handleUpvote} 
+            onclick={handleUpvote}
           >
             {upvotes}
           </UpvoteButton>

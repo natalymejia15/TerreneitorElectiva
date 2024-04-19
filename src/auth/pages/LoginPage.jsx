@@ -20,11 +20,15 @@ export const LoginPage = () => {
     }
   };
 
+  const handRegister = () => {
+      navigate("/Register");
+    }
+
   return (
     <div className="min-h-screen flex justify-center items-center bg-gray-100">
-      <div className="bg-gray-600 shadow-md rounded px-8 pt-6 pb-8 mb-4">
+      <div className="bg-gray-400 shadow-md rounded px-16 pt-6 pb-12 mb-4">
         <div className="text-center">
-          <h1 className="text-3xl mb-4 font-semibold">Login Page</h1>
+          <h1 className="text-3xl mb-4 font-semibold">Product Hunt</h1>
           <hr className="my-4" />
           <label htmlFor="username" className="block text-black-700 text-sm font-bold mb-2">Username</label>
           <input 
@@ -42,16 +46,16 @@ export const LoginPage = () => {
             value={password}
             onChange={(e) => setPassword(e.target.value)}
           />
-          {error && <p className="text-red-500 text-xs italic">{error}</p>}
+          {error && <p className="text-white-500 text italic">{error}</p>}
           <div className="mt-6">
             <button
-              className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mr-2 focus:outline-none focus:shadow-outline"
-              onClick={handleLogin}
+              className="mr-2 bg-violet-900 hover:bg-gray-500 text-white rounded-md p-10 py-2 text-sm font-medium"
+              onClick={handRegister}
             >
               Register
             </button>
             <button
-              className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
+              className="mr-2 bg-violet-900 hover:bg-gray-500 text-white rounded-md p-10 py-2 text-sm font-medium"
               onClick={handleLogin}
             >
               Login
