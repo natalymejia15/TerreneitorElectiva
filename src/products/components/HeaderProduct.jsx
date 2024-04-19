@@ -1,16 +1,27 @@
 import React from 'react'
+import logo from "../../image/Keep.png";
+import { NavLink } from 'react-router-dom';
 
 export const HeaderProduct = () => {
   return (
     <>
-        <div class="md:flex max-w-md mx-auto bg-white rounded-xl shadow-md overflow-hidden md:max-w-2xl m-4">
-            <div class="md:flex-shrink-0">
-                <img class="h-48 w-full object-cover md:w-48" src="<https://placekitten.com/500/500>" alt="A cute kitten"/>
+        <div className="md:flex max-w-md mx-auto bg-white rounded-xl shadow-2xl border overflow-hidden md:max-w-2xl m-4">
+            <div className="md:flex-shrink-0">
+                <img className="h-48 w-full object-cover md:w-48" src={ logo } alt="A cute kitten"/>
             </div>
-            <div class="p-8">
-                <div class="uppercase tracking-wide text-sm text-indigo-500 font-semibold">Kitten</div>
-                <a class="block mt-1 text-lg leading-tight font-medium text-black hover:underline" href="#" >Cute calico kitten</a>
-                <p class="mt-2 text-gray-500">This adorable kitten is looking for a loving home. It's incredibly friendly and loves to play. </p>
+            <div className="p-8 ml-4">
+                <div className="uppercase tracking-wide text-sm text-indigo-500 font-semibold">KeepCoding</div>
+                  <a className="block mt-1 text-lg leading-tight font-medium text-black hover:underline" href="#" >Tech School</a>
+                  <p className="mt-2 text-gray-500">High-performance training center in programming and technology. </p>
+                <br />
+                <NavLink
+                  to="https://keepcoding.io/sobre-nosotros/" 
+                  target="_blank"
+                  rel="noreferrer noopener"
+                  className='bg-violet-800 hover:bg-gray-400 text-white font-bold py-2 px-4 ml-20 border border-violet-800 rounded'
+                >
+                    Get Product
+                </NavLink>                
             </div>
         </div>    
     </>
