@@ -14,7 +14,7 @@ export const Register = () => {
 
     return (
         <div className="flex justify-center items-center h-screen">
-            <div className="bg-gray-300 shadow-md w-full max-w-md p-8 bg-white shadow-md rounded-md ">
+            <div className="bg-gray-500 shadow-md w-full max-w-md p-8 bg-white shadow-md rounded-md ">
                 <h2 className="text-2xl font-semibold mb-4 text-center">Register</h2>
                 {error && <p className="text-red-500 mb-4">{error}</p>}
                 <form onSubmit={handleRegister}>

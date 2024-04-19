@@ -43,7 +43,14 @@ export const AppRouter = () => {
             </PublicRouter>
           }
         />
-
+        <Route
+          path='/'
+          element={
+            <PublicRouter>
+                <HomePage/>
+            </PublicRouter>
+          }
+        />    
         <Route
           path="/*"
           element={
