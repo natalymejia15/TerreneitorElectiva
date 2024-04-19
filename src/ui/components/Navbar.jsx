@@ -1,12 +1,11 @@
 import { NavLink, useNavigate } from "react-router-dom";
-import { useContext, useState } from "react";
+import { useContext } from "react";
 import { AuthContext } from "../../auth";
 import myIcon from "../../image/icono.png";
 import logo from "../../image/logosmall.png";
 
 export const Navbar = () => {
-  const { logout } = useContext(AuthContext);
-  const [isLoading, setIsLoading] = useState(false);
+  const { user, logout } = useContext(AuthContext);
   const navigate = useNavigate();
 
   const onLogout = () => {
@@ -34,13 +33,14 @@ export const Navbar = () => {
                 >
                   Home Product
                 </NavLink>
-
-                <NavLink
-                  to="/NewProduct"
-                  className="text-gray-100 hover:bg-violet-700 hover:text-white rounded-md px-3 py-2 text-sm font-medium"
-                >
-                  New Product
-                </NavLink>
+                {user && (
+                  <NavLink
+                    to="/NewProduct"
+                    className="text-gray-100 hover:bg-violet-700 hover:text-white rounded-md px-3 py-2 text-sm font-medium"
+                  >
+                    New Product
+                  </NavLink>
+                )}
               </div>
             </div>
           </div>
@@ -54,21 +54,20 @@ export const Navbar = () => {
             </button>
           </div>
           <div className="absolute inset-y-0 right-0 flex items-center pr-2 sm:static sm:inset-auto sm:ml-6 sm:pr-0">
-            {!isLoading && (
+            {user ? (
               <button
                 onClick={() => onLogout()}
                 className="ml-2 px-3 py-2 rounded-md text-sm font-medium text-gray-300 hover:text-white hover:bg-violet-700 focus:outline-none focus:text-white focus:bg-gray-100"
               >
-                Sing off
+                Sign off
               </button>
-            )}
-            {isLoading && (
-              <button
-                onClick={() => onLogout()}
+            ) : (
+              <NavLink
+                to="/login"
                 className="ml-2 px-3 py-2 rounded-md text-sm font-medium text-gray-300 hover:text-white hover:bg-violet-700 focus:outline-none focus:text-white focus:bg-gray-100"
               >
                 Log in
-              </button>
+              </NavLink>
             )}
           </div>
         </div>
