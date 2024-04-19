@@ -6,8 +6,6 @@ import { Navbar } from '~ui/components';
 export const HomeProduct = () => {
   return (
     <>
-        <Navbar />
-        <br />
         <HeaderProduct />
         <hr />
         <ProductList />
