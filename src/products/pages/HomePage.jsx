@@ -1,6 +1,7 @@
 import React from 'react'
 import ProductList from '../components/ProductList'
 import { Navbar } from '~/ui'
+import { HeaderHome } from '~products/components/HeaderHome'
 
 export const HomePage = () => {
   return (
@@ -9,6 +10,7 @@ export const HomePage = () => {
         <div>
           <Navbar />
           <br/>
+          <HeaderHome />
           <ProductList/>
         </div>
       </div>

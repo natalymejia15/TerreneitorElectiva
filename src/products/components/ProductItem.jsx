@@ -12,12 +12,13 @@ import UpvoteButton from "../components/UpvoteButton";
  }) => {
  
     const [upvoted, setUpvoted] = React.useState(isUpvoted);
- 
+    const firstLetter = name.charAt(0).toUpperCase();
     const tagNames = tags.map((tag) => {
       return tag.label;
     });
  
     const handleUpvote = () => {
+      
       setUpvoted(!upvoted);
       fetch(`https://product-hunt-18dcc2.can.canonic.dev/api/upvotes`, {
         method: "POST",
@@ -33,6 +34,7 @@ import UpvoteButton from "../components/UpvoteButton";
       })
         .then((res) => res.json())
         .then((json) => json?.data);
+        
       };
  
     return (
@@ -44,7 +46,7 @@ import UpvoteButton from "../components/UpvoteButton";
             marginRight: 2,
           }}
         >
-          <img alt={name} src={brandImage.url ?? "notPresent"} />
+          <img className='text-white text-xl flex-col m-4 ' alt={firstLetter} src={brandImage.url ?? "notPresent"} />
         </div>
         <div className='p-4'>
             <div className="uppercase tracking-wide font-semibold text-violet-900 hover:text-blue-600">
