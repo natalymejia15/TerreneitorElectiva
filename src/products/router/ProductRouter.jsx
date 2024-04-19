@@ -2,6 +2,7 @@ import { Navigate, Routes, Route } from "react-router-dom";
 import { HomeProduct, NewProduct } from "../pages";
 import { Navbar } from "~/ui";
 import { ProductSelect } from "../pages/ProductSelect";
+import { Profile } from "~auth/pages/Profile";
 
 export const ProductRouter = () => {
   return (
@@ -13,6 +14,7 @@ export const ProductRouter = () => {
           <Route path="/ProductSelect" element={<ProductSelect />} />
           <Route path="/" element={<Navigate to="/HomeProduct" />} />
           <Route path="/HomeProduct" element={<HomeProduct />} />
+          <Route path="/Profile" element={<Profile />} />
         </Routes>
       </div>
     </>
