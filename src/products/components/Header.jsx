@@ -12,7 +12,7 @@ const Header = () => {
         >
           P
         </div>
-        <h1 className="text-2xl font-bold hover:text-blue-600">PRODUCT HUNT</h1>
+        <h1 className="text-4xl  hover:text-blue-600">PRODUCT HUNT</h1>
         <NavLink
             to="/login"
             className="bg-violet-900 hover:bg-red-400 text-white rounded-md p-8 py-2 text-sm font-medium mr-5"
