@@ -5,6 +5,7 @@ import { PublicRouter } from './PublicRouter'
 import { ProductRouter } from '../products/router/ProductRouter'
 import { PrivateRouter } from './PrivateRouter'
 import { Register } from '../auth/pages/Register'
+import { Profile } from '../auth/pages/Profile'
 
 export const AppRouter = () => {
   return (
@@ -15,6 +16,14 @@ export const AppRouter = () => {
           element={
               <PublicRouter>
                   <LoginPage/>
+              </PublicRouter>
+          }
+        />  
+        <Route
+          path='/Profile'
+          element={
+              <PublicRouter>
+                  <Profile/>
               </PublicRouter>
           }
         />  
