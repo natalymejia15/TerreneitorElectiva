@@ -5,9 +5,6 @@
             "~assets/*": [
                 "src/assets/*"
             ],
-            "~/*": [
-                "src/*"
-            ],
             "~auth/*": [
                 "src/auth/*"
             ],
@@ -20,11 +17,32 @@
             "~ui/*": [
                 "src/ui/*"
             ],
-            "~Nueva carpeta/*": [
-                "src/Nueva carpeta/*"
+            "~components/*": [
+                "src/products/components/*"
+            ],
+            "~context/*": [
+                "src/auth/context/*"
+            ],
+            "~pages/*": [
+                "src/products/pages/*"
+            ],
+            "~reducers/*": [
+                "src/auth/reducers/*"
+            ],
+            "~types/*": [
+                "src/auth/types/*"
+            ],
+            "~helpers/*": [
+                "src/ui/helpers/*"
+            ],
+            "~routers/*": [
+                "src/products/routers/*"
             ],
             "~image/*": [
                 "src/image/*"
+            ],
+            "~/*": [
+                "src/*"
             ]
         }
     }
