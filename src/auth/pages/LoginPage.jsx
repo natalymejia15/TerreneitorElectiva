@@ -1,10 +1,10 @@
 import { useState } from "react";
 import { useContext } from "react";
-import { useNavigate } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
 import { AuthContext } from "../context";
 import logo from "../../image/logo.png";
 
-export const LoginPage = () => {  
+export const LoginPage = () => {
   const { login } = useContext(AuthContext);
   const navigate = useNavigate();
 
@@ -50,6 +50,13 @@ export const LoginPage = () => {
           />
           {error && <p className="text-white-500 text italic">{error}</p>}
           <div className="mt-6">
+            <NavLink
+              to="/"
+              className="mr-2 bg-violet-900 hover:bg-gray-400 text-white rounded-md p-10 py-2 text-sm font-medium"
+              aria-current="page"
+            >
+              Close
+            </NavLink>
             <button
               className="mr-2 bg-violet-900 hover:bg-gray-500 text-white rounded-md p-10 py-2 text-sm font-medium"
               onClick={handRegister}
