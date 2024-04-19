@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { NavLink } from 'react-router-dom';
-import logosmall from "../../image/logosmall.png";
+import logo from "../../image/logo.png";
 
 
 export const Register = () => {
@@ -16,7 +16,7 @@ export const Register = () => {
 
     return (
         <div className="flex justify-center items-center h-screen">
-            <img src={logosmall} alt="Logo pequeño" style={{ width: "450px", height: "450px" }} />
+            <img src={logo} alt="Logo pequeño" style={{ width: "410px", height: "505px" }} />
             <div className="bg-slate-300 shadow-md w-full max-w-md p-8 bg-white shadow-md rounded-md " style={{ width: "400px", marginRight: "100px" }}>
                 <h2 className="text-2xl font-semibold mb-4 text-center">Registration</h2>
                 {error && <p className="text-red-500 mb-4">{error}</p>}

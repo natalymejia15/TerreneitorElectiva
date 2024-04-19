@@ -2,9 +2,9 @@ import { useState } from "react";
 import { useContext } from "react";
 import { useNavigate } from "react-router-dom";
 import { AuthContext } from "../context";
-import logosmall from "../../image/logosmall.png";
+import logo from "../../image/logo.png";
 
-export const LoginPage = () => {
+export const LoginPage = () => {  
   const { login } = useContext(AuthContext);
   const navigate = useNavigate();
 
@@ -27,7 +27,7 @@ export const LoginPage = () => {
 
   return (
     <div className="min-h-screen flex justify-center items-center bg-gray-100" style={{ marginRight: "50px" }}>
-      <img src={logosmall} alt="Logo pequeño" style={{ width: "360px", height: "366px", marginTop: "-15px" }} />
+      <img src={logo} alt="Logo pequeño" style={{ width: "360px", height: "366px", marginTop: "-15px" }} />
       <div className="bg-slate-300 rounded px-16 pt-6 pb-12 mb-4" >
         <div className="text-center">
           <h1 className="text-3xl mb-4 font-semibold">My Account</h1>
