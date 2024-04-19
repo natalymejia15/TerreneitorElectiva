@@ -25,7 +25,7 @@ export const AppRouter = () => {
                 <HomePage/>
             </PublicRouter>
           }
-        />
+        />    
         <Route
           path="/Register"
           element={
