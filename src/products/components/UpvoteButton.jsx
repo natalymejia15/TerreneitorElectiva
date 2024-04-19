@@ -5,7 +5,7 @@ const UpvoteButton = ({ upvoted, onClick, children }) => {
   return (
     <button
       onClick={onClick}
-      className={`bg-slate-300 hover:bg-gray-400 text-gray-800 font-bold py-2 px-4 rounded inline-flex items-center
+      className={`bg-violet-500 hover:bg-violet-400 text-gray-300 font-bold py-2 px-4 rounded inline-flex items-center
        ${upvoted ? "text-red-600 border-red-600" : "text-gray-600 border-gray-600"
       } hover:bg-white hover:border-red-600`}
     >

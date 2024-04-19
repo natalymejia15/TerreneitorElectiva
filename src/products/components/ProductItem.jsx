@@ -1,6 +1,6 @@
 import React from 'react'
-import UpvoteButton from "../components/UpvoteButton";
- 
+import UpvoteButton from "../components/UpvoteButton"; 
+
  export const ProductItem = ({
     name,
     description,
@@ -37,18 +37,17 @@ import UpvoteButton from "../components/UpvoteButton";
  
     return (
       <div className="md:flex max-w-md mx-auto bg-white rounded-xl shadow-md overflow-hidden md:max-w-2xl m-3">
-        <div className="w-16 rounded-full flex-row"
+        <div className="w-16 rounded-full flex-row bg-violet-900"
           style={{
             width: 60,
-            height: 60,
-            backgroundColor: "#4b587c",
+            height: 60,           
             marginRight: 2,
           }}
         >
           <img alt={name} src={brandImage.url ?? "notPresent"} />
         </div>
         <div className='p-4'>
-            <div className="uppercase tracking-wide font-semibold text-cyan-800 hover:text-blue-600">
+            <div className="uppercase tracking-wide font-semibold text-violet-900 hover:text-blue-600">
                 {name}
             </div>
             <p className="mt-2 text-base text-neutral-600 dark:text-neutral-200">
