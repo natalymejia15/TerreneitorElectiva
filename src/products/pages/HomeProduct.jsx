@@ -1,11 +1,14 @@
 import React from 'react';
-import ProductList from '../components/ProductList';
+import ProductList from '../components/ProductList'
+import { HeaderProduct } from '~products/components/HeaderProduct';
+import { Navbar } from '~ui/components';
 
 export const HomeProduct = () => {
   return (
     <>
+        <Navbar />
         <br />
-        <h2>Product Home</h2>
+        <HeaderProduct />
         <hr />
         <ProductList />
     </>

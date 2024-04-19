@@ -11,7 +11,7 @@ export const ProductRouter = () => {
         <Routes>
           <Route path="/NewProduct" element={<NewProduct />} />
           <Route path="/ProductSelect" element={<ProductSelect />} />
-          <Route path="/" element={<Navigate to="/HomeProduct" />} />
+          <Route path="/HomeProduct" element={<HomeProduct />} />
         </Routes>
       </div>
     </>
