@@ -1,5 +1,7 @@
 import React, { useState } from 'react';
 import { NavLink } from 'react-router-dom';
+import logo from "../../image/logo.png";
+
 
 export const Register = () => {
     const [username, setUsername] = useState('');
@@ -14,8 +16,9 @@ export const Register = () => {
 
     return (
         <div className="flex justify-center items-center h-screen">
-            <div className="bg-gray-500 shadow-md w-full max-w-md p-8 bg-white shadow-md rounded-md ">
-                <h2 className="text-2xl font-semibold mb-4 text-center">Register</h2>
+            <img src={logo} alt="Logo pequeño" style={{ width: "410px", height: "505px" }} />
+            <div className="bg-slate-300 shadow-md w-full max-w-md p-8 bg-white shadow-md rounded-md " style={{ width: "400px", marginRight: "100px" }}>
+                <h2 className="text-2xl font-semibold mb-4 text-center">Registration</h2>
                 {error && <p className="text-red-500 mb-4">{error}</p>}
                 <form onSubmit={handleRegister}>
                     <div className="mb-4">

@@ -2,8 +2,9 @@ import { useState } from "react";
 import { useContext } from "react";
 import { useNavigate } from "react-router-dom";
 import { AuthContext } from "../context";
+import logo from "../../image/logo.png";
 
-export const LoginPage = () => {
+export const LoginPage = () => {  
   const { login } = useContext(AuthContext);
   const navigate = useNavigate();
 
@@ -21,17 +22,18 @@ export const LoginPage = () => {
   };
 
   const handRegister = () => {
-      navigate("/Register");
-    }
+    navigate("/Register");
+  }
 
   return (
-    <div className="min-h-screen flex justify-center items-center bg-gray-100">
-      <div className="bg-gray-400 shadow-md rounded px-16 pt-6 pb-12 mb-4">
+    <div className="min-h-screen flex justify-center items-center bg-gray-100" style={{ marginRight: "50px" }}>
+      <img src={logo} alt="Logo pequeño" style={{ width: "360px", height: "366px", marginTop: "-15px" }} />
+      <div className="bg-slate-300 rounded px-16 pt-6 pb-12 mb-4" >
         <div className="text-center">
-          <h1 className="text-3xl mb-4 font-semibold">Product Hunt</h1>
+          <h1 className="text-3xl mb-4 font-semibold">My Account</h1>
           <hr className="my-4" />
           <label htmlFor="username" className="block text-black-700 text-sm font-bold mb-2">Username</label>
-          <input 
+          <input
             type="text"
             className="shadow appearance-none border rounded w-full py-2 px-3 text-black-700 leading-tight focus:outline-none focus:shadow-outline mb-4"
             id="username"
@@ -39,7 +41,7 @@ export const LoginPage = () => {
             onChange={(e) => setUsername(e.target.value)}
           />
           <label htmlFor="password" className="block text-black-700 text-sm font-bold mb-2">Password</label>
-          <input 
+          <input
             type="password"
             className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline mb-4"
             id="password"
@@ -64,6 +66,6 @@ export const LoginPage = () => {
         </div>
       </div>
     </div>
-  );     
+  );
 };
 
