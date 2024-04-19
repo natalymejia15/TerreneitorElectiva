@@ -4,6 +4,7 @@ import { LoginPage } from '~/auth'
 import { PublicRouter } from './PublicRouter'
 import { ProductRouter } from '../products/router/ProductRouter'
 import { PrivateRouter } from './PrivateRouter'
+import { Register } from '../auth/pages/Register'
 
 export const AppRouter = () => {
   return (
