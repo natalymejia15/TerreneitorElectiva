@@ -19,14 +19,7 @@ export const AppRouter = () => {
               </PublicRouter>
           }
         />  
-        <Route
-          path='/Profile'
-          element={
-              <PublicRouter>
-                  <Profile/>
-              </PublicRouter>
-          }
-        />  
+
         <Route
           path="/Register"
           element={
