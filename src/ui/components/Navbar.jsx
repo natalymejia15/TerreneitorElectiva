@@ -45,13 +45,22 @@ export const Navbar = () => {
             </div>
           </div>
           <div className="absolute inset-y-0 right-0 flex items-center pr-2 sm:static sm:inset-auto sm:ml-6 sm:pr-0">
-            <button
+            { user ? (
+            <NavLink
+              to="/Profile"
               type="button"
               className="relative rounded-full bg-violet-900 p-1 overflow-hidden focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800"
             >
-              <span className="sr-only">View notifications</span>
-              <img className="h-6 w-6 object-cover" src={myIcon} alt="Avatar" />
-            </button>
+            <span className="sr-only">View notifications</span>
+            <img className="h-6 w-6 object-cover" src={myIcon} alt="Avatar" />
+            </NavLink>
+            ) : (
+              <NavLink
+              to="/HomeProduct"
+              >
+                
+              </NavLink>
+            )}
           </div>
           <div className="absolute inset-y-0 right-0 flex items-center pr-2 sm:static sm:inset-auto sm:ml-6 sm:pr-0">
             {user ? (
