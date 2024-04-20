@@ -27,7 +27,7 @@ export const Navbar = () => {
             <div className="hidden sm:ml-4 sm:block">
               <div className="flex space-x-4">
                 <NavLink
-                  to="/HomeProduct"
+                  to="/"
                   className="bg-violet-900 text-white rounded-md p-10 py-2 text-sm font-medium"
                   aria-current="page"
                 >
@@ -48,7 +48,6 @@ export const Navbar = () => {
             { user ? (
             <NavLink
               to="/Profile"
-              type="button"
               className="relative rounded-full bg-violet-900 p-1 overflow-hidden focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800"
             >
             <span className="sr-only">View notifications</span>
@@ -58,7 +57,6 @@ export const Navbar = () => {
               <NavLink
               to="/HomeProduct"
               >
-                
               </NavLink>
             )}
           </div>
@@ -68,7 +66,7 @@ export const Navbar = () => {
                 onClick={() => onLogout()}
                 className="ml-2 px-3 py-2 rounded-md text-sm font-medium text-gray-300 hover:text-white hover:bg-violet-700 focus:outline-none focus:text-white focus:bg-gray-100"
               >
-                Sign off
+                Log out
               </button>
             ) : (
               <NavLink
