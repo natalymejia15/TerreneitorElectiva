@@ -14,8 +14,8 @@ export const Profile = () => {
 
     return (
         <div className="flex justify-center items-center h-screen">
-            <div className="bg-white-10 shadow-md w-full max-w-md p-8 bg-white shadow-md rounded-md " style={{ width: "1400px", marginRight: "100px" }}>
-                <h2 className="text-2xl font-semibold mb-4 text-center">My details</h2>
+            <div className="bg-white-10 shadow-md w-full max-w-md p-8 bg-white rounded-md " style={{ width: "1400px", marginRight: "100px" }}>
+                <h2 className="text-2xl font-semibold mb-4 text-center">My Profile</h2>
                 {error && <p className="text-red-500 mb-4">{error}</p>}
                 <form onSubmit={handleEdit}>
                     <div className="mb-4">
