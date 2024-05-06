@@ -3,6 +3,7 @@ import { useReducer } from "react";
 import { AuthContext } from "./AuthContext";
 import { authReducer } from "../reducers";
 import { types } from "../types";
+import { signInUser } from "../../firebase/providers";
 
 const initialState = { logged: false };
 
@@ -18,13 +19,23 @@ export const AuthProvider = ({ children }) => {
   
   const [authState, dispatch ] = useReducer(authReducer, initialState, init);
 
-  const login = (name = '') => {
-    const user = { id: 1231231, name }
-    const action = { type: types.login, payload: user }
+  const login = async (email, password) => {
 
-    localStorage.setItem('user', JSON.stringify(user))
+    const { ok, uid, displayName, photoURL, errorMessage} = await signInUser(email, password);
+
+    if(!ok) {
+      dispatch({type: types.error, payload: { errorMessage } } );
+    }
+
+    const payload = { ok, uid, email, displayName, photoURL, errorMessage}
+
+    const action = { type: types.login, payload: payload }
+
+    localStorage.setItem('user', JSON.stringify(payload))
 
     dispatch(action);
+
+    return true;
   }
 
   const logout = () => {
