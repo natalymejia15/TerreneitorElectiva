@@ -43,6 +43,9 @@
             ],
             "~/*": [
                 "src/*"
+            ],
+            "~firebase/*": [
+                "src/firebase/*"
             ]
         }
     }
