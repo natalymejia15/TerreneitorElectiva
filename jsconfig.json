@@ -25,6 +25,7 @@
             ],
             "~firebase/*": [
                 "src/firebase/*"
+
             ],
             "~hooks/*": [
                 "src/hooks/*"
