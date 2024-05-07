@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { useContext } from "react";
-import { useNavigate } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
 
 import { AuthContext } from "../context";
 import { useForm } from "../../hooks";
@@ -11,42 +11,25 @@ const initForm = {
 };
 
 export const LoginPage = () => {
-  const { login, errorMessage } = useContext(AuthContext);
+  const { login } = useContext(AuthContext);
   const navigate = useNavigate();
   const { email, password, onInputChange } = useForm(initForm);
   const [showModal, setShowModal] = useState(false);
 
-  const handleLogin = async (event) => {
-    event.preventDefault();
-
-    if (!email.trim() || !password.trim()) {
-      setShowModal(true);
-      return;
-    }
-
+  const onLogin = async () => {
     const isValidLogin = await login(email, password);
-
-    if (isValidLogin) {
+    if (!isValidLogin) {
+      setShowModal(true);
+    } else {
       const lastPath = localStorage.getItem("lastPath") || "/";
       navigate(lastPath, { replace: true });
     }
   };
 
-  const handleRegister = () => {
-    navigate("/Register");
-  };
-
-  const handleClose = () => {
-    setShowModal(false);
-  };
-
-  const handleExit = () => {
-    navigate("/");
-  };
 
   return (
     <>
-      <div className="min-h-screen flex justify-center items-center bg-gray-100">
+    <div className="flex justify-end items-start h-screen bg-gray-100 p-0">
         <div className="max-w-md w-full">
           <div className="bg-slate-300 rounded px-8 pt-6 pb-8 mb-4">
             <h1 className="text-3xl mb-4 font-semibold text-center">My Account</h1>
@@ -63,6 +46,7 @@ export const LoginPage = () => {
                   value={email}
                   onChange={onInputChange}
                   placeholder="Enter your Email"
+                  required
                 />
               </div>
               <div className="mb-6">
@@ -81,49 +65,41 @@ export const LoginPage = () => {
               </div>
               <div className="flex justify-between">
                 <button
-                  type="submit"
-                  className="bg-violet-900 hover:bg-gray-400 text-white rounded-md p-10 py-2 text-sm font-medium"
-                  onClick={handleLogin}
+                  type="button"
+                  onClick={onLogin}
+                  className="mr-2 bg-violet-900 hover:bg-gray-500 text-white rounded-md p-10 py-2 text-sm font-medium"
                 >
                   Login
-                  
                 </button>
-                <button
-                  className="bg-violet-900 hover:bg-gray-400 text-white rounded-md p-10 py-2 text-sm font-medium"
-                  onClick={handleExit}
+
+                <NavLink
+                  to="/"
+                  className="mr-2 bg-violet-900 hover:bg-gray-500 text-white rounded-md p-10 py-2 text-sm font-medium"
                 >
                   Exit
-                </button>
-                <button
-                  className="bg-violet-900 hover:bg-gray-400 text-white rounded-md p-10 py-2 text-sm font-medium"
-                  onClick={handleRegister}
+                </NavLink>
+                <NavLink
+                  to="/Register"
+                  className="mr-2 bg-violet-900 hover:bg-gray-500 text-white rounded-md p-10 py-2 text-sm font-medium"
                 >
                   Register
-                </button>
+                </NavLink>
               </div>
-              {errorMessage && (
-                <div className="mt-4 p-6 bg-red-100 text-red-700 rounded border border-red-400">
-                  {errorMessage}
-                </div>
-              )}
             </form>
           </div>
         </div>
       </div>
+      <br />
       {showModal && (
-        <div className="fixed top-0 left-0 w-full h-full flex justify-center items-center bg-gray-900 bg-opacity-50 z-50">
-          <div className="bg-white rounded-lg p-8 max-w-md w-full">
-            <h1 className="text-2xl mb-4 font-semibold text-center">Incorrect credentials. Please try again</h1>
-            <p className="text-red-700">{errorMessage}</p>
-            <button
-              className="bg-violet-900 hover:bg-gray-400 text-white rounded-md p-10 py-2 text-sm font-medium"
-              onClick={handleClose}
-            >
-              Close
-            </button>
-          </div>
-        </div>
-      )}
+            <div className="fixed top-0 left-0 w-full h-full flex justify-end items-center">
+              <div className="bg-white p-8 rounded shadow-lg">
+                <p className="text-blakc-700">Incorrect credentials. Please try again</p>
+                <button onClick={() => setShowModal(false)} className="mt-4 bg-violet-900 hover:bg-gray-500 text-white rounded-md py-2 px-4 text-sm font-medium">
+                  Close
+                </button>
+              </div>
+            </div>
+          )}
     </>
   );
 };
