@@ -3,7 +3,7 @@ import { useReducer } from "react";
 import { AuthContext } from "./AuthContext";
 import { authReducer } from "../reducers";
 import { authTypes } from "../types";
-import { signInUser } from "../../firebase/providers";
+import { logoutUser, signInUser, signInWithGoogle } from "../../firebase/providers";
 
 const initialState = { logged: false };
 
@@ -39,7 +39,29 @@ export const AuthProvider = ({ children }) => {
     return true;
   }
 
-  const logout = () => {
+  const loginGoogle = async () => {
+    const { ok, uid, photoURL, displayName, errorMessage, email: googleEmail} = await signInWithGoogle();
+
+    if(!ok) {
+      dispatch({type: authTypes.error, payload: { errorMessage } } )
+      return false;
+    }
+
+    const payload = { uid, googleEmail, displayName, photoURL}
+
+    const action = { type: authTypes.login, payload }
+
+    localStorage.setItem('user', JSON.stringify(payload))
+
+    dispatch(action);
+
+    return true;
+  } 
+
+  const logout = async () => {
+
+    await logoutUser();
+
     localStorage.removeItem('user')
     dispatch({type: authTypes.logout})
   }
@@ -48,8 +70,9 @@ export const AuthProvider = ({ children }) => {
     <AuthContext.Provider value={
       {
         ...authState,
-        login: login,
-        logout: logout
+        login,
+        logout,
+        loginGoogle
       }
     }
     >
