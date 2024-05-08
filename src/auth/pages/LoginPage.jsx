@@ -12,7 +12,7 @@ const initForm = {
 };
 
 export const LoginPage = () => {
-  const { login } = useContext(AuthContext);
+  const { login, loginGoogle, erorrMessage } = useContext(AuthContext);
   const navigate = useNavigate();
   const { email, password, onInputChange } = useForm(initForm);
   const [showModal, setShowModal] = useState(false);
@@ -26,6 +26,17 @@ export const LoginPage = () => {
       navigate(lastPath, { replace: true });
     }
   };
+
+  const onGoogleLogin = async (event) => {
+    event.preventDefault();
+
+    const isValidLogin = await loginGoogle();
+
+    if (isValidLogin) {
+      const lastPath = localStorage.getItem("lastPath") || "/";
+      navigate(lastPath, { replace: true });
+    }
+  }
 
   return (
     <>
@@ -87,7 +98,9 @@ export const LoginPage = () => {
             or continue with
           </p>
           <div className="space-x-8 flex justify-center">
-            <button type="button" className="border-none outline-none">
+            <button type="button" className="border-none outline-none"
+              onClick={onGoogleLogin}
+            >
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 width="30px"
