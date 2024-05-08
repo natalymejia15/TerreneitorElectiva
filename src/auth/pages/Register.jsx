@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-import { NavLink } from 'react-router-dom';
 import logo from "../../image/logo.png";
 
 
@@ -15,61 +14,79 @@ export const Register = () => {
     };
 
     return (
-        <div className="flex justify-center items-center h-screen">
-            <img src={logo} alt="Logo pequeño" style={{ width: "410px", height: "505px" }} />
-            <div className="bg-slate-300 shadow-md w-full max-w-md p-8 bg-white shadow-md rounded-md " style={{ width: "400px", marginRight: "100px" }}>
-                <h2 className="text-2xl font-semibold mb-4 text-center">Registration</h2>
-                {error && <p className="text-red-500 mb-4">{error}</p>}
-                <form onSubmit={handleRegister}>
-                    <div className="mb-4">
-                        <label htmlFor="username" className="block text-black-700 font-semibold mb-2">Username</label>
-                        <input
-                            type="text"
-                            id="username"
-                            className="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:border-blue-500"
-                            value={username}
-                            onChange={(e) => setUsername(e.target.value)}
-                        />
-                    </div>
-                    <div className="mb-4">
-                        <label htmlFor="email" className="block text-black-700 font-semibold mb-2">Email</label>
-                        <input
-                            type="email"
-                            id="email"
-                            className="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:border-blue-500"
-                            value={email}
-                            onChange={(e) => setEmail(e.target.value)}
-                        />
-                    </div>
-                    <div className="mb-4">
-                        <label htmlFor="password" className="block text-black-700 font-semibold mb-2">Password</label>
-                        <input
-                            type="password"
-                            id="password"
-                            className="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:border-blue-500"
-                            value={password}
-                            onChange={(e) => setPassword(e.target.value)}
-                        />
-                    </div>
-                    <div className="mb-4">
-                        <label htmlFor="confirmPassword" className="block text-black-700 font-semibold mb-2">Confirm Password</label>
-                        <input
-                            type="password"
-                            id="confirmPassword"
-                            className="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:border-blue-500"
-                            value={confirmPassword}
-                            onChange={(e) => setConfirmPassword(e.target.value)}
-                        />
-                    </div>
-                    <NavLink
-                        to="/"
-                        className="mr-2 bg-violet-900 hover:bg-gray-400 text-white rounded-md p-10 py-2 text-sm font-medium"
-                        aria-current="page"
-                    >
-                        Close
-                    </NavLink>
-                    <button type="submit" className="bg-violet-900 hover:bg-gray-400 text-white rounded-md p-10 py-2 text-sm font-medium">Save</button>
-                </form>
+        <div className="bg-gray-100 flex justify-center items-center h-screen">
+            <div className="w-1/2 h-screen hidden lg:block">
+                <img
+                    src={logo}
+                    alt="Placeholder Image"
+                    className="object-cover w-full h-full"
+                />
+            </div>
+
+            <div className="lg:p-36 md:p-52 sm:p-20 p-8 w-full lg:w-1/2">
+                <h1 className="text-2xl font-semibold mb-4">Register</h1>
+                <div className="mb-4">
+                    <label htmlFor="username" className="block text-gray-600">Username</label>
+                    <input
+                        type="text"
+                        id="username"
+                        className="w-full border border-gray-300 rounded-md py-2 px-3 focus:outline-none focus:border-blue-500"
+                        value={username}
+                        onChange={(e) => setUsername(e.target.value)}
+                    />
+                </div>
+                <div className="mb-4">
+                    <label htmlFor="email" className="block text-gray-600">
+                        Email
+                    </label>
+                    <input
+                        type="email"
+                        className="w-full border border-gray-300 rounded-md py-2 px-3 focus:outline-none focus:border-blue-500"
+                        id="email"
+                        name="email"
+                        value={email}
+                        onChange={(e) => setEmail(e.target.value)}
+
+                    />
+                </div>
+                <div className="mb-4">
+                    <label htmlFor="password" className="block text-gray-600">
+                        Password
+                    </label>
+                    <input
+                        type="password"
+                        className="w-full border border-gray-300 rounded-md py-2 px-3 focus:outline-none focus:border-blue-500"
+                        id="password"
+                        name="password"
+                        value={password}
+                        onChange={(e) => setPassword(e.target.value)}
+                    />
+                </div>
+                <div className="mb-4">
+                    <label htmlFor="confirmPassword" className="block text-gray-600">
+                        Confirm password
+                    </label>
+                    <input
+                        type="password"
+                        className="w-full border border-gray-300 rounded-md py-2 px-3 focus:outline-none focus:border-blue-500"
+                        id="confirmPassword"
+                        name="confirmPassword"
+                        value={confirmPassword}
+                        onChange={(e) => setConfirmPassword(e.target.value)}
+                    />
+                </div>
+                <button
+                    type="button"
+                    className="bg-violet-900 hover:bg-violet-700 text-white font-semibold rounded-md py-2 px-4 w-full"
+                >
+                    Register
+                </button>
+                <div className="mt-6 text-violet-500 text-center">
+                    <a href="/" className="hover:underline">
+                        Go back
+                    </a>
+                </div>
+
             </div>
         </div>
     );
