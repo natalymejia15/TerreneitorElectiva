@@ -17,32 +17,17 @@
             "~ui/*": [
                 "src/ui/*"
             ],
-            "~components/*": [
-                "src/products/components/*"
-            ],
-            "~context/*": [
-                "src/auth/context/*"
-            ],
-            "~pages/*": [
-                "src/products/pages/*"
-            ],
-            "~reducers/*": [
-                "src/auth/reducers/*"
-            ],
-            "~types/*": [
-                "src/auth/types/*"
-            ],
-            "~helpers/*": [
-                "src/ui/helpers/*"
-            ],
-            "~routers/*": [
-                "src/products/routers/*"
-            ],
             "~image/*": [
                 "src/image/*"
             ],
             "~/*": [
                 "src/*"
+            ],
+            "~firebase/*": [
+                "src/firebase/*"
+            ],
+            "~hooks/*": [
+                "src/hooks/*"
             ]
         }
     }
