@@ -59,10 +59,10 @@ export const Navbar = () => {
               </Menu.Item>
               <Menu.Item>
                 <a
-                  href="#"
+                  href="/MyProducts"
                   className="bg-gray-100  block px-4 py-2 text-sm text-gray-700"
                 >
-                  Settings
+                  My products
                 </a>
               </Menu.Item>
               <Menu.Item>
@@ -98,14 +98,7 @@ export const Navbar = () => {
                   >
                     Home Product
                   </NavLink>
-                  {user && (
-                    <NavLink
-                      to="/NewProduct"
-                      className="text-gray-100 hover:bg-violet-700 hover:text-white rounded-md px-3 py-2 text-sm font-medium"
-                    >
-                      New Product
-                    </NavLink>
-                  )}
+                
                 </div>
               </div>
             </div>

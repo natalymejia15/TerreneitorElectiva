@@ -1,5 +1,5 @@
-import { Navigate, Routes, Route } from "react-router-dom";
-import { HomeProduct, NewProduct } from "../pages";
+import { Routes, Route } from "react-router-dom";
+import { HomeProduct, NewProduct, MyProducts } from "../pages";
 import { Navbar } from "~/ui";
 import { ProductSelect } from "../pages/ProductSelect";
 import { Profile } from "~auth/pages/Profile";
@@ -15,6 +15,7 @@ export const ProductRouter = () => {
           <Route path="/" element={<HomeProduct />}/>
           <Route path="/HomeProduct" element={<HomeProduct />} />
           <Route path="/Profile" element={<Profile />} />
+          <Route path="/MyProducts" element={<MyProducts />} />
         </Routes>
       </div>
     </>
