@@ -1,28 +1,19 @@
-import React from "react";
-import "../.././index.css";
 import React, { useContext, useState } from 'react'
-import {useFormik} from 'formik'
+import { useFormik } from 'formik'
 import * as Yup from 'yup'
-import { FirebaseContext } from '../firebase'
 import FileUploader from 'react-firebase-file-uploader'
-import {useNavigate } from 'react-router'
-
+import { ProductContext } from "~products/context";
 
 export const NewProduct = () => {
 
-  //hooks
-  const [upload, setUpload]=useState(false)
-  const [progress, setProgress]=useState(0)
-  const [urlImage, setURLimage]=useState('')
-  //useContext
-  const {firebase}= useContext(FirebaseContext);
-
-  const navigate=useNavigate();
+  const { saveProduct}= useContext(ProductContext);
 
   const formik= useFormik ({
     initialValues:{
       name:'',
+      category:'',
       description:'',
+      url:'',
       tags:'',
       image:''
     },
@@ -30,48 +21,32 @@ export const NewProduct = () => {
       name:Yup.string()
                 .min(10,'The name must be a minimum of 10 characters.')
                 .required('Product name is required'),
+      category:Yup.string()
+                .min(10,'The category must be a minimum of 10 characters.')
+                .required('Product category is required'),
       tags:Yup.string()
                 .required('The label is required'), 
       description:Yup.string()
                 .min(10,'The description must have a minimum of 10 characters')
                 .required('Description is required'),     
-    }),
-    onSubmit: NewProduct => {
-      try{
-        NewProduct.imagen=urlImage;
-        firebase.db.collection('Product').add(NewProduct);
-        navigate('/homeProduct')
-      }
-      catch(error){
-        console.log(error);
-      }
-    }
-  });
-//methods handle
-  const handleUploadStart=()=>{
-    setProgress(0);
-    setUpload(true);
-   }
-  const handleUploadError=error=>{
-    setUpload(false);
-    console.log(error);
-   }
-  const handleUploadSuccess=async nameImage=>{ 
-    setUpload(false);
-    setProgress(100);
-    const urlImage= await firebase
-                  .storage
-                  .ref('imgproduct')
-                  .child(nameImage)
-                  .getDownloadURL();
-      setURLimage(urlImage);
+    })
+  })   
+
+  const onCreateNewProduct = async (event)=>{
+    event.preventDefault();
+
+    const newProduct={
+      name,
+      category,
+      description,
+      url,
+      tags,
+      image
+    };
+    await saveProduct(newProduct);
+
   }
-  const handleProgress=progress=>{
-    setProgress(progress)
-    console.log(progress)
-   }
-
-
+  
    return (
        <>
        <div className="md:flex max-w-md mx-auto bg-white rounded-xl shadow-2xl border overflow-hidden md:max-w-2xl m-4">
@@ -81,7 +56,7 @@ export const NewProduct = () => {
                        Add your product here
                    </span>
                    <br />
-                   <form onSubmit={formik.handleSubmit}>
+                   <form >
                        <label htmlFor="name">Name</label>
                        <input
                            className='shadow appearance-none border rounded w-full py-2 text-gray-700 leading-tight focus:outline-none'
@@ -119,6 +94,9 @@ export const NewProduct = () => {
                            type="text"
                            name="name"
                            placeholder="productivity, desgin tools"
+                           value={formik.values.tags.tags}
+                           onChange={formik.handleChange}
+                           onBlur={formik.handleBlur}                                  
                        />
                        {formik.touched.tags && formik.errors.tags?(
                         <div>
@@ -127,24 +105,19 @@ export const NewProduct = () => {
                          ):null}                       
                        <label 
                             className='block text-gray-700 text-sm font-bold mb-2' 
-                            htmlFor='imagen'
+                            htmlFor='imagen'                            
                         >Image
                         </label>
                         <FileUploader
                             accept='/image/*'
                             id="image"
                             name='image'
-                            randomizeFilename
-                            storageRef={firebase.storage.ref("imgproduct")}
-                            onUploadStarts={handleUploadStart}
-                            onUploadSuccess={handleUploadSuccess}
-                            onProgress={handleProgress}
-                            onUploadError={handleUploadError}
                             />
                        <input
                            className="submit_button"
                            type="submit"
                            value="Submit"
+                           onClick={onCreateNewProduct}
                        />
                    </form>
                </div>
