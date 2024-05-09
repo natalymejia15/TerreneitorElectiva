@@ -12,8 +12,7 @@ export const MyProduct = () => {
                   <h4 className="text-2xl font-semibold text-violet-900">
                     My products & launches
                   </h4>
-                  <p className="mb-6">LAUNCHES</p>
-                  
+                  <p className="mb-6">LAUNCHE</p>
 
                   <ul className="mt-2 text-gray-700">
                     <li className="flex border-y py-2">
