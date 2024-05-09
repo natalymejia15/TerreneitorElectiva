@@ -87,7 +87,7 @@ export const Register = () => {
                 </button>
                 <div className="mt-6 text-violet-500 text-center">
                     <a href="/" className="hover:underline">
-                        Go back
+                        Go back!
                     </a>
                 </div>
                 <br />
