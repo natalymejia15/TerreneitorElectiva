@@ -49,7 +49,7 @@ export const LoginPage = () => {
           />
         </div>
         <div className="lg:p-36 md:p-52 sm:p-20 p-8 w-full lg:w-1/2">
-          <h1 className="text-2xl font-semibold mb-4">Logiin</h1>
+          <h1 className="text-2xl font-semibold mb-4">Login</h1>
           <div className="mb-4">
             <label htmlFor="email" className="block text-gray-600">
               Email

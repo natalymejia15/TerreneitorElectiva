@@ -97,7 +97,6 @@ export const Navbar = () => {
                     aria-current="page"
                   >
                     Home Product
-                    
                   </NavLink>
                 
                 </div>
