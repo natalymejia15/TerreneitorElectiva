@@ -3,7 +3,7 @@ import { useReducer } from "react";
 import { AuthContext } from "./AuthContext";
 import { authReducer } from "../reducers";
 import { authTypes } from "../types";
-import { logoutUser, signInUser, signInWithGoogle } from "../../firebase/providers";
+import { logoutUser,registerUser, signInUser, signInWithGoogle } from "../../firebase/providers";
 
 const initialState = { logged: false };
 
@@ -16,19 +16,40 @@ const init = () => {
 }
 
 export const AuthProvider = ({ children }) => {
-  
-  const [authState, dispatch ] = useReducer(authReducer, initialState, init);
 
-  const login = async (email = "", password = "") => {
+  const [authState, dispatch] = useReducer(authReducer, initialState, init);
 
-    const { ok, uid, displayName, photoURL, errorMessage} = await signInUser(email, password);
+  const register = async (email, password, displayName) => {
+    const { ok, uid, photoURL, errorMessage } = await registerUser({ email, password, displayName });
 
-    if(!ok) {
-      dispatch({type: authTypes.error, payload: { errorMessage } } )
+    if (!ok) {
+      dispatch({ type: authTypes.error, payload: { errorMessage } });
       return false;
     }
 
-    const payload = { uid, email, displayName, photoURL}
+    const payload = {
+      uid, email, photoURL, displayName
+    }
+
+    const action = { type: authTypes.login, payload };
+    localStorage.setItem('user', JSON.stringify(payload))
+
+    dispatch(action);
+
+    return true;
+
+  }
+
+  const login = async (email = "", password = "") => {
+
+    const { ok, uid, displayName, photoURL, errorMessage } = await signInUser(email, password);
+
+    if (!ok) {
+      dispatch({ type: authTypes.error, payload: { errorMessage } })
+      return false;
+    }
+
+    const payload = { uid, email, displayName, photoURL }
 
     const action = { type: authTypes.login, payload }
 
@@ -40,14 +61,14 @@ export const AuthProvider = ({ children }) => {
   }
 
   const loginGoogle = async () => {
-    const { ok, uid, photoURL, displayName, errorMessage, email: googleEmail} = await signInWithGoogle();
+    const { ok, uid, photoURL, displayName, errorMessage, email: googleEmail } = await signInWithGoogle();
 
-    if(!ok) {
-      dispatch({type: authTypes.error, payload: { errorMessage } } )
+    if (!ok) {
+      dispatch({ type: authTypes.error, payload: { errorMessage } })
       return false;
     }
 
-    const payload = { uid, googleEmail, displayName, photoURL}
+    const payload = { uid, googleEmail, displayName, photoURL }
 
     const action = { type: authTypes.login, payload }
 
@@ -56,27 +77,29 @@ export const AuthProvider = ({ children }) => {
     dispatch(action);
 
     return true;
-  } 
+  }
 
   const logout = async () => {
 
     await logoutUser();
 
     localStorage.removeItem('user')
-    dispatch({type: authTypes.logout})
+    dispatch({ type: authTypes.logout })
   }
 
   return (
     <AuthContext.Provider value={
       {
         ...authState,
-        login,
-        logout,
-        loginGoogle
+        register: register,
+        login: login,
+        loginGoogle: loginGoogle,
+        logout: logout,
+
       }
     }
     >
-      { children }
+      {children}
     </AuthContext.Provider>
   )
 }
