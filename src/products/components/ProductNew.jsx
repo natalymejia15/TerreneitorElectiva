@@ -3,7 +3,8 @@ import { useForm } from "~hooks/useForm";
 import FileUploader from "react-firebase-file-uploader";
 import { ProductContext } from "~products/context";
 import { useNavigate } from "react-router";
-import { firebaseStorage } from "../../firebase/config";
+import { FBstorage } from "~firebase/config";
+import { ref, uploadBytes, getDownloadURL} from 'firebase/storage'
 
 const newEmptyProduct = {
   name: "",
@@ -33,14 +34,13 @@ export const ProductNew = () => {
     updatedAt,
     onInputChange,
   } = useForm(newEmptyProduct);
-
-/*   const handleImageUpload = async (nameImage) => {
-    const urlImagen = await firebaseStorage.
-      .ref("imgproductos")
-      .child(nombreImagen)
-      .getDownloadURL();
-    setImageUrl(urlImagen);
-  }; */
+  
+   const handleImageUpload = async (e) => {
+      const FilesImg = e.target.files[0];
+      const refFilesImg =  ref(FBstorage, `images/$(FilesImg.name`)
+      await uploadBytes(refFilesImg, FilesImg)
+      imageUrl= await getDownloadURL(refFilesImg)
+  }; 
 
   const onCreateNewProduct = async (event) => {
     event.preventDefault();
@@ -109,7 +109,7 @@ export const ProductNew = () => {
                 value={url}
                 onChange={onInputChange}
               ></textarea>
-              <label htmlFor="rate">Tags</label>
+              <label htmlFor="rate">Rate</label>
               <input
                 id="rate"
                 type="text"
@@ -129,9 +129,9 @@ export const ProductNew = () => {
                 accept="/image/*"
                 id="image"
                 name="image" 
-                /* storageRef={firebaseStorage.storage.ref("products")} */
-            /*     onChange={handleImageUpload} */
+                onChange={handleImageUpload}
               />
+              <div className="mt-1"><br/></div>
               <input
                 className="submit_button"
                 type="submit"
