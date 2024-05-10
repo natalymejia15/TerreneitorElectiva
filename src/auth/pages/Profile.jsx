@@ -1,7 +1,10 @@
 /* import  { useState } from "react"; */
 import icono from "../../image/icono.png";
+import { AuthContext } from "..";
+import { useContext } from "react";
 
 export const Profile = () => {
+  const { user, logout } = useContext(AuthContext);
   /*  const [username, setUsername] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -24,7 +27,11 @@ export const Profile = () => {
               alt="Profile"
             />
             <div className="flex items-center space-x-2 mt-2">
-              <p className="text-2xl">Amanda Ross</p>
+              {user?.displayName ? (
+                <p className="text-2xl">{user.displayName}</p>
+              ) : (
+                <p className="text-2xl">{user.email}</p>
+              )}
               <span className="bg-violet-500 rounded-full p-1" title="Verified">
                 <svg
                   xmlns="http://www.w3.org/2000/svg"

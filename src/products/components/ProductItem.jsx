@@ -38,28 +38,30 @@ export const ProductItem = ({
   };
 
   return (
-    <div className="md:flex max-w-md mx-auto bg-white rounded-xl shadow-md overflow-hidden md:max-w-2xl m-3">
-      <div className="w-16 rounded-full flex-row bg-violet-900"
-        style={{
-          width: 60,
-          height: 60,
-          marginRight: 2,
-        }}
-      >
-        <img className='text-white text-xl flex-col m-4 ' alt={firstLetter} src={brandImage.url ?? "notPresent"} />
-      </div>
-      <div className='p-4'>
-        <div className="uppercase tracking-wide font-semibold text-violet-900 hover:text-blue-600">
-          {name}
+    <div className="md:flex max-w-3xl mx-auto bg-white rounded-xl shadow-md overflow-hidden md:max-w-4xl m-3">
+      <div className="flex items-center">
+        {brandImage.url ? (
+          <div className="w-24 h-24 overflow-hidden bg-violet-900">
+            <img className="w-full h-full object-cover" alt={firstLetter} src={brandImage.url} />
+          </div>
+        ) : (
+          <div className="w-24 h-24 rounded-full flex justify-center items-center bg-violet-900">
+            <span className="text-white text-3xl">{firstLetter}</span>
+          </div>
+        )}
+        <div className="flex-1 p-4">
+          <div className="uppercase tracking-wide font-semibold text-violet-600 hover:text-blue-600">
+            {name}
+          </div>
+          <p className="mt-2 text-base text-neutral-600 dark:text-neutral-200">
+            {description}
+          </p>
+          <p className="mb-2 text-base text-neutral-600 dark:text-neutral-200">
+            {tagNames.join(" ・ ")}
+          </p>
         </div>
-        <p className="mt-2 text-base text-neutral-600 dark:text-neutral-200">
-          {description}
-        </p>
-        <p className="mb-2 text-base text-neutral-600 dark:text-neutral-200">
-          {tagNames.join(" ・ ")}
-        </p>
       </div>
-      <div className='ml-auto'>
+      <div className="ml-auto">
         <UpvoteButton
           upvoted={upvoted}
           variant="outlined"
@@ -70,5 +72,7 @@ export const ProductItem = ({
         </UpvoteButton>
       </div>
     </div>
+
+
   );
 };
