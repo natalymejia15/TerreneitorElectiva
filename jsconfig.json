@@ -8,6 +8,15 @@
             "~auth/*": [
                 "src/auth/*"
             ],
+            "~firebase/*": [
+                "src/firebase/*"
+            ],
+            "~hooks/*": [
+                "src/hooks/*"
+            ],
+            "~image/*": [
+                "src/image/*"
+            ],
             "~products/*": [
                 "src/products/*"
             ],
@@ -17,17 +26,8 @@
             "~ui/*": [
                 "src/ui/*"
             ],
-            "~image/*": [
-                "src/image/*"
-            ],
             "~/*": [
                 "src/*"
-            ],
-            "~firebase/*": [
-                "src/firebase/*"
-            ],
-            "~hooks/*": [
-                "src/hooks/*"
             ]
         }
     }
