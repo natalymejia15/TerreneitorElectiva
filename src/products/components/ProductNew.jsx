@@ -21,7 +21,7 @@ export const ProductNew = () => {
   const { saveProduct } = useContext(ProductContext);
   const navigate = useNavigate();
   const [currentDate, setCurrentDate] = useState(new Date());
-  const [imageUrl, setImageUrl] = useState("");
+  let imageUrl;
 
   const {
     name,
@@ -37,7 +37,7 @@ export const ProductNew = () => {
   
    const handleImageUpload = async (e) => {
       const FilesImg = e.target.files[0];
-      const refFilesImg =  ref(FBstorage, `images/$(FilesImg.name`)
+      const refFilesImg =  ref(FBstorage, `images/${FilesImg.name}`)
       await uploadBytes(refFilesImg, FilesImg)
       imageUrl= await getDownloadURL(refFilesImg)
   }; 
