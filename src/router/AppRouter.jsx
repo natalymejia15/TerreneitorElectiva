@@ -5,6 +5,7 @@ import { PublicRouter } from './PublicRouter'
 import { ProductRouter } from '../products/router/ProductRouter'
 import { PrivateRouter } from './PrivateRouter'
 import { Register } from '../auth/pages/Register'
+import { ProductProvider } from '~products/context'
 
 export const AppRouter = () => {
   return (
@@ -38,7 +39,9 @@ export const AppRouter = () => {
           path="/*"
           element={
             <PrivateRouter>
-              <ProductRouter />
+              <ProductProvider>
+                <ProductRouter />
+              </ProductProvider>
             </PrivateRouter>
           }
         />
