@@ -5,7 +5,7 @@ import { NavLink } from 'react-router-dom';
 export const HeaderProduct = () => {
   return (
     <>
-        <div className="md:flex max-w-md mx-auto bg-white rounded-xl shadow-2xl border overflow-hidden md:max-w-2xl m-4">
+         <div className="md:flex max-w-3xl mx-auto bg-white rounded-xl shadow-md overflow-hidden md:max-w-4xl m-3">
             <div className="md:flex-shrink-0">
                 <img className="h-48 w-full object-cover md:w-48" src={ logo } alt="A cute kitten"/>
             </div>
