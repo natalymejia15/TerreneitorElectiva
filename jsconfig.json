@@ -28,6 +28,15 @@
             ],
             "~/*": [
                 "src/*"
+            ],
+            "~context/*": [
+                "src/products/context/*"
+            ],
+            "~reducers/*": [
+                "src/products/reducers/*"
+            ],
+            "~types/*": [
+                "src/products/types/*"
             ]
         }
     }
