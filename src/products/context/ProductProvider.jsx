@@ -29,15 +29,13 @@ export const ProductProvider = ({ children }) => {
     const newDoc = doc(
       collection(FirebaseDB, `${user.uid}/product_hunt/products`)
     );
-
     await setDoc(newDoc, product);
-
     product.id = newDoc.id;
-
     const action = { payload: product, type: ProductTypes.saveProduct };
-
     dispatch(action);
   };
+
+
 
   return (
     <ProductContext.Provider
