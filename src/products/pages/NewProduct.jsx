@@ -1,10 +1,9 @@
-import React from "react";
-import "../.././index.css";
+import { ProductNew } from "../components/ProductNew";
 
 export const NewProduct = () => {
-    return (
-        <>
-		<ProductNew />
-		</>
-	)
-}
+  return (
+    <>
+      <ProductNew />
+    </>
+  );
+};
