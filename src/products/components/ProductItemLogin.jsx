@@ -9,14 +9,12 @@ export const ProductItemLogin = ({
   upvotes = "0",
   isUpvoted = false,
   _id,
-}) => {
+}, props) => {
 
   const [upvoted, setUpvoted] = React.useState(isUpvoted);
   const firstLetter = name.charAt(0).toUpperCase();
-  /*   const tagNames = tags.map((tag) => {
-      return tag.label;
-    }); */
-
+  const showProductItem = props.show;
+  
   const handleUpvote = () => {
 
     /*   setUpvoted(!upvoted);
@@ -79,7 +77,5 @@ export const ProductItemLogin = ({
         </UpvoteButton>
       </div>
     </div>
-
-
   );
 };
