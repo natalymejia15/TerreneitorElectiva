@@ -26,9 +26,9 @@ export const ProductItemLogin = ({
 
   const deleteProduct = async ()=>{
     console.log({id});
-    const productDoc=doc(FirebaseDB, 'products',{id});
+    const productDoc=doc(FirebaseDB, 'products',id);
     await deleteDoc(productDoc);
-    navigate("/MyProduct")
+    navigate("/MyProduct", { reload: true })
   };
 
   const handleEditProduct = ()=>{
