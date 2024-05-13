@@ -1,5 +1,8 @@
 import React from 'react'
 import UpvoteButton from "../components/UpvoteButton";
+import { NavLink, useNavigate } from "react-router-dom";
+import { FirebaseDB } from '~firebase/config';
+import { deleteDoc, doc } from 'firebase/firestore/lite';
 
 export const ProductItemLogin = ({
   name,
@@ -8,32 +11,40 @@ export const ProductItemLogin = ({
   image,
   upvotes = "0",
   isUpvoted = false,
-  _id,
-}, props) => {
+  id,
+  show,
+}) => {
 
   const [upvoted, setUpvoted] = React.useState(isUpvoted);
   const firstLetter = name.charAt(0).toUpperCase();
-  const showProductItem = props.show;
-  
+  const showProductItem = show;
+  const navigate = useNavigate();
+
   const handleUpvote = () => {
 
-    /*   setUpvoted(!upvoted);
-        fetch(https://product-hunt-18dcc2.can.canonic.dev/api/upvotes, {
-          method: "POST",
-          headers: {
-            Accept: "application/json",
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({
-            input: {
-              product: _id,
-            },
-          }),
-        })
-          .then((res) => res.json())
-          .then((json) => json?.data);*/
-
   };
+
+  const deleteProduct = async ()=>{
+    console.log({id});
+    const productDoc=doc(FirebaseDB, 'products',{id});
+    await deleteDoc(productDoc);
+    navigate("/MyProduct")
+  };
+
+  const handleEditProduct = ()=>{
+    
+    navigate("/NewProduct", {
+      state: {
+        name,
+        description,
+        rate,
+        image,
+        id,
+        showEdit:true,
+      }           
+    });
+
+  }
 
   return (
     <div className="md:flex max-w-3xl mx-auto bg-white rounded-xl shadow-md overflow-hidden md:max-w-4xl m-3">
@@ -67,14 +78,30 @@ export const ProductItemLogin = ({
         </div>
       )}
       <div className="ml-auto">
-        <UpvoteButton
-          upvoted={upvoted}
-          variant="outlined"
-          disableRipple={true}
-          onclick={handleUpvote}
-        >
-          {upvotes}
-        </UpvoteButton>
+        { showProductItem ? (
+          <div className="flex ml-auto">
+            <button 
+              className="mt-2 mr-2 bg-violet-500 text-white px-3 py-1 text-sm"
+              onClick={handleEditProduct}>
+              Edit
+            </button>
+            <button
+              onClick={deleteProduct} 
+              className="mt-2 mr-2 bg-violet-500 text-white px-3 py-1 text-sm">
+              Delete
+            </button>
+          </div>          
+        ) : ( 
+          <UpvoteButton
+            upvoted={upvoted}
+            variant="outlined"
+            disableRipple={true}
+            onclick={handleUpvote}
+          >
+            {upvotes}
+          </UpvoteButton>          
+        )}
+
       </div>
     </div>
   );
