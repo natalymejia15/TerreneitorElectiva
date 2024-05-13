@@ -4,6 +4,7 @@ import { FirebaseDB } from "~firebase/config";
 import { collection, getDocs, doc, query, orderBy } from "firebase/firestore/lite";
 
 const ProductList = () => {
+
   const [products, setProducts] = useState([]);
 
   useEffect(() => {

@@ -4,9 +4,10 @@ import { collection, getDocs, doc, query, where } from "firebase/firestore/lite"
 import { FirebaseDB } from "~firebase/config";
 import { ProductItemLogin } from "./ProductItemLogin";
 
-export const Products = () => {
+export const Products = (props) => {
   const [products, setProducts] = useState([]);
   const { user } = useContext(AuthContext);
+  const showProducts = props.show;
   useEffect(() => {
     const getList = async () => {
       try {
@@ -32,7 +33,7 @@ export const Products = () => {
       <ul>
         {products.map((products) => (
           <div key={products.id}>
-            <ProductItemLogin {...products} />
+            <ProductItemLogin show={showProducts} {...products} />
             <hr className="my-4 border-t" />
           </div>
         ))}

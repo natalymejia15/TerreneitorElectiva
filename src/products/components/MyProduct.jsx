@@ -4,7 +4,7 @@ import { Products } from ".";
 
 export const MyProduct = () => {
   const [showNewProduct, setShowNewProduct] = useState(true);
-
+  const [showProducts, setShowProducts] = useState(true);
   const handleShowAllProducts = () => {
     setShowNewProduct(false);
     setNewProduct(true);
@@ -55,7 +55,7 @@ export const MyProduct = () => {
                 </div>
               ) : (
                 <div className="col-12">
-                  <Products/>
+                  <Products show={showProducts}/>
                 </div>
               )}
             </div>
