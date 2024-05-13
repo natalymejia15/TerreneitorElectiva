@@ -1,7 +1,7 @@
 import React from 'react'
 import UpvoteButton from "../components/UpvoteButton";
 
-export const ProductItem = ({
+export const ProductItemLogin = ({
   name,
   description,
   rate,
@@ -12,30 +12,27 @@ export const ProductItem = ({
 }) => {
 
   const [upvoted, setUpvoted] = React.useState(isUpvoted);
-  const firstLetter = name.charAt(0).toUpperCase();   
+  const firstLetter = name.charAt(0).toUpperCase();
 
   const handleUpvote = () => {
 
-/*   useEffect(() => {
-    const getList = async () => {
-      try {
-        const orderByField = 'userId'; 
-        const queryProduct = query(collection(FirebaseDB, 'products'), orderBy(orderByField));
-        const querySnapshot = await getDocs(queryProduct);
-          const docs = [];
-          querySnapshot.forEach((doc) => {
-            docs.push({ ...doc.data().post, id: doc.id });
-            });
-        setProducts(docs);
-        console.log(docs);
-      } catch (error) {
-        console.log(error);
-      }
-    };
-    getList();
-  }, []); */
+    /*   setUpvoted(!upvoted);
+        fetch(https://product-hunt-18dcc2.can.canonic.dev/api/upvotes, {
+          method: "POST",
+          headers: {
+            Accept: "application/json",
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            input: {
+              product: _id,
+            },
+          }),
+        })
+          .then((res) => res.json())
+          .then((json) => json?.data);*/
 
-  }; 
+  };
 
   return (
     <div className="md:flex max-w-3xl mx-auto bg-white rounded-xl shadow-md overflow-hidden md:max-w-4xl m-3">

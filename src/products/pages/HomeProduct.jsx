@@ -1,13 +1,14 @@
 import React from 'react';
-import ProductList from '../components/ProductList'
 import { HeaderProduct } from '~products/components/HeaderProduct';
+import  {Products}  from '~products/components/Products'
 
 export const HomeProduct = () => {
   return (
     <>
-        <HeaderProduct />
-        <hr />
-        <ProductList />
+      <HeaderProduct />
+      <hr />
+      <Products />
+
     </>
   )
 }
