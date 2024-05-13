@@ -1,23 +1,33 @@
 import React, { useEffect, useState } from "react";
 import { ProductItem } from "../components/ProductItem";
-
+import { FirebaseDB } from "~firebase/config";
+import { collection, getDocs, doc, query, orderBy } from "firebase/firestore/lite";
 
 const ProductList = () => {
+
   const [products, setProducts] = useState([]);
 
-  // Fetch the list of products and set the data
   useEffect(() => {
-    fetch(`https://product-hunt-18dcc2.can.canonic.dev/api/products`)
-      .then((res) => res.json())
-      .then((json) => json?.data)
-      .then((products) =>
-        Array.isArray(products) ? setProducts(products) : null
-      );
+    const getList = async () => {
+      try {
+        const orderByField = 'userId'; 
+        const queryProduct = query(collection(FirebaseDB, 'products'), orderBy(orderByField));
+        const querySnapshot = await getDocs(queryProduct);
+          const docs = [];
+          querySnapshot.forEach((doc) => {
+            docs.push({ ...doc.data(), id: doc.id });
+           });
+        setProducts(docs);
+        console.log(docs);
+      } catch (error) {
+        console.log(error);
+      }
+    };
+    getList();
   }, []);
 
   return (
     <div className="mr-10 ml-10 mb-2">
-
       <ul>
         {products.map((product) => (
           <div key={product.id}>

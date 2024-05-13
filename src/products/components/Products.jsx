@@ -1,20 +1,24 @@
 import React, { useEffect, useState, useContext } from "react";
 import { AuthContext } from "../../auth/context/AuthContext";
-import { collection, getDocs, doc } from "firebase/firestore/lite";
+import { collection, getDocs, doc, query, where } from "firebase/firestore/lite";
 import { FirebaseDB } from "~firebase/config";
 import { ProductItemLogin } from "./ProductItemLogin";
 
-export const Products = () => {
+export const Products = (props) => {
   const [products, setProducts] = useState([]);
   const { user } = useContext(AuthContext);
+  const showProducts = props.show;
   useEffect(() => {
     const getList = async () => {
       try {
-        const querySnapshot = await getDocs(collection(FirebaseDB, `${user.uid}/product_hunt/products`));
-        const docs = [];
-        querySnapshot.forEach((doc) => {
-          docs.push({ ...doc.data(), id: doc.id });
-        });
+          const fieldName = 'userId'; 
+          const searchValue = user.uid;
+          const queryProduct = query(collection(FirebaseDB, 'products'), where(fieldName, '==', searchValue));
+          const querySnapshot = await getDocs(queryProduct);
+          const docs = [];
+          querySnapshot.forEach((doc) => {
+            docs.push({ ...doc.data(), id: doc.id });
+           });
         setProducts(docs);
         console.log(docs);
       } catch (error) {
@@ -29,7 +33,7 @@ export const Products = () => {
       <ul>
         {products.map((products) => (
           <div key={products.id}>
-            <ProductItemLogin {...products} />
+            <ProductItemLogin show={showProducts} {...products} />
             <hr className="my-4 border-t" />
           </div>
         ))}

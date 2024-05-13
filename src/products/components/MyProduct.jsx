@@ -1,18 +1,21 @@
 import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, Navigate } from "react-router-dom";
 import { Products } from ".";
 
 export const MyProduct = () => {
   const [showNewProduct, setShowNewProduct] = useState(true);
-
+  const [showProducts, setShowProducts] = useState(true);
   const handleShowAllProducts = () => {
     setShowNewProduct(false);
+    setNewProduct(true);
   };
+
   return (
     <>
     <div className="mx-auto h-screen">
       <div className="rounded-lg">
         <div className="container px-6 text-gray-500 md:px-12 xl:em-0">
+          <div className="col-2">
           <div className="mx-auto grid gap-6 md:w-3/4 lg:w-full lg:grid-cols-3">
             <div className="w-30vw bg-white rounded-2xl shadow-xl px-8 py-12 sm:px-12 lg:px-8">
               <div className="mb-12 space-y-4 ">
@@ -27,10 +30,18 @@ export const MyProduct = () => {
                   >
                     All my products
                   </li>
+                  <li className="flex border-y py-2 cursor-pointer">
+                  <Link to="/NewProduct">
+                      New Product
+                  </Link>                   
+                  </li>
                 </ul>
               </div>
             </div>
-            <div className="w-70vw bg-white rounded-2xl shadow-xl px-8 py-12 sm:px-12 lg:px-8">
+          </div>
+          </div>
+          <div className="col-10">
+            <div className="bg-white rounded-2xl shadow-xl px-8 py-12 sm:px-12 lg:px-8">
               {showNewProduct ? (
                 <div className="mb-12 space-y-4">
                   <h3 className="text-2xl font-semibold text-violet-900 justify-center ">
@@ -43,8 +54,8 @@ export const MyProduct = () => {
                   </Link>
                 </div>
               ) : (
-                <div >
-                  <Products/>
+                <div className="col-12">
+                  <Products show={showProducts}/>
                 </div>
               )}
             </div>
