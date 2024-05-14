@@ -2,7 +2,7 @@ import { useReducer, useContext } from "react";
 import { ProductContext } from "./ProductContext";
 import { productReducer } from "../reducers/ProductReducer";
 import { FirebaseDB } from "../../firebase/config";
-import { collection, doc, setDoc } from "firebase/firestore/lite";
+import { collection, doc, setDoc, updateDoc } from "firebase/firestore/lite";
 import { ProductTypes } from "../types/Types";
 
 const initialState = {
@@ -29,6 +29,15 @@ export const ProductProvider = ({ children }) => {
     await setDoc(newDoc, product);
     product.id = newDoc.id;
     const action = { payload: product, type: ProductTypes.saveProduct };
+    dispatch(action);
+
+
+  };
+
+  const updateProduct = async (product)=>{
+    const updateDocs=doc(FirebaseDB,"products", product.id);
+    await updateDoc(updateDocs, product);
+    const action = { payload: product, type: ProductTypes.updateProduct };
     dispatch(action);
   };
 

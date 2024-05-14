@@ -3,6 +3,7 @@ import UpvoteButton from "../components/UpvoteButton";
 import { NavLink, useNavigate } from "react-router-dom";
 import { FirebaseDB } from '~firebase/config';
 import { deleteDoc, doc } from 'firebase/firestore/lite';
+import { ViewProduct } from './ViewProduct';
 
 export const ProductItemLogin = ({
   name,
@@ -31,20 +32,27 @@ export const ProductItemLogin = ({
     navigate("/MyProduct", { reload: true })
   };
 
-  const handleEditProduct = ()=>{
-    
-    navigate("/NewProduct", {
-      state: {
-        name,
-        description,
-        rate,
-        image,
-        id,
-        showEdit:true,
-      }           
-    });
-
+  const confirmDelete=()=>{
+    Myswal.fire({
+      title: 'Are you sure?',
+      text: "You won't be",
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#3085',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Yes!'
+    }).then((result)=>{
+      if (result.isComfirmed){
+        deleteProduct();
+        SwitchLabel.fire(
+          'Deleted!',
+          'This product has been deleted.',
+          'success'
+        )
+      }
+    })
   }
+
 
   return (
     <div className="md:flex max-w-3xl mx-auto bg-white rounded-xl shadow-md overflow-hidden md:max-w-4xl m-3">
@@ -82,11 +90,12 @@ export const ProductItemLogin = ({
           <div className="flex ml-auto">
             <button 
               className="mt-2 mr-2 bg-violet-500 text-white px-3 py-1 text-sm"
-              onClick={handleEditProduct}>
+              onClick={
+              <ViewProduct />}>
               Edit
             </button>
             <button
-              onClick={deleteProduct} 
+              onClick={confirmDelete} 
               className="mt-2 mr-2 bg-violet-500 text-white px-3 py-1 text-sm">
               Delete
             </button>
