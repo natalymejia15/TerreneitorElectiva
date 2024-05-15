@@ -6,9 +6,11 @@ export const ProductItem = ({
   description,
   rate,
   image,
+  userId,
   upvotes = "0",
   isUpvoted = false,
-  _id,
+  id,
+  displayName,
 }) => {
 
   const [upvoted, setUpvoted] = React.useState(isUpvoted);
@@ -46,11 +48,14 @@ export const ProductItem = ({
           </div>
           <div className="flex-1 p-4">
             <div className="uppercase tracking-wide font-semibold text-violet-600 hover:text-blue-600">
-              {name}
+            <a href={url} target="_blank">{name}</a>
             </div>
             <p className="mt-2 text-base text-neutral-600 dark:text-neutral-200">
               {description}
             </p>
+            <div>
+              {displayName }{rate}
+            </div>
           </div>
         </div>
       ) : (
@@ -60,11 +65,14 @@ export const ProductItem = ({
           </div>
           <div className="flex-1 p-4">
             <div className="uppercase tracking-wide font-semibold text-violet-600 hover:text-blue-600">
-              {name}
+            <a href={url} target="_blank">{name}</a>
             </div>
             <p className="mt-2 text-base text-neutral-600 dark:text-neutral-200">
               {description}
             </p>
+            <div>
+              {displayName }{rate}
+            </div>            
           </div>
         </div>
       )}

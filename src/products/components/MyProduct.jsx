@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { Link, Navigate } from "react-router-dom";
 import { Products } from ".";
+import { ProductContext } from "~products/context";
 
 export const MyProduct = () => {
   const [showNewProduct, setShowNewProduct] = useState(true);

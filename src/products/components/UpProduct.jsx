@@ -1,76 +1,55 @@
-import { useContext, useState } from "react";
-import { useForm } from "~hooks/useForm";
-import FileUploader from "react-firebase-file-uploader";
+import { useEffect, useState, useContext } from 'react'
+import { useParams} from 'react-router-dom'
 import { ProductContext } from "~products/context";
-import { useNavigate } from "react-router";
-import { FBstorage } from "~firebase/config";
-import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
-import { AuthContext } from "~auth/context";
+import { doc, updateDoc } from "firebase/firestore/lite";
+import { FirebaseDB } from "~firebase/config";
 
-const newEmptyProduct = {
-  name: "",
-  category: "",
-  description: "",
-  url: "",
-  rate: "",
-  userId:"",
-  image: "",
-  createdAt: "",
-  updatedat: "",
-};
+export const UpProduct = () => {
 
-export const ProductNew = () => {
-  const { saveProduct } = useContext(ProductContext);
-  const navigate = useNavigate();
-  const { user } = useContext(AuthContext);
-  const [currentDate, setCurrentDate] = useState(new Date());
-  const [Iduser, setUserId]= useState(user.uid);
-  const [nameUser, setnameUser]= useState(user.displayName);
-  let imageUrl;
-  
-  const {
-    name,
-    category,
-    description,
-    url,
-    rate,
-    userId,
-    displayName,
-    image,
-    createdAt,
-    updatedAt,
-    onInputChange,
-  } = useForm(newEmptyProduct);
+    const { id } = useParams();
+    const { uploadProduct } = useContext(ProductContext);
+    const [currentDate, setCurrentDate] = useState(new Date());
+    let imageUrl;
 
-  const handleImageUpload = async (e) => {
-    try {
-      const FilesImg = e.target.files[0];
-      const refFilesImg = ref(FBstorage, `images/${FilesImg.name}`);
-      await uploadBytes(refFilesImg, FilesImg);
-      imageUrl = await getDownloadURL(refFilesImg);      
-    } catch (error) {
-      console.error("Error loading image:", error);
+    const update = async (e)=>{
+        e.preventDefault();
+        const product=doc(FirebaseDB,'products', id);
+        const upProduct = {
+            name: name,
+            category: category,
+            description: description,
+            url: url,
+            rate: rate,
+            image: image,
+            updatedat: currentDate,           
+        }
+        await uploadProduct(upProduct);
     }
-  };
 
-  const onCreateNewProduct = async (event) => {
-    event.preventDefault();
+    const getProductById=async (id)=>{
+        const product= await getDoc(doc(FirebaseDB,'products',id));
+        if(product.exists()){
+            console.log(product.data);
+        } else {
+            alert("Product not found")
+        }
+    }
 
-    const newProduct = {
-      name,
-      category,
-      description,
-      url,
-      rate,
-      userId:Iduser,
-      displayName:nameUser,
-      image: imageUrl,
-      createdAt: currentDate,
-      updatedAt: currentDate,
-    };
-    await saveProduct(newProduct);
-    navigate("/MyProducts");
-  };
+    useEffect(()=>{
+        getProductById(id);
+    }, [])
+
+    const handleImageUpload = async (e) => {
+        try {
+          const FilesImg = e.target.files[0];
+          const refFilesImg = ref(FBstorage, `images/${FilesImg.name}`);
+          await uploadBytes(refFilesImg, FilesImg);
+          imageUrl = await getDownloadURL(refFilesImg);      
+        } catch (error) {
+          console.error("Error loading image:", error);
+        }
+      };
+
 
   return (
     <>
@@ -190,7 +169,7 @@ export const ProductNew = () => {
             <input
               className="bg-violet-900 hover:bg-violet-600 text-white font-bold py-2 px-20 justity rounded focus:outline-none focus:shadow-outline"
               type="submit"
-              onClick={onCreateNewProduct}
+              onClick={update}
             />
           </div>
           <div className="mt-6 text-violet-500 text-center">
@@ -201,5 +180,5 @@ export const ProductNew = () => {
         </form>
       </div>
     </>
-  );
-};
+  )
+}

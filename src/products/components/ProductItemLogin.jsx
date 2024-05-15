@@ -1,9 +1,8 @@
 import React from 'react'
 import UpvoteButton from "../components/UpvoteButton";
-import { NavLink, useNavigate } from "react-router-dom";
 import { FirebaseDB } from '~firebase/config';
 import { deleteDoc, doc } from 'firebase/firestore/lite';
-import { ViewProduct } from './ViewProduct';
+import { Link } from 'react-router-dom';
 
 export const ProductItemLogin = ({
   name,
@@ -12,16 +11,17 @@ export const ProductItemLogin = ({
   image,
   upvotes = "0",
   isUpvoted = false,
+  url,
   id,
+  displayName,
   show,
 }) => {
 
   const [upvoted, setUpvoted] = React.useState(isUpvoted);
   const firstLetter = name.charAt(0).toUpperCase();
   const showProductItem = show;
-  const navigate = useNavigate();
 
-  const handleUpvote = () => {
+   const handleUpvote = () => {
 
   };
 
@@ -29,7 +29,7 @@ export const ProductItemLogin = ({
     console.log({id});
     const productDoc=doc(FirebaseDB, 'products',id);
     await deleteDoc(productDoc);
-    navigate("/MyProduct", { reload: true })
+    //navigate("/MyProduct", { reload: true })
   };
 
   const confirmDelete=()=>{
@@ -63,11 +63,14 @@ export const ProductItemLogin = ({
           </div>
           <div className="flex-1 p-4">
             <div className="uppercase tracking-wide font-semibold text-violet-600 hover:text-blue-600">
-              {name}
+            <a href={url} target="_blank">{name}</a>
             </div>
             <p className="mt-2 text-base text-neutral-600 dark:text-neutral-200">
               {description}
             </p>
+            <div>
+              { displayName } {rate}
+            </div>            
           </div>
         </div>
       ) : (
@@ -77,23 +80,24 @@ export const ProductItemLogin = ({
           </div>
           <div className="flex-1 p-4">
             <div className="uppercase tracking-wide font-semibold text-violet-600 hover:text-blue-600">
-              {name}
+            <a href={url} target="_blank">{name}</a>
             </div>
             <p className="mt-2 text-base text-neutral-600 dark:text-neutral-200">
               {description}
             </p>
+            <div>
+              {displayName } {rate}
+            </div>            
           </div>
         </div>
       )}
       <div className="ml-auto">
         { showProductItem ? (
           <div className="flex ml-auto">
-            <button 
-              className="mt-2 mr-2 bg-violet-500 text-white px-3 py-1 text-sm"
-              onClick={
-              <ViewProduct />}>
+            <Link to={`/ViewProduct/${id}`} 
+              className="mt-2 mr-2 bg-violet-500 text-white px-3 py-1 text-sm">
               Edit
-            </button>
+            </Link>
             <button
               onClick={confirmDelete} 
               className="mt-2 mr-2 bg-violet-500 text-white px-3 py-1 text-sm">

@@ -3,6 +3,7 @@ import { HomeProduct, NewProduct, MyProducts } from "../pages";
 import { Navbar } from "~/ui";
 import { ProductSelect } from "../pages/ProductSelect";
 import { Profile } from "~auth/pages/Profile";
+import { ViewProduct } from "~products/pages/ViewProduct";
 
 export const ProductRouter = () => {
   return (
@@ -16,6 +17,7 @@ export const ProductRouter = () => {
           <Route path="/HomeProduct" element={<HomeProduct />} />
           <Route path="/Profile" element={<Profile />} />
           <Route path="/MyProducts" element={<MyProducts />} />
+          <Route path="/ViewProduct" element={<ViewProduct />} />
         </Routes>
       </div>
     </>
