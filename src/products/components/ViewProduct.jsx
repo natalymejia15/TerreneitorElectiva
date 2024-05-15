@@ -1,33 +1,49 @@
-import React, {useContext, useRef} from 'react'
-import {FirebaseContext} from '../firebase'
+import { useEffect, useState, useContext } from 'react'
+import { useNavigate, useParams} from 'react-router-dom'
+import { ProductContext } from "~products/context";
+import { AuthContext } from "~auth/context";
+import { getDoc, doc } from "firebase/firestore/lite";
+import { FirebaseDB } from "~firebase/config";
 
-export const ViewProduct=({product})=>{   
-    const { firebase } = useContext(FirebaseContext);    
-    const {id, name, description, url, tags, userId, images, createdAt, updatedAt}=product;
+export const ViewProduct = () => {
+    const navigate = useNavigate();
+    const { id } = useParams();
+    const { uploadProduct } = useContext(ProductContext);
+    const { user } = useContext(AuthContext);
+    const [currentDate, setCurrentDate] = useState(new Date());
+    const [Iduser, setUserId]= useState(user.uid);
+    let imageUrl;
 
-    const exietnceProcduct=()=>{
-        try{
-            firebase.db.collection('product')
-            .doc(id)
+    const update = async (e)=>{
+        e.preventDefault();
+        const product=doc(FirebaseDB,'products', id);
+        const upProduct = {
+            name: name,
+            category: category,
+            description: description,
+            url: url,
+            rate: rate,
+            image: image,
+            updatedat: currentDate,           
         }
-        catch(error){
-            console.log(error)
+        await uploadProduct(upProduct);
+        navigate("/MyProducts");        
+    }
+
+    const getProductById=async (id)=>{
+        const product= await getDoc(doc(FirebaseDB,'products',id));
+        if(product.exists()){
+            console.log(product.data);
+        } else {
+            alert("Product not found")
         }
     }
-    return(
-        <div className="w-full px-3 mb-4">
-            <div className="p-5 shadow-md bg-white">
-                <div className="lg-flex">
-                    <div className='lg:w-5/12 xl:-3/12'>
-                        <img src={images} alt="Product Image"/>
-                    </div>
-                    <div className='lg:w-7/12 xl:-9/12 pl-5'>
-                        <p className='font-bold text-2xl text-yellow-600 mb-4'>{name}</p>
-                        <p className='text-gray-600 mb-4'>{description}</p>
-                        <p className='text-gray-600 mb-4'>{tags}</p>
-                    </div>
-                </div>
-            </div>
-        </div>
-    )
+
+    useEffect(()=>{
+        getProductById(id);
+    }, [])
+
+  return (
+    <div>ViewProduct</div>
+  )
 }

@@ -5,9 +5,10 @@ import { Products } from ".";
 export const MyProduct = () => {
   const [showNewProduct, setShowNewProduct] = useState(true);
   const [showProducts, setShowProducts] = useState(true);
+
   const handleShowAllProducts = () => {
     setShowNewProduct(false);
-    setNewProduct(true);
+    setShowProducts(true);
   };
 
   return (
