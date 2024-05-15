@@ -1,6 +1,6 @@
 import React, { useEffect, useState, useContext } from "react";
 import { AuthContext } from "../../auth/context/AuthContext";
-import { collection, getDocs, doc, query, where } from "firebase/firestore/lite";
+import { collection, getDocs, doc, query, where, orderBy } from "firebase/firestore/lite";
 import { FirebaseDB } from "~firebase/config";
 import { ProductItemLogin } from "./ProductItemLogin";
 
@@ -8,12 +8,20 @@ export const Products = (props) => {
   const [products, setProducts] = useState([]);
   const { user } = useContext(AuthContext);
   const showProducts = props.show;
+  const showHunter=props.showHunter;
+
   useEffect(() => {
     const getList = async () => {
       try {
-          const fieldName = 'userId'; 
-          const searchValue = user.uid;
-          const queryProduct = query(collection(FirebaseDB, 'products'), where(fieldName, '==', searchValue));
+          let queryProduct;
+          if (!showHunter){
+            const fieldName = 'userId'; 
+            const searchValue = user.uid;
+            queryProduct = query(collection(FirebaseDB, 'products'), where(fieldName, '==', searchValue));
+          } else {
+            const orderByField = 'userId'; 
+            queryProduct = query(collection(FirebaseDB, 'products'), orderBy(orderByField));
+          }
           const querySnapshot = await getDocs(queryProduct);
           const docs = [];
           querySnapshot.forEach((doc) => {
