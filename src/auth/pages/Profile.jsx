@@ -71,21 +71,21 @@ export const Profile = () => {
         <div className="my-4 space-y-4">
           <div className="w-full">
             <div className="bg-white rounded-lg shadow-xl p-8">
-              <h4 className="text-xl text-gray-900 font-bold">Personaal Info</h4>
+              <h4 className="text-xl text-gray-900 font-bold">
+                Personal Info
+              </h4>
               <ul className="mt-2 text-gray-700">
                 <li className="flex border-y py-2">
                   <span className="font-bold w-24">Full name:</span>
-                  <span className="text-gray-700">Amanda S. Ross</span>
+                  <span className="text-gray-700">{user.displayName}</span>
                 </li>
                 <li className="flex border-b py-2">
                   <span className="font-bold w-24">Email:</span>
-                  <span className="text-gray-700">24 Jul, 1991</span>
+                  <span className="text-gray-700">{user.email}</span>
                 </li>
                 <li className="flex border-b py-2">
                   <span className="font-bold w-24">Password:</span>
-                  <span className="text-gray-700">
-                    10 Jan 2022 (25 days ago)
-                  </span>
+                  <span className="text-gray-700">{user.password}</span>
                 </li>
                 <li className="flex border-b py-2">
                   <span className="font-bold w-24">Created At:</span>
