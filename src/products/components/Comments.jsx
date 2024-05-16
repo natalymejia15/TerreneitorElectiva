@@ -1,6 +1,7 @@
 import { useState, useEffect, useContext } from "react";
 import { ProductContext } from "~products/context";
 import { useForm } from "~hooks/useForm";
+import icono from "../../image/icono.png";
 import { AuthContext } from "~auth/context";
 import { FirebaseDB } from "~firebase/config";
 import {
@@ -16,7 +17,9 @@ const initialComment = {
   productId: "",
   comment: "",
   rate: "",
+  userEmail: "",
   userId: "",
+  userName: "",
   createdAt: "",
   updatedAt: "",
 };
@@ -69,6 +72,8 @@ export const Comments = ({ productId }) => {
     const newCommentUser = {
       productId,
       comment,
+      userName: user.displayName,
+      userEmail: user.email,
       rate,
       userId: user.uid,
       createdAt: currentDate,
@@ -115,24 +120,45 @@ export const Comments = ({ productId }) => {
           Agregar Comentario
         </button>
       </div>
-      <div className="mt-4">
+      <div className="mt-8">
         <h4 className="font-bold text-gray-700">Comentarios</h4>
-        <div className="mt-2 border-b border-gray-200 pb-2">
-          {comments.map((comment) => (
-            <div key={comment.id} className="border-b py-2">
-              <p className="text-gray-700">{comment.comment}</p>
-              <p className="text-gray-500">Valoración: {comment.rate}</p>
-              <p className="text-sm text-gray-600">
-                Fecha:{" "}
-                {formatDate(
-                  new Date(
-                    comment.createdAt.seconds * 1000 +
-                      comment.createdAt.nanoseconds / 1000000
-                  )
-                )}
-              </p>
-            </div>
-          ))}
+        <div className="mt-4 border-b border-gray-300 pb-3">
+          <div className="mt-4">
+            {comments.map((comment) => (
+              <div
+                key={comment.id}
+                className="flex p-4 bg-white rounded-2xl shadow-lg mb-4"
+              >
+                <div className="w-16 mr-4">
+                  <img
+                    src={icono}
+                    alt="Foto de perfil"
+                    className="rounded-full w-full"
+                  />
+                </div>
+                <div className="flex flex-col">
+                  {comment?.userName ? (
+                    <div className="font-semibold">{comment.userName}</div>
+                  ) : (
+                    <div className="font-semibold">{comment.userEmail}</div>
+                  )}
+
+                  <div className="mb-2">{comment.comment}</div>
+                  <div className="mb-2">Rate: {comment.rate}</div>
+                  <div className="text-gray-500">
+                    {" "}
+                    Fecha:{" "}
+                    {formatDate(
+                      new Date(
+                        comment.createdAt.seconds * 1000 +
+                          comment.createdAt.nanoseconds / 1000000
+                      )
+                    )}
+                  </div>
+                </div>
+              </div>
+            ))}
+          </div>
         </div>
       </div>
     </div>
