@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import { FirebaseDB } from "~firebase/config";
 import { useParams } from "react-router-dom";
 import { doc, getDoc } from "firebase/firestore/lite";
-import { Coments } from "./Coments";
+import { Comments } from "./Comments";
 
 export const ProductDetail = () => {
   const { id } = useParams();
@@ -53,7 +53,7 @@ export const ProductDetail = () => {
           {product.url}
         </a>
       </div>
-      <Coments />
+      <Comments productId={id}  />
     </div>
   );
 };
