@@ -1,6 +1,6 @@
 import React, { useState } from "react";
-import { Link, Navigate } from "react-router-dom";
-import { Products } from ".";
+import { Link } from "react-router-dom";
+import { Products} from './Products';
 
 export const MyProduct = () => {
   const [showNewProduct, setShowNewProduct] = useState(true);
@@ -28,7 +28,7 @@ export const MyProduct = () => {
                       className="flex border-y py-2 cursor-pointer"
                       onClick={handleShowAllProducts}
                     >
-                      All my products All my products
+                      All my products
                     </li>
                     <li className="flex border-y py-2 cursor-pointer">
                       <Link to="/NewProduct">New Product</Link>

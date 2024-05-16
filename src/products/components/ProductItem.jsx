@@ -1,41 +1,28 @@
-import React from 'react'
-import UpvoteButton from "../components/UpvoteButton";
+import { useState } from 'react';
+import React  from 'react'
+import { HandleUpvote } from './HandleUpvote';
+import { NavLink } from 'react-router-dom';
+
 
 export const ProductItem = ({
   name,
   description,
   rate,
   image,
-  upvotes = "0",
+  userId,
   isUpvoted = false,
-  _id,
+  id,
+  displayName,
 }) => {
 
   const [upvoted, setUpvoted] = React.useState(isUpvoted);
   const firstLetter = name.charAt(0).toUpperCase();   
+  const [upvotes, setUpvotes] = React.useState(0);
 
-  const handleUpvote = () => {
+  const handleUpvoteChange = (value) => {
+      setUpvotes(value); // Actualizar el estado con el valor de upvote proporcionado por HandleUpvote
+  }
 
-/*   useEffect(() => {
-    const getList = async () => {
-      try {
-        const orderByField = 'userId'; 
-        const queryProduct = query(collection(FirebaseDB, 'products'), orderBy(orderByField));
-        const querySnapshot = await getDocs(queryProduct);
-          const docs = [];
-          querySnapshot.forEach((doc) => {
-            docs.push({ ...doc.data().post, id: doc.id });
-            });
-        setProducts(docs);
-        console.log(docs);
-      } catch (error) {
-        console.log(error);
-      }
-    };
-    getList();
-  }, []); */
-
-  }; 
 
   return (
     <div className="md:flex max-w-3xl mx-auto bg-white rounded-xl shadow-md overflow-hidden md:max-w-4xl m-3">
@@ -46,11 +33,19 @@ export const ProductItem = ({
           </div>
           <div className="flex-1 p-4">
             <div className="uppercase tracking-wide font-semibold text-violet-600 hover:text-blue-600">
+            <NavLink
+              to={`/products/${id}`}
+              className="uppercase tracking-wide font-semibold text-violet-600 hover:text-violet-900"
+            >
               {name}
+            </NavLink>
             </div>
             <p className="mt-2 text-base text-neutral-600 dark:text-neutral-200">
               {description}
             </p>
+            <div>
+              {displayName }{rate}
+            </div>
           </div>
         </div>
       ) : (
@@ -60,23 +55,23 @@ export const ProductItem = ({
           </div>
           <div className="flex-1 p-4">
             <div className="uppercase tracking-wide font-semibold text-violet-600 hover:text-blue-600">
-              {name}
+            <a href={url} target="_blank">{name}</a>
             </div>
             <p className="mt-2 text-base text-neutral-600 dark:text-neutral-200">
               {description}
             </p>
+            <div>
+              {displayName }{rate}
+            </div>            
           </div>
         </div>
       )}
-      <div className="ml-auto">
-        <UpvoteButton
-          upvoted={upvoted}
-          variant="outlined"
-          disableRipple={true}
-          onclick={handleUpvote}
-        >
-          {upvotes}
-        </UpvoteButton>
+      <div className="bg-violet-500 hover:bg-violet-400 text-gray-300 font-bold mb-12 py-2 px-4 rounded inline-flex items-center">
+        <HandleUpvote
+          id={userId}
+          onUpvoteChange={handleUpvoteChange} 
+        />
+        {upvotes}
       </div>
     </div>
   );

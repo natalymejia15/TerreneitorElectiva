@@ -1,26 +1,28 @@
 import React from "react";
-import UpvoteButton from "../components/UpvoteButton";
-import { NavLink, useNavigate } from "react-router-dom";
+import { NavLink, Link } from "react-router-dom";
 import { FirebaseDB } from "~firebase/config";
 import { deleteDoc, doc } from "firebase/firestore/lite";
-import { ViewProduct } from "./ViewProduct";
+import { HandleUpvote } from './HandleUpvote';
 
 export const ProductItemLogin = ({
   name,
   description,
   rate,
   image,
-  upvotes = "0",
-  isUpvoted = false,
+  userId,
+  url,
   id,
+  displayName,
   show,
 }) => {
-  const [upvoted, setUpvoted] = React.useState(isUpvoted);
+
+  const [upvotes, setUpvotes] = React.useState(0);  
   const firstLetter = name.charAt(0).toUpperCase();
   const showProductItem = show;
-  const navigate = useNavigate();
 
-  const handleUpvote = () => {};
+  const handleUpvoteChange = (value) => {
+      setUpvotes(value); // Actualizar el estado con el valor de upvote proporcionado por HandleUpvote
+  }
 
   const deleteProduct = async () => {
     const productDoc = doc(FirebaseDB, "products", id);
@@ -70,6 +72,9 @@ export const ProductItemLogin = ({
             <p className="mt-2 text-base text-neutral-600 dark:text-neutral-200">
               {description}
             </p>
+            <div>
+              { displayName } {rate}
+            </div>            
           </div>
         </div>
       ) : (
@@ -84,18 +89,19 @@ export const ProductItemLogin = ({
             <p className="mt-2 text-base text-neutral-600 dark:text-neutral-200">
               {description}
             </p>
+            <div>
+              {displayName } {rate}
+            </div>            
           </div>
         </div>
       )}
-      <div className="ml-auto">
+      <div className="mt-auto">
         {showProductItem ? (
           <div className="flex ml-auto">
-            <button
-              className="mt-2 mr-2 bg-violet-500 text-white px-3 py-1 text-sm"
-              onClick={<ViewProduct />}
-            >
+            <Link to={`/ViewProduct/${id}`} 
+              className="mt-2 mr-2 bg-violet-500 text-white px-3 py-1 text-sm">
               Edit
-            </button>
+            </Link>
             <button
               onClick={confirmDelete}
               className="mt-2 mr-2 bg-violet-500 text-white px-3 py-1 text-sm"
@@ -104,14 +110,12 @@ export const ProductItemLogin = ({
             </button>
           </div>
         ) : (
-          <UpvoteButton
-            upvoted={upvoted}
-            variant="outlined"
-            disableRipple={true}
-            onclick={handleUpvote}
-          >
-            {upvotes}
-          </UpvoteButton>
+          <div className="bg-violet-500 hover:bg-violet-400 text-gray-300 font-bold mb-12 py-2 px-4 rounded inline-flex items-center">            <HandleUpvote
+              id={id}
+              onUpvoteChange={handleUpvoteChange} 
+            />
+            {upvotes}            
+          </div>
         )}
       </div>
     </div>
