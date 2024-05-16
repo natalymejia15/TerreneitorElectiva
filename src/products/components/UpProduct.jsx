@@ -1,83 +1,65 @@
-import { useContext, useState } from "react";
-import { useForm } from "~hooks/useForm";
-import FileUploader from "react-firebase-file-uploader";
+import { useEffect, useState, useContext } from 'react'
+import { useParams} from 'react-router-dom'
 import { ProductContext } from "~products/context";
-import { useNavigate } from "react-router";
-import { FBstorage } from "~firebase/config";
-import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
-import { AuthContext } from "~auth/context";
+import { setDoc, doc, updateDoc } from "firebase/firestore/lite";
+import { FirebaseDB } from "~firebase/config";
 
-const newEmptyProduct = {
-  name: "",
-  category: "",
-  description: "",
-  url: "",
-  rate: "",
-  userId:"",
-  image: "",
-  createdAt: "",
-  updatedat: "",
-};
+export const UpProduct = () => {
 
-export const ProductNew = () => {
-  const { saveProduct } = useContext(ProductContext);
-  const navigate = useNavigate();
-  const { user } = useContext(AuthContext);
-  const [currentDate, setCurrentDate] = useState(new Date());
-  const [Iduser, setUserId]= useState(user.uid);
-  const [nameUser, setnameUser]= useState(user.displayName);
-  let imageUrl;
-  
-  const {
-    name,
-    category,
-    description,
-    url,
-    rate,
-    userId,
-    displayName,
-    image,
-    createdAt,
-    updatedAt,
-    onInputChange,
-  } = useForm(newEmptyProduct);
+    const { id } = useParams();
+    const { uploadProduct } = useContext(ProductContext);
+    const [currentDate, setCurrentDate] = useState(new Date());
+    let imageUrl;
 
-  const handleImageUpload = async (e) => {
-    try {
-      const FilesImg = e.target.files[0];
-      const refFilesImg = ref(FBstorage, `images/${FilesImg.name}`);
-      await uploadBytes(refFilesImg, FilesImg);
-      imageUrl = await getDownloadURL(refFilesImg);      
-    } catch (error) {
-      console.error("Error loading image:", error);
+    const update = async (e)=>{
+        e.preventDefault();
+        const productDocRef = doc(FirebaseDB, `products/${id}`);
+        
+        const upProduct = {
+          name: name,
+          category: category,
+          description: description,
+          url: url,
+          rate: rate,
+          image: image,
+          updatedat: currentDate,           
+        }
+
+      await setDoc(productDocRef, upProduct, { merge: true });
+      await uploadProduct(upProduct);
     }
-  };
 
-  const onCreateNewProduct = async (event) => {
-    event.preventDefault();
+    const getProductById=async (id)=>{
+        const product= await getDoc(doc(FirebaseDB,'products',id));
+        if(product.exists()){
+            console.log(product.data);
+        } else {
+            alert("Product not found")
+        }
+    }
 
-    const newProduct = {
-      name,
-      category,
-      description,
-      url,
-      rate,
-      userId:Iduser,
-      displayName:nameUser,
-      image: imageUrl,
-      createdAt: currentDate,
-      updatedAt: currentDate,
-    };
-    await saveProduct(newProduct);
-    navigate("/MyProducts");
-  };
+    useEffect(()=>{
+        getProductById(id);
+    }, [])
+
+    const handleImageUpload = async (e) => {
+        try {
+          const FilesImg = e.target.files[0];
+          const refFilesImg = ref(FBstorage, `images/${FilesImg.name}`);
+          await uploadBytes(refFilesImg, FilesImg);
+          imageUrl = await getDownloadURL(refFilesImg);      
+        } catch (error) {
+          console.error("Error loading image:", error);
+        }
+      };
+
 
   return (
     <>
       <div className="max-w-md mx-auto bg-white rounded-xl shadow-2xl border overflow-hidden md:max-w-2xl m-4 items-center justify-center">
         <div className="shadow-md rounded px-5 pt-6 pb-5 mb-4">
           <h1 className="block text-gray-700 font-bold mb-2 text-xl text-center">
-            Add your product here
+            Update your product here
           </h1>
         </div>
         <br />
@@ -96,7 +78,7 @@ export const ProductNew = () => {
               className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
               placeholder="Product Name..."
               value={name}
-              onChange={onInputChange}
+              required
             />
           </div>
           <div className="mb-4">
@@ -113,7 +95,7 @@ export const ProductNew = () => {
               name="description"
               placeholder="Description..."
               value={description}
-              onChange={onInputChange}
+              required
             ></textarea>
           </div>
           <div className="mb-4">
@@ -152,7 +134,7 @@ export const ProductNew = () => {
               name="url"
               placeholder="Url..."
               value={url}
-              onChange={onInputChange}
+              required
             />
           </div>
           <div className="mb-4">
@@ -169,7 +151,7 @@ export const ProductNew = () => {
               className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
               placeholder="productivity, desgin tools"
               value={rate}
-              onChange={onInputChange}
+              required
             />
           </div>
           <div className="mb-4">
@@ -187,11 +169,11 @@ export const ProductNew = () => {
             />
           </div>
           <div className="items-center justify-center text-center">
-            <input
-              className="bg-violet-900 hover:bg-violet-600 text-white font-bold py-2 px-20 justity rounded focus:outline-none focus:shadow-outline"
-              type="submit"
-              onClick={onCreateNewProduct}
-            />
+          <button 
+            className="mt-2 bg-violet-500 text-white px-4 py-2 rounded-md"
+            onClick={update}>
+            Update
+          </button>
           </div>
           <div className="mt-6 text-violet-500 text-center">
             <a href="/MyProducts" className="hover:underline">
@@ -201,5 +183,5 @@ export const ProductNew = () => {
         </form>
       </div>
     </>
-  );
-};
+  )
+}

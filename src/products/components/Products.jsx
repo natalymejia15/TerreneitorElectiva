@@ -1,6 +1,6 @@
 import React, { useEffect, useState, useContext } from "react";
 import { AuthContext } from "../../auth/context/AuthContext";
-import { collection, getDocs, doc, query, where, orderBy } from "firebase/firestore/lite";
+import { collection, getDocs, query, where, orderBy } from "firebase/firestore/lite";
 import { FirebaseDB } from "~firebase/config";
 import { ProductItemLogin } from "./ProductItemLogin";
 
