@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import { useState, useEffect } from 'react'
 import { NavLink } from 'react-router-dom';
 import { FirebaseDB } from '~firebase/config';
 import { collection, query, getDocs, orderBy, limit } from "firebase/firestore/lite";
@@ -26,7 +26,7 @@ export const HeaderProduct = () => {
   return (
     <>
       {maxRate.map((products) => (
-         <div className="md:flex max-w-3xl mx-auto bg-white rounded-xl shadow-md overflow-hidden md:max-w-4xl m-3">
+         <div key={products.id}  className="md:flex max-w-3xl mx-auto bg-white rounded-xl shadow-md overflow-hidden md:max-w-4xl m-3">
             <div className="md:flex-shrink-0">
                 <img className="h-48 w-full object-cover md:w-48" src={ products.image } alt=""/>
             </div>

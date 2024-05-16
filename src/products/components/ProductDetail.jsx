@@ -47,12 +47,13 @@ export const ProductDetail = () => {
         />
         <h3 className="text-lg font-bold mt-4">{product.name}</h3>
         <p className="text-gray-600">Description: {product.description}</p>
-        <p className="text-gray-600">User: {product.userId}</p>
+        <p className="text-gray-600">User: {product.displayName}</p>
         <p className="text-gray-600">Rate: {product.rate}</p>
         <a href={product.url} target="blank" className="text-gray-600 ">
           {product.url}
         </a>
       </div>
+      <br />
       <Comments productId={id}  />
     </div>
   );

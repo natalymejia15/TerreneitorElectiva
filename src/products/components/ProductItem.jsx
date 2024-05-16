@@ -1,4 +1,3 @@
-import { useState } from 'react';
 import React  from 'react'
 import { HandleUpvote } from './HandleUpvote';
 import { NavLink } from 'react-router-dom';
@@ -10,19 +9,15 @@ export const ProductItem = ({
   rate,
   image,
   userId,
-  isUpvoted = false,
   id,
   displayName,
 }) => {
-
-  const [upvoted, setUpvoted] = React.useState(isUpvoted);
   const firstLetter = name.charAt(0).toUpperCase();   
   const [upvotes, setUpvotes] = React.useState(0);
 
   const handleUpvoteChange = (value) => {
-      setUpvotes(value); // Actualizar el estado con el valor de upvote proporcionado por HandleUpvote
+      setUpvotes(value); 
   }
-
 
   return (
     <div className="md:flex max-w-3xl mx-auto bg-white rounded-xl shadow-md overflow-hidden md:max-w-4xl m-3">
@@ -54,7 +49,7 @@ export const ProductItem = ({
             <span className="text-white text-3xl">{firstLetter}</span>
           </div>
           <div className="flex-1 p-4">
-            <div className="uppercase tracking-wide font-semibold text-violet-600 hover:text-blue-600">
+            <div className="uppercase tracking-wide font-semibold text-violet-600 hover:text-violet-700">
             <a href={url} target="_blank">{name}</a>
             </div>
             <p className="mt-2 text-base text-neutral-600 dark:text-neutral-200">

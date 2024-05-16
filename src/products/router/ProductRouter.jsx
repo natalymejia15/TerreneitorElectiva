@@ -17,7 +17,7 @@ export const ProductRouter = () => {
           <Route path="/HomeProduct" element={<HomeProduct />} />
           <Route path="/Profile" element={<Profile />} />
           <Route path="/MyProducts" element={<MyProducts />} />
-          <Route path="/ViewProduct" element={<ViewProduct />} />
+          <Route path="/ViewProduct/:id" element={<ViewProduct />} />
         </Routes>
       </div>
     </>
