@@ -1,7 +1,7 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { ProductItem } from "../components/ProductItem";
 import { FirebaseDB } from "~firebase/config";
-import { collection, getDocs, doc, query, orderBy } from "firebase/firestore/lite";
+import { collection, getDocs, query, orderBy } from "firebase/firestore/lite";
 
 const ProductList = () => {
 
@@ -18,7 +18,6 @@ const ProductList = () => {
             docs.push({ ...doc.data(), id: doc.id });
            });
         setProducts(docs);
-        console.log(docs);
       } catch (error) {
         console.log(error);
       }

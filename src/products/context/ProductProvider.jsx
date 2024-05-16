@@ -59,6 +59,8 @@ export const ProductProvider = ({ children }) => {
         ...productState,
         saveProduct,
         saveComment,
+        updateProduct,
+
       }}
     >
       {children}

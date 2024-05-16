@@ -10,8 +10,6 @@ export const HandleUpvote = ({ id, onUpvoteChange }) => {
             try {
                 const fieldName = 'productId'; 
                 const searchValue = id;
-                console.log("userid", fieldName);
-                console.log("searchValue", searchValue);
                 const queryComments = query(collection(FirebaseDB, 'comments'), where(fieldName, '==', searchValue));
                 const querySnapshot = await getDocs(queryComments);
                 const docs=[]
