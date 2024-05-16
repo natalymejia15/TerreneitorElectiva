@@ -12,7 +12,7 @@ export const ProductRouter = () => {
       <div className="container">
         <Routes>
           <Route path="/NewProduct" element={<NewProduct />} />
-          <Route path="/ProductSelect" element={<ProductSelect />} />
+          <Route path="/products/:id" element={<ProductSelect />} />
           <Route path="/" element={<HomeProduct />}/>
           <Route path="/HomeProduct" element={<HomeProduct />} />
           <Route path="/Profile" element={<Profile />} />

@@ -1,7 +1,7 @@
 import { useEffect, useState, useContext } from 'react'
 import { useParams} from 'react-router-dom'
 import { ProductContext } from "~products/context";
-import { doc, updateDoc } from "firebase/firestore/lite";
+import { setDoc, doc, updateDoc } from "firebase/firestore/lite";
 import { FirebaseDB } from "~firebase/config";
 
 export const UpProduct = () => {
@@ -13,17 +13,20 @@ export const UpProduct = () => {
 
     const update = async (e)=>{
         e.preventDefault();
-        const product=doc(FirebaseDB,'products', id);
+        const productDocRef = doc(FirebaseDB, `products/${id}`);
+        
         const upProduct = {
-            name: name,
-            category: category,
-            description: description,
-            url: url,
-            rate: rate,
-            image: image,
-            updatedat: currentDate,           
+          name: name,
+          category: category,
+          description: description,
+          url: url,
+          rate: rate,
+          image: image,
+          updatedat: currentDate,           
         }
-        await uploadProduct(upProduct);
+
+      await setDoc(productDocRef, upProduct, { merge: true });
+      await uploadProduct(upProduct);
     }
 
     const getProductById=async (id)=>{
@@ -56,7 +59,7 @@ export const UpProduct = () => {
       <div className="max-w-md mx-auto bg-white rounded-xl shadow-2xl border overflow-hidden md:max-w-2xl m-4 items-center justify-center">
         <div className="shadow-md rounded px-5 pt-6 pb-5 mb-4">
           <h1 className="block text-gray-700 font-bold mb-2 text-xl text-center">
-            Add your product here
+            Update your product here
           </h1>
         </div>
         <br />
@@ -75,7 +78,7 @@ export const UpProduct = () => {
               className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
               placeholder="Product Name..."
               value={name}
-              onChange={onInputChange}
+              required
             />
           </div>
           <div className="mb-4">
@@ -92,7 +95,7 @@ export const UpProduct = () => {
               name="description"
               placeholder="Description..."
               value={description}
-              onChange={onInputChange}
+              required
             ></textarea>
           </div>
           <div className="mb-4">
@@ -131,7 +134,7 @@ export const UpProduct = () => {
               name="url"
               placeholder="Url..."
               value={url}
-              onChange={onInputChange}
+              required
             />
           </div>
           <div className="mb-4">
@@ -148,7 +151,7 @@ export const UpProduct = () => {
               className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
               placeholder="productivity, desgin tools"
               value={rate}
-              onChange={onInputChange}
+              required
             />
           </div>
           <div className="mb-4">
@@ -166,11 +169,11 @@ export const UpProduct = () => {
             />
           </div>
           <div className="items-center justify-center text-center">
-            <input
-              className="bg-violet-900 hover:bg-violet-600 text-white font-bold py-2 px-20 justity rounded focus:outline-none focus:shadow-outline"
-              type="submit"
-              onClick={update}
-            />
+          <button 
+            className="mt-2 bg-violet-500 text-white px-4 py-2 rounded-md"
+            onClick={update}>
+            Update
+          </button>
           </div>
           <div className="mt-6 text-violet-500 text-center">
             <a href="/MyProducts" className="hover:underline">
