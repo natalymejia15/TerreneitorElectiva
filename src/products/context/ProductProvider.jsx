@@ -34,6 +34,18 @@ export const ProductProvider = ({ children }) => {
 
   };
 
+  const saveComment = async (comment) => {
+    const commentDoc = doc(
+      collection(FirebaseDB, `comments`)
+    );
+    await setDoc(commentDoc, comment);
+    comment.id = commentDoc.id;
+    const action = { payload: comment, type: ProductTypes.saveComment };
+    dispatch(action);
+
+
+  };
+
   const updateProduct = async (product)=>{
     const updateDocs=doc(FirebaseDB,"products", product.id);
     await updateDoc(updateDocs, product);
@@ -46,6 +58,7 @@ export const ProductProvider = ({ children }) => {
       value={{
         ...productState,
         saveProduct,
+        saveComment,
       }}
     >
       {children}
