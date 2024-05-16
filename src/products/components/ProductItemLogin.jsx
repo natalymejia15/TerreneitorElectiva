@@ -3,6 +3,7 @@ import { NavLink, Link } from "react-router-dom";
 import { FirebaseDB } from "~firebase/config";
 import { deleteDoc, doc } from "firebase/firestore/lite";
 import { HandleUpvote } from './HandleUpvote';
+import { useNavigate } from "react-router";
 
 export const ProductItemLogin = ({
   name,
@@ -18,6 +19,7 @@ export const ProductItemLogin = ({
 
   const [upvotes, setUpvotes] = React.useState(0);  
   const firstLetter = name.charAt(0).toUpperCase();
+  const navigate = useNavigate();
   const showProductItem = show;
 
   const handleUpvoteChange = (value) => {
@@ -52,7 +54,7 @@ export const ProductItemLogin = ({
   };
 
   return (
-    <div className="md:flex max-w-3xl mx-auto bg-white rounded-xl shadow-md overflow-hidden md:max-w-4xl m-3">
+    <div className="md:flex max-w-3xl mx-auto bg-white rounded-xl shadow-md overflow-hidden md:max-w-4xl m-3 relative">
       {image ? (
         <div className="flex items-center">
           <div className="w-24 h-24 overflow-hidden bg-violet-900">
@@ -73,8 +75,8 @@ export const ProductItemLogin = ({
               {description}
             </p>
             <div>
-              { displayName } {rate}
-            </div>            
+              {displayName} {rate}
+            </div>
           </div>
         </div>
       ) : (
@@ -90,14 +92,14 @@ export const ProductItemLogin = ({
               {description}
             </p>
             <div>
-              {displayName } {rate}
-            </div>            
+              {displayName} {rate}
+            </div>
           </div>
         </div>
       )}
-      <div className="mt-auto">
+      <div className="absolute top-2 right-2">
         {showProductItem ? (
-          <div className="flex ml-auto">
+          <div className="flex">
             <Link to={`/ViewProduct/${id}`} 
               className="mt-2 mr-2 bg-violet-500 text-white px-3 py-1 text-sm">
               Edit
@@ -110,7 +112,8 @@ export const ProductItemLogin = ({
             </button>
           </div>
         ) : (
-          <div className="bg-violet-500 hover:bg-violet-400 text-gray-300 font-bold mb-12 py-2 px-4 rounded inline-flex items-center">            <HandleUpvote
+          <div className="bg-violet-500 hover:bg-violet-400 text-gray-300 font-bold py-2 px-4 rounded inline-flex items-center">            
+            <HandleUpvote
               id={id}
               onUpvoteChange={handleUpvoteChange} 
             />
