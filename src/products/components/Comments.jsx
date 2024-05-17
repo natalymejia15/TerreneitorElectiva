@@ -17,7 +17,6 @@ const initialComment = {
   productId: "",
   comment: "",
   rate: "",
-  userEmail: "",
   userId: "",
   userName: "",
   createdAt: "",
@@ -95,7 +94,6 @@ export const Comments = ({ productId }) => {
       productId,
       comment,
       userName: user.displayName,
-      userEmail: user.email,
       rate,
       userId: user.uid,
       createdAt: currentDate,
@@ -166,11 +164,8 @@ export const Comments = ({ productId }) => {
                   />
                 </div>
                 <div className="flex flex-col">
-                  {comment?.userName ? (
-                    <div className="font-semibold">{comment.userName}</div>
-                  ) : (
-                    <div className="font-semibold">{comment.userEmail}</div>
-                  )}
+                  <div className="font-semibold">{comment.userName}</div>
+
 
                   <div className="mb-2">{comment.comment}</div>
                   <div className="mb-2">Rate: {comment.rate}</div>
@@ -180,7 +175,7 @@ export const Comments = ({ productId }) => {
                     {formatDate(
                       new Date(
                         comment.createdAt.seconds * 1000 +
-                          comment.createdAt.nanoseconds / 1000000
+                        comment.createdAt.nanoseconds / 1000000
                       )
                     )}
                   </div>

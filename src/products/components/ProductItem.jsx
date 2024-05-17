@@ -23,7 +23,7 @@ export const ProductItem = ({
     <div className="md:flex max-w-3xl mx-auto bg-white rounded-xl shadow-md overflow-hidden md:max-w-4xl m-3">
       {image ? (
         <div className="flex items-center">
-          <div className="w-24 h-24 overflow-hidden bg-violet-900">
+          <div className="w-20 h-24 overflow-hidden ">
             <img className="w-full h-full object-cover" alt={firstLetter} src={image} />
           </div>
           <div className="flex-1 p-4">
