@@ -4,6 +4,8 @@ import { FirebaseDB } from "~firebase/config";
 import { deleteDoc, doc } from "firebase/firestore/lite";
 import { HandleUpvote } from './HandleUpvote';
 import { useNavigate } from "react-router";
+import Swal from 'sweetalert2'
+
 
 export const ProductItemLogin = ({
   name,
@@ -23,17 +25,22 @@ export const ProductItemLogin = ({
   const showProductItem = show;
 
   const handleUpvoteChange = (value) => {
-      setUpvotes(value); // Actualizar el estado con el valor de upvote proporcionado por HandleUpvote
+      setUpvotes(value);
   }
 
   const deleteProduct = async () => {
-    const productDoc = doc(FirebaseDB, "products", id);
-    await deleteDoc(productDoc);
-    navigate("/MyProduct", { reload: true });
+    try {
+      const productDoc = doc(FirebaseDB, "products", id);
+      await deleteDoc(productDoc);
+      navigate("/MyProducts");
+      window.location.reload();
+    } catch (error) {
+      console.error("Error deleting document: ", error);
+    }
   };
 
   const confirmDelete = () => {
-    Myswal.fire({
+    Swal.fire({
       title: "Are you sure?",
       text: "You won't be",
       icon: "warning",
@@ -42,9 +49,9 @@ export const ProductItemLogin = ({
       cancelButtonColor: "#d33",
       confirmButtonText: "Yes!",
     }).then((result) => {
-      if (result.isComfirmed) {
+      if (result.isConfirmed) {
         deleteProduct();
-        SwitchLabel.fire(
+        Swal.fire(
           "Deleted!",
           "This product has been deleted.",
           "success"
@@ -57,7 +64,7 @@ export const ProductItemLogin = ({
     <div className="md:flex max-w-3xl mx-auto bg-white rounded-xl shadow-md overflow-hidden md:max-w-4xl m-3 relative">
       {image ? (
         <div className="flex items-center">
-          <div className="w-24 h-24 overflow-hidden bg-violet-900">
+          <div className="w-20 h-24 overflow-hidden">
             <img
               className="w-full h-full object-cover"
               alt={firstLetter}
