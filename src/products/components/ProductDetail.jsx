@@ -43,7 +43,7 @@ export const ProductDetail = () => {
         <img
           src={product.image}
           alt={product.name}
-          className="w-48 h-48 object-cover rounded-lg"
+          className="w-42 h-48 object-cover rounded-lg"
         />
         <h3 className="text-lg font-bold mt-4">{product.name}</h3>
         <p className="text-gray-600">Description: {product.description}</p>

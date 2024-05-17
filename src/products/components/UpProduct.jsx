@@ -74,6 +74,7 @@ export const UpProduct = () => {
 
     await updateProduct(upProduct);
     navigate("/MyProducts");
+    window.location.reload();
   };
 
   const getProductById = async (id) => {
