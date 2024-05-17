@@ -2,10 +2,9 @@ import React from "react";
 import { NavLink, Link } from "react-router-dom";
 import { FirebaseDB } from "~firebase/config";
 import { deleteDoc, doc } from "firebase/firestore/lite";
-import { HandleUpvote } from './HandleUpvote';
+import { HandleUpvote } from "./HandleUpvote";
 import { useNavigate } from "react-router";
-import Swal from 'sweetalert2'
-
+import Swal from "sweetalert2";
 
 export const ProductItemLogin = ({
   name,
@@ -18,15 +17,14 @@ export const ProductItemLogin = ({
   displayName,
   show,
 }) => {
-
-  const [upvotes, setUpvotes] = React.useState(0);  
+  const [upvotes, setUpvotes] = React.useState(0);
   const firstLetter = name.charAt(0).toUpperCase();
   const navigate = useNavigate();
   const showProductItem = show;
 
   const handleUpvoteChange = (value) => {
-      setUpvotes(value);
-  }
+    setUpvotes(value);
+  };
 
   const deleteProduct = async () => {
     try {
@@ -51,11 +49,7 @@ export const ProductItemLogin = ({
     }).then((result) => {
       if (result.isConfirmed) {
         deleteProduct();
-        Swal.fire(
-          "Deleted!",
-          "This product has been deleted.",
-          "success"
-        );
+        Swal.fire("Deleted!", "This product has been deleted.", "success");
       }
     });
   };
@@ -82,7 +76,8 @@ export const ProductItemLogin = ({
               {description}
             </p>
             <div>
-              {displayName} {rate}
+              <p className="text-gray-600">Rate: {rate}</p>
+              <p className="text-gray-600">User: {displayName}</p>
             </div>
           </div>
         </div>
@@ -99,7 +94,8 @@ export const ProductItemLogin = ({
               {description}
             </p>
             <div>
-              {displayName} {rate}
+              <p className="text-gray-600">Rate: {rate}</p>
+              <p className="text-gray-600">User: {displayName}</p>
             </div>
           </div>
         </div>
@@ -107,8 +103,10 @@ export const ProductItemLogin = ({
       <div className="absolute top-2 right-2">
         {showProductItem ? (
           <div className="flex">
-            <Link to={`/ViewProduct/${id}`} 
-              className="mt-2 mr-2 bg-violet-500 text-white px-3 py-1 text-sm">
+            <Link
+              to={`/ViewProduct/${id}`}
+              className="mt-2 mr-2 bg-violet-500 text-white px-3 py-1 text-sm"
+            >
               Edit
             </Link>
             <button
@@ -119,12 +117,9 @@ export const ProductItemLogin = ({
             </button>
           </div>
         ) : (
-          <div className="bg-violet-500 hover:bg-violet-400 text-gray-300 font-bold py-2 px-4 rounded inline-flex items-center">            
-            <HandleUpvote
-              id={id}
-              onUpvoteChange={handleUpvoteChange} 
-            />
-            {upvotes}            
+          <div className="bg-violet-500 hover:bg-violet-400 text-gray-300 font-bold py-2 px-4 rounded inline-flex items-center">
+            <HandleUpvote id={id} onUpvoteChange={handleUpvoteChange} />
+            {upvotes}
           </div>
         )}
       </div>
