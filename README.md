@@ -2,7 +2,7 @@
 - Electiva 1
 
 ## Integrantes
-- Adriana Velazques - https://github.com/apvasquezo
+- Adriana Vasquez - https://github.com/apvasquezo
 - Jhon Montaño - https://github.com/jhonMontano
 - Nataly Acevedo - https://github.com/natalymejia15
 
