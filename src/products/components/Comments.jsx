@@ -1,6 +1,7 @@
 import { useState, useEffect, useContext } from "react";
 import { ProductContext } from "~products/context";
 import { useForm } from "~hooks/useForm";
+import { Link } from 'react-router-dom';
 import icono from "../../image/icono.png";
 import { AuthContext } from "~auth/context";
 import { FirebaseDB } from "~firebase/config";
@@ -120,7 +121,7 @@ export const Comments = ({ productId }) => {
             className="w-full p-2 border rounded-md"
           />
           {commentError && <p className="text-red-500">{commentError}</p>}
-
+  
           <select
             id="rate"
             name="rate"
@@ -138,7 +139,7 @@ export const Comments = ({ productId }) => {
             <option value="5">5</option>
           </select>
           {rateError && <p className="text-red-500">{rateError}</p>}
-
+  
           <button
             onClick={onCreateNewComment}
             className="mt-2 bg-violet-500 text-white px-4 py-2 rounded-md"
@@ -164,13 +165,14 @@ export const Comments = ({ productId }) => {
                   />
                 </div>
                 <div className="flex flex-col">
-                  <div className="font-semibold">{comment.userName}</div>
-
-
+                  <div className="font-semibold">
+                    <Link to={`/Profile/${comment.userId}`} className="text-blue-500">
+                      {comment.userName}
+                    </Link>
+                  </div>
                   <div className="mb-2">{comment.comment}</div>
                   <div className="mb-2">Rate: {comment.rate}</div>
                   <div className="text-gray-500">
-                    {" "}
                     Date:{" "}
                     {formatDate(
                       new Date(

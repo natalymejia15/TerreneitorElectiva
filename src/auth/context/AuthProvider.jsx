@@ -1,9 +1,10 @@
 import { useReducer } from "react";
-
 import { AuthContext } from "./AuthContext";
 import { authReducer } from "../reducers";
 import { authTypes } from "../types";
 import { logoutUser,registerUser, signInUser, signInWithGoogle } from "../../firebase/providers";
+import { addDoc, collection } from "firebase/firestore/lite";
+import { FirebaseDB } from "~firebase/config";
 
 const initialState = { logged: false };
 
@@ -20,24 +21,39 @@ export const AuthProvider = ({ children }) => {
   const [authState, dispatch] = useReducer(authReducer, initialState, init);
 
   const register = async (email, password, displayName) => {
-    const { ok, uid, photoURL, errorMessage } = await registerUser({ email, password, displayName });
+    try {
+      const { ok, uid, photoURL,biography, errorMessage } = await registerUser({ email, password, displayName });
+  
+      if (!ok) {
+        dispatch({ type: authTypes.error, payload: { errorMessage } });
+        return false;
+      }
 
-    if (!ok) {
-      dispatch({ type: authTypes.error, payload: { errorMessage } });
+      await addDoc(collection(FirebaseDB, 'users'), {
+        uid,
+        displayName,
+        email,
+        photoURL,
+        biography,
+        createdAt: new Date(),
+        updatedAt: new Date(),
+      });
+  
+      const payload = {
+        uid, email, photoURL, displayName
+      }
+  
+      const action = { type: authTypes.login, payload };
+      localStorage.setItem('user', JSON.stringify(payload))
+  
+      dispatch(action);
+  
+      return true;
+    } catch (error) {
+      console.error("Error registering user:", error);
+      dispatch({ type: authTypes.error, payload: { errorMessage: error.message } });
       return false;
     }
-
-    const payload = {
-      uid, email, photoURL, displayName
-    }
-
-    const action = { type: authTypes.login, payload };
-    localStorage.setItem('user', JSON.stringify(payload))
-
-    dispatch(action);
-
-    return true;
-
   }
 
   const login = async (email = "", password = "") => {

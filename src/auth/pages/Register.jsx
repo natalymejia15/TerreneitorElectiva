@@ -58,7 +58,7 @@ export const Register = () => {
   };
 
   const closeErrorModal = () => {
-    setIsErrorModalOpen(false); // Cerrar la modal de error
+    setIsErrorModalOpen(false);
   };
 
   return (
