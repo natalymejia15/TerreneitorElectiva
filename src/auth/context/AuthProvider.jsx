@@ -22,7 +22,7 @@ export const AuthProvider = ({ children }) => {
 
   const register = async (email, password, displayName) => {
     try {
-      const { ok, uid, photoURL,biography, errorMessage } = await registerUser({ email, password, displayName });
+      const { ok, uid, photoURL,errorMessage } = await registerUser({ email, password, displayName });
   
       if (!ok) {
         dispatch({ type: authTypes.error, payload: { errorMessage } });
@@ -34,7 +34,6 @@ export const AuthProvider = ({ children }) => {
         displayName,
         email,
         photoURL,
-        biography,
         createdAt: new Date(),
         updatedAt: new Date(),
       });
