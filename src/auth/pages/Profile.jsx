@@ -1,24 +1,49 @@
-/* import  { useState } from "react"; */
+import { useParams } from 'react-router-dom';
+import { useState, useEffect, useContext } from 'react';
+import { AuthContext } from "../context/AuthContext";
+import { doc, getDoc } from "firebase/firestore/lite";
+import { FirebaseDB } from "../../firebase/config";
 import icono from "../../image/icono.png";
-import { AuthContext } from "..";
-import { useContext } from "react";
 
 export const Profile = () => {
-  const { user, logout } = useContext(AuthContext);
-  /*  const [username, setUsername] = useState("");
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [confirmPassword, setConfirmPassword] = useState("");
-  const [error, setError] = useState("");
+  const { userId } = useParams();  // Obtener userId de los parámetros de la URL
+  const { user, logout } = useContext(AuthContext); // Obtener el usuario autenticado
+  const [profileUser, setProfileUser] = useState(null);
+  const [error, setError] = useState(null);
 
-  const handleEdit = (e) => {
-    e.preventDefault();
-  }; */
+  useEffect(() => {
+    const fetchUserProfile = async (id) => {
+      try {
+        const userDocRef = doc(FirebaseDB, 'users', id);
+        const userDoc = await getDoc(userDocRef);
+        if (!userDoc.exists()) {
+          throw new Error('User not found');
+        }
+        setProfileUser(userDoc.data());
+      } catch (err) {
+        setError(err.message);
+      }
+    };
+
+    if (userId) {
+      fetchUserProfile(userId); 
+    } else if (user) {
+      setProfileUser(user); 
+    }
+  }, [userId, user]);
+
+  if (error) {
+    return <div>Error: {error}</div>;
+  }
+
+  if (!profileUser) {
+    return <div>Loading...</div>;
+  }
 
   return (
     <div className="bg-violet-200">
-      <div className=" rounded-lg shadow-md p-5 ">
-        <div className="bg-white rounded-lg shadow-xl p-8 ">
+      <div className="rounded-lg shadow-md p-5">
+        <div className="bg-white rounded-lg shadow-xl p-8">
           <div className="w-full h-[5em]"></div>
           <div className="flex flex-col items-center -mt-20">
             <img
@@ -27,10 +52,10 @@ export const Profile = () => {
               alt="Profile"
             />
             <div className="flex items-center space-x-2 mt-2">
-              {user?.displayName ? (
-                <p className="text-2xl">{user.displayName}</p>
+              {profileUser.displayName ? (
+                <p className="text-2xl">{profileUser.displayName}</p>
               ) : (
-                <p className="text-2xl">{user.email}</p>
+                <p className="text-2xl">{profileUser.email}</p>
               )}
               <span className="bg-violet-500 rounded-full p-1" title="Verified">
                 <svg
@@ -71,32 +96,30 @@ export const Profile = () => {
         <div className="my-4 space-y-4">
           <div className="w-full">
             <div className="bg-white rounded-lg shadow-xl p-8">
-              <h4 className="text-xl text-gray-900 font-bold">
-                Personal Info
-              </h4>
+              <h4 className="text-xl text-gray-900 font-bold">Personal Info</h4>
               <ul className="mt-2 text-gray-700">
                 <li className="flex border-y py-2">
                   <span className="font-bold w-24">Full name:</span>
-                  <span className="text-gray-700">{user.displayName}</span>
+                  <span className="text-gray-700">{profileUser.displayName}</span>
                 </li>
                 <li className="flex border-b py-2">
                   <span className="font-bold w-24">Email:</span>
-                  <span className="text-gray-700">{user.email}</span>
+                  <span className="text-gray-700">{profileUser.email}</span>
                 </li>
                 <li className="flex border-b py-2">
                   <span className="font-bold w-24">Password:</span>
-                  <span className="text-gray-700">{user.password}</span>
+                  <span className="text-gray-700">{profileUser.password}</span>
                 </li>
                 <li className="flex border-b py-2">
                   <span className="font-bold w-24">Created At:</span>
                   <span className="text-gray-700">
-                    10 Jan 2022 (25 days ago)
+                    {profileUser.createdAt ? new Date(profileUser.createdAt.seconds * 1000).toLocaleDateString() : 'N/A'}
                   </span>
                 </li>
                 <li className="flex border-b py-2">
                   <span className="font-bold w-24">Updated At:</span>
                   <span className="text-gray-700">
-                    10 Jan 2022 (25 days ago)
+                    {profileUser.updatedAt ? new Date(profileUser.updatedAt.seconds * 1000).toLocaleDateString() : 'N/A'}
                   </span>
                 </li>
               </ul>
@@ -106,13 +129,7 @@ export const Profile = () => {
             <div className="bg-white rounded-lg shadow-xl p-8">
               <h4 className="text-xl text-gray-900 font-bold">Biography</h4>
               <p className="mt-2 text-gray-700">
-                Lorem ipsum dolor sit amet consectetur adipisicing elit.
-                Nesciunt voluptates obcaecati numquam error et ut fugiat
-                asperiores. Sunt nulla ad incidunt laboriosam, laudantium est
-                unde natus cum numquam, neque facere. Lorem ipsum dolor sit amet
-                consectetur adipisicing elit. Ut, magni odio magnam commodi sunt
-                ipsum eum! Voluptas eveniet aperiam at maxime, iste id dicta
-                autem odio laudantium eligendi commodi distinctio!
+                {profileUser.biography || 'No biography available'}
               </p>
             </div>
           </div>
