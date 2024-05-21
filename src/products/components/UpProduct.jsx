@@ -3,7 +3,7 @@ import { useParams } from "react-router-dom";
 import FileUploader from "react-firebase-file-uploader";
 import { ProductContext } from "~products/context";
 import { useNavigate } from "react-router";
-import { setDoc, doc, getDoc } from "firebase/firestore/lite";
+import { doc, getDoc } from "firebase/firestore/lite";
 import { FBstorage, FirebaseDB } from "~firebase/config";
 import { getDownloadURL, ref, uploadBytes } from "firebase/storage";
 
