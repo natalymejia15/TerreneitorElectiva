@@ -166,7 +166,7 @@ export const Comments = ({ productId }) => {
                 </div>
                 <div className="flex flex-col">
                   <div className="font-semibold">
-                    <Link to={`/Profile/${comment.userId}`} className="text-blue-500">
+                    <Link to={`/users/${comment.userId}`} className="text-blue-500">
                       {comment.userName}
                     </Link>
                   </div>
