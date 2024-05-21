@@ -4,6 +4,7 @@ import { Navbar } from "~/ui";
 import { ProductSelect } from "../pages/ProductSelect";
 import { Profile } from "~auth/pages/Profile";
 import { ViewProduct } from "~products/pages/ViewProduct";
+import { EditProfile } from "../../auth/pages/EditProfile";
 
 export const ProductRouter = () => {
   return (
@@ -19,6 +20,7 @@ export const ProductRouter = () => {
           <Route path="/Profile" element={<Profile />} /> 
           <Route path="/MyProducts" element={<MyProducts />} />
           <Route path="/ViewProduct/:id" element={<ViewProduct />} />
+          <Route path="/EditProfile/:userId" element={<EditProfile/>}/>
         </Routes>
       </div>
     </>
