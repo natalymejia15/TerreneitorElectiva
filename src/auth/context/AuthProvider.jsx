@@ -3,7 +3,7 @@ import { AuthContext } from "./AuthContext";
 import { authReducer } from "../reducers";
 import { authTypes } from "../types";
 import { logoutUser,registerUser, signInUser, signInWithGoogle } from "../../firebase/providers";
-import { addDoc, collection } from "firebase/firestore/lite";
+import { addDoc, collection, doc, getDoc, setDoc } from "firebase/firestore/lite";
 import { FirebaseDB } from "~firebase/config";
 
 const initialState = { logged: false };
@@ -22,15 +22,13 @@ export const AuthProvider = ({ children }) => {
 
   const register = async (email, password, displayName) => {
     try {
-      const { ok, uid, photoURL,errorMessage } = await registerUser({ email, password, displayName });
+      const { ok, uid, photoURL, errorMessage } = await registerUser({ email, password, displayName });
   
       if (!ok) {
         dispatch({ type: authTypes.error, payload: { errorMessage } });
         return false;
       }
-
-      await addDoc(collection(FirebaseDB, 'users'), {
-        uid,
+      await setDoc(doc(FirebaseDB, 'users', uid), {
         displayName,
         email,
         photoURL,
@@ -75,24 +73,41 @@ export const AuthProvider = ({ children }) => {
     return true;
   }
 
-  const loginGoogle = async () => {
+  
+const loginGoogle = async () => {
+  try {
     const { ok, uid, photoURL, displayName, errorMessage, email: googleEmail } = await signInWithGoogle();
 
     if (!ok) {
-      dispatch({ type: authTypes.error, payload: { errorMessage } })
+      dispatch({ type: authTypes.error, payload: { errorMessage } });
       return false;
     }
+    const userDocRef = doc(FirebaseDB, 'users', uid);
+    const userDocSnap = await getDoc(userDocRef);
 
-    const payload = { uid, googleEmail, displayName, photoURL }
+    if (!userDocSnap.exists()) {
+      await setDoc(userDocRef, {
+        displayName,
+        email: googleEmail,
+        photoURL,
+        createdAt: new Date(),
+        updatedAt: new Date(),
+      });
+    }
 
-    const action = { type: authTypes.login, payload }
+    const payload = { uid, email: googleEmail, displayName, photoURL };
+    const action = { type: authTypes.login, payload };
 
-    localStorage.setItem('user', JSON.stringify(payload))
-
+    localStorage.setItem('user', JSON.stringify(payload));
     dispatch(action);
 
     return true;
+  } catch (error) {
+    console.error("Error logging in with Google:", error);
+    dispatch({ type: authTypes.error, payload: { errorMessage: error.message } });
+    return false;
   }
+}
 
   const logout = async () => {
 

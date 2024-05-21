@@ -25,7 +25,6 @@ export const HeaderProduct = () => {
       docs.push({ ...doc.data(), id: doc.id });
     });
     setMaxRate(docs);
-    console.log(docs);
   };
 
   useEffect(() => {

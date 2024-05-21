@@ -28,7 +28,6 @@ export const Products = (props) => {
             docs.push({ ...doc.data(), id: doc.id });
            });
         setProducts(docs);
-        console.log(docs);
       } catch (error) {
         console.log(error);
       }
