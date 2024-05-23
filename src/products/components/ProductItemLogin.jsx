@@ -4,6 +4,7 @@ import { FirebaseDB } from "~firebase/config";
 import { deleteDoc, doc } from "firebase/firestore/lite";
 import { HandleUpvote } from "./HandleUpvote";
 import { useNavigate } from "react-router";
+import { Star } from "./Star";
 import Swal from "sweetalert2";
 
 export const ProductItemLogin = ({
@@ -75,9 +76,10 @@ export const ProductItemLogin = ({
             <p className="mt-2 text-base text-neutral-600 dark:text-neutral-200">
               {description}
             </p>
-            <div>
-              <p className="text-gray-600">Rate: {rate}</p>
-              <p className="text-gray-600">User: {displayName}</p>
+            <div className="flex items-center">
+              <p className="text-gray-600">User: {displayName}</p>              
+              <p className="text-gray-600">&nbsp;&nbsp;&nbsp;&nbsp;Rate: {rate} &nbsp;</p>
+              <Star rate={rate} />  
             </div>
           </div>
         </div>
