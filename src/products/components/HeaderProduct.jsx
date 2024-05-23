@@ -62,9 +62,9 @@ export const HeaderProduct = () => {
             <p className="mt-2 text-gray-500">{products.description}</p>
             <div className="flex items-center">
               <p className="tracking-wide text-sm text-violet-900 font-semibold">
-                Higher Rate {products.rate}{" "}
+                Higher Rate {products.rate}{" "}  
               </p>
-              <FaThumbsUp className="ml-2" />
+              <FaThumbsUp className="ml-2 text-yellow-500" />
             </div>
             <br />
             <div className="flex justify-center">
