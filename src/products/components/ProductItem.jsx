@@ -1,6 +1,7 @@
 import React from "react";
 import { HandleUpvote } from "./HandleUpvote";
 import { NavLink } from "react-router-dom";
+import { Star} from './Star';
 
 export const ProductItem = ({
   name,
@@ -41,10 +42,12 @@ export const ProductItem = ({
             <p className="mt-2 text-base text-neutral-600 dark:text-neutral-200">
               {description}
             </p>
-            <div>
-              <p className="text-gray-600">Rate: {rate}</p>
-              <p className="text-gray-600">User: {displayName}</p>
+            <div className="flex items-center">
+              <p className="text-gray-600">User: {displayName}</p>              
+              <p className="text-gray-600">&nbsp;&nbsp;&nbsp;&nbsp;Rate: {rate} &nbsp;</p>
+              <Star rate={rate} />  
             </div>
+
           </div>
         </div>
       ) : (
