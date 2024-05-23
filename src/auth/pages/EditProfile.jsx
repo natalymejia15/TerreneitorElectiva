@@ -1,9 +1,10 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useContext } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import FileUploader from "react-firebase-file-uploader";
-import { setDoc, doc, getDoc } from "firebase/firestore/lite";
-import { FBstorage, FirebaseDB } from "~firebase/config";
+import { doc, getDoc } from "firebase/firestore/lite";
 import { getDownloadURL, ref, uploadBytes } from "firebase/storage";
+import { FBstorage, FirebaseAuth, FirebaseDB } from "~firebase/config";
+import { AuthContext } from "../context/AuthContext";
 
 const useForm = (initialForm = {}) => {
     const [formState, setFormState] = useState(initialForm);
@@ -31,39 +32,40 @@ const useForm = (initialForm = {}) => {
 
 const initialForm = {
     displayName: "",
-    email: "",
-    password: "",
     photoURL: "",
 };
 
 export const EditProfile = () => {
-    const { id } = useParams();  // Asegúrate de que 'id' corresponde con el nombre del parámetro en tu enrutador
+    const { id } = useParams();
+    const { updateProfile } = useContext(AuthContext);
     const navigate = useNavigate();
     const [currentDate, setCurrentDate] = useState(new Date());
     let imageUrl;
 
     const {
         displayName,
-        email,
-        password,
         photoURL,
         onInputChange,
         setFormState,
     } = useForm(initialForm);
 
-    const updateProfile = async (e) => {
+    const updateEdit = async (e) => {
         e.preventDefault();
 
-        const updatedProfile = {
-            id: id,
+        const currentUser = FirebaseAuth.currentUser;
+        if (!currentUser) {
+            navigate("/Login");
+            return;
+        }
+
+        const editPro = {
+            uid: id,  // Aquí aseguramos que se use `uid` en lugar de `id`
             displayName: displayName,
-            email: email,
-            password: password,
             photoURL: photoURL,
-            updatedat: currentDate,
+            updatedAt: currentDate,
         };
 
-        await setDoc(doc(FirebaseDB, "users", id), updatedProfile);
+        await updateProfile(editPro);
         navigate("/Profile");
         window.location.reload();
     };
@@ -74,8 +76,6 @@ export const EditProfile = () => {
             const userData = userDoc.data();
             setFormState({
                 displayName: userData.displayName || "",
-                email: userData.email || "",
-                password: userData.password || "",
                 photoURL: userData.photoURL || "",
             });
         } else {
@@ -84,20 +84,18 @@ export const EditProfile = () => {
     };
 
     useEffect(() => {
-        if (id) {
-            getUserById(id);
-        }
+        getUserById(id);
     }, [id]);
 
     const handleImageUpload = async (e) => {
         try {
             const file = e.target.files[0];
-            const storageRef = ref(FBstorage, `images/${file.name}`);
-            await uploadBytes(storageRef, file);
-            const imageUrl = await getDownloadURL(storageRef);
+            const refFile = ref(FBstorage, `photoURL/${file.name}`);
+            await uploadBytes(refFile, file);
+            imageUrl = await getDownloadURL(refFile);
             setFormState((prevState) => ({ ...prevState, photoURL: imageUrl }));
         } catch (error) {
-            console.error("Error uploading image:", error);
+            console.error("Error loading image:", error);
         }
     };
 
@@ -108,10 +106,10 @@ export const EditProfile = () => {
                     Update your profile here
                 </h1>
             </div>
-            <form className="bg-white shadow-md rounded px-5" onSubmit={updateProfile}>
+            <form className="bg-white shadow-md rounded px-5" onSubmit={updateEdit}>
                 <div className="mb-4">
                     <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="displayName">
-                        Display Name
+                        Name
                     </label>
                     <input
                         type="text"
@@ -124,42 +122,13 @@ export const EditProfile = () => {
                         required
                     />
                 </div>
-                <div className="mb-4">
-                    <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="email">
-                        Email
-                    </label>
-                    <input
-                        type="email"
-                        id="email"
-                        name="email"
-                        className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-                        placeholder="Email..."
-                        value={email}
-                        onChange={onInputChange}
-                        required
-                    />
-                </div>
-                <div className="mb-4">
-                    <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="password">
-                        Password
-                    </label>
-                    <input
-                        type="text"
-                        id="password"
-                        name="password"
-                        className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-                        placeholder="password..."
-                        value={password}
-                        onChange={onInputChange}
-                        required
-                    />
-                </div>
+
                 <div className="mb-4">
                     <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="photoURL">
                         Avatar
                     </label>
                     <FileUploader
-                        accept="image/*"
+                        accept="/photoURL/*"
                         id="photoURL"
                         name="photoURL"
                         onChange={handleImageUpload}

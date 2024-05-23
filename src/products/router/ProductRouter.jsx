@@ -20,7 +20,7 @@ export const ProductRouter = () => {
           <Route path="/Profile" element={<Profile />} /> 
           <Route path="/MyProducts" element={<MyProducts />} />
           <Route path="/ViewProduct/:id" element={<ViewProduct />} />
-          <Route path="/EditProfile/:userId" element={<EditProfile/>}/>
+          <Route path="/EditProfile/:id" element={<EditProfile/>}/>
         </Routes>
       </div>
     </>
