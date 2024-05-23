@@ -9,7 +9,6 @@ import {
   limit,
 } from "firebase/firestore/lite";
 import { FaThumbsUp } from "react-icons/fa";
-import { Star } from "./Star";
 
 export const HeaderProduct = () => {
   const [maxRate, setMaxRate] = useState([]);
