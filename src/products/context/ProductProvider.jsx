@@ -53,6 +53,13 @@ export const ProductProvider = ({ children }) => {
     dispatch(action);
   };
 
+  const updateProductRate = async (product, newRate) => {
+      const updateDocs = doc(FirebaseDB, "products", product.id);
+      await updateDoc(updateDocs, { rate: newRate });
+      const action = { payload: product, type: ProductTypes.updateProductRate };
+      dispatch(action);
+  };
+
   return (
     <ProductContext.Provider
       value={{
@@ -60,7 +67,7 @@ export const ProductProvider = ({ children }) => {
         saveProduct,
         saveComment,
         updateProduct,
-
+        updateProductRate,
       }}
     >
       {children}

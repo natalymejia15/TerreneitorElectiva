@@ -5,6 +5,7 @@ import { Link } from 'react-router-dom';
 import icono from "../../image/icono.png";
 import { AuthContext } from "~auth/context";
 import { FirebaseDB } from "~firebase/config";
+import { GetProduct } from "./GetProduct";
 import {
   collection,
   getDocs,
@@ -33,7 +34,9 @@ export const Comments = ({ productId }) => {
   const [rateError, setRateError] = useState("");
 
   const { comment, rate, onInputChange, resetForm } = useForm(initialComment);
-
+  let totalRate = 0;
+  let CantRate=0;
+  
   const formatDate = (date) => {
     if (!(date instanceof Date) || isNaN(date.getTime())) {
       return "Fecha inválida";
@@ -56,8 +59,12 @@ export const Comments = ({ productId }) => {
       const querySnapshot = await getDocs(queryProduct);
       const docs = [];
       querySnapshot.forEach((doc) => {
+        const data = doc.data();
+        const rate = data.rate;
+        totalRate += rate;
         docs.push({ ...doc.data(), id: doc.id });
       });
+      CantRate = docs.length;
       setComments(docs);
       return docs;
     } catch (error) {
@@ -72,6 +79,7 @@ export const Comments = ({ productId }) => {
   const onCreateNewComment = async (event) => {
     event.preventDefault();
     let hasError = false;
+    const average = (totalRate+rate)/(CantRate+1)
 
     if (!comment) {
       setCommentError("Comment is required");
@@ -100,6 +108,7 @@ export const Comments = ({ productId }) => {
       createdAt: currentDate,
       updatedAt: currentDate,
     };
+    await updateProductRate(productId,average);
     await saveComment(newCommentUser);
     const updatedComments = await getComments();
     setComments(updatedComments);

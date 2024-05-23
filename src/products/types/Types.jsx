@@ -4,4 +4,5 @@ export const ProductTypes= {
     deleteProduct : "[Product] deleteProduct",
     error: '[Product] Error', 
     saveComment: "[Comment] saveComment",
+    updateProductRate: "[Product] updateProductRate"
 }
