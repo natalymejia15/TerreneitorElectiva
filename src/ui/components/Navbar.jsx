@@ -1,4 +1,5 @@
-import { NavLink, useNavigate } from "react-router-dom";
+import { useState, useEffect } from "react";
+import { NavLink, useNavigate, useLocation } from "react-router-dom";
 import { useContext } from "react";
 import { Fragment } from "react";
 import { Menu, Transition } from "@headlessui/react";
@@ -6,27 +7,68 @@ import { AuthContext } from "../../auth";
 import { BellIcon } from "@heroicons/react/24/outline";
 import myIcon from "../../image/icono.png";
 import logo from "../../image/logosmall.png";
+import { FirebaseDB } from "../../firebase/config";
+import { collection, query, where, getDocs } from "firebase/firestore/lite";
 import { CategoriesDropdown } from "~products/components/CategoriesDropdown";
 
 export const Navbar = () => {
   const { user, logout } = useContext(AuthContext);
   const navigate = useNavigate();
+  const location = useLocation();
+  const [searchText, setSearchText] = useState("");
+  const [searchResults, setSearchResults] = useState([]);
+  const [clickedSearch, setClickedSearch] = useState(false);
 
   const onLogout = () => {
     logout();
-
     navigate("/", {
       replace: true,
     });
   };
 
+  useEffect(() => {
+    setSearchText("");
+    setSearchResults([]);
+  }, [location]);
+
+  useEffect(() => {
+    const handleSearch = async (searchQuery) => {
+      try {
+        const q = query(
+          collection(FirebaseDB, "products"),
+          where("name", ">=", searchQuery.trim())
+        );
+        const snapshot = await getDocs(q);
+
+        const results = snapshot.docs.map((doc) => ({
+          id: doc.id,
+          ...doc.data(),
+        }));
+        setSearchResults(results);
+      } catch (error) {
+        console.error("Error searching products:", error);
+      }
+    };
+
+    if (searchText !== "") {
+      const timer = setTimeout(() => {
+        handleSearch(searchText);
+      }, 300);
+
+      return () => clearTimeout(timer);
+    }
+  }, [searchText]);
+
+  const handleSearchClick = () => {
+    setClickedSearch(true);
+  };
   const categories = [
-    { name: "Artificial Intelligence", href:"/products/:"},
-    { name: "Business Software", href:"/products/:software"},
-    { name: "Hardware",href:"/products/&{name}" },
-    { name: "Mobile technology", href:"/products/:mobil" },
-    { name: "Technological Architecture", href:"/products/&{name}" },
-    { name: "Business Intelligence", href:"/products/&{name}"},
+    { name: "Artificial Intelligence", href: "/products/:" },
+    { name: "Business Software", href: "/products/:software" },
+    { name: "Hardware", href: "/products/&{name}" },
+    { name: "Mobile technology", href: "/products/:mobil" },
+    { name: "Technological Architecture", href: "/products/&{name}" },
+    { name: "Business Intelligence", href: "/products/&{name}" },
   ];
 
   const menu = () => {
@@ -46,14 +88,19 @@ export const Navbar = () => {
             <Menu.Button className="relative flex rounded-full bg-gray-800 text-sm focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800">
               <span className="absolute -inset-1.5" />
               <span className="sr-only">Open user menu</span>
-              {
-                user.photoURL ? (
-                  <img className="h-8 w-8 rounded-full" src={user.photoURL} alt="Avatar" />
-                ):(
-                  <img className="h-8 w-8 rounded-full" src={myIcon} alt="Avatar" />
-                )
-              }
-             
+              {user.photoURL ? (
+                <img
+                  className="h-8 w-8 rounded-full"
+                  src={user.photoURL}
+                  alt="Avatar"
+                />
+              ) : (
+                <img
+                  className="h-8 w-8 rounded-full"
+                  src={myIcon}
+                  alt="Avatar"
+                />
+              )}
             </Menu.Button>
           </div>
           <Transition
@@ -114,16 +161,14 @@ export const Navbar = () => {
                     aria-current="page"
                   >
                     Home Product
-                    
                   </NavLink>
-                
                 </div>
               </div>
             </div>
             <div className="px-4 ">
               <CategoriesDropdown categories={categories} />
             </div>
-            
+
             <div className="relative hidden md:block">
               <div className="absolute inset-y-0 start-0 flex items-center ps-3 pointer-events-none">
                 <svg
@@ -146,9 +191,25 @@ export const Navbar = () => {
               <input
                 type="text"
                 id="search-navbar"
-                className="block w-full p-2 ps-10 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                className="block w-full p-2 ps-10 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-violet-500 focus:border-violet-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-violet-500 dark:focus:border-violet-500"
                 placeholder="Search..."
+                value={searchText}
+                onChange={(e) => setSearchText(e.target.value)}
               />
+              {searchResults.length > 0 && (
+                <ul className="absolute w-full bg-white shadow-lg z-10 mt-1 py-1 text-sm rounded-md border border-gray-200 focus:outline-none">
+                  {searchResults.map((product) => (
+                    <li
+                      key={product.id}
+                      className="px-4 py-2 text-gray-700 hover:bg-gray-100"
+                    >
+                      <NavLink to={`/products/${product.id}`}>
+                        {product.name}
+                      </NavLink>
+                    </li>
+                  ))}
+                </ul>
+              )}
             </div>
           </div>
           <div className="absolute inset-y-0 right-0 flex items-center pr-2 sm:static sm:inset-auto sm:ml-6 sm:pr-0">
