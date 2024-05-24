@@ -4,6 +4,7 @@ import { AuthContext } from "../context/AuthContext";
 import { doc, getDoc, setDoc, deleteDoc } from "firebase/firestore/lite";
 import { FirebaseDB } from "../../firebase/config";
 import icono from "../../image/icono.png";
+import { Followed } from "~products/components/Followed";
 
 export const Profile = () => {
   const { userId } = useParams();
@@ -123,8 +124,7 @@ export const Profile = () => {
                 </svg>
               </span>
             </div>
-            <p className="text-gray-700">Vendedora</p>
-            <p className="text-sm text-gray-500">New York, USA</p>
+            <Followed userId={userId || (user && user.uid)} />
           </div>
           <div className="flex-1 flex flex-col items-center lg:items-end justify-end px-8 mt-2">
             <div className="flex items-center space-x-4 mt-2">
