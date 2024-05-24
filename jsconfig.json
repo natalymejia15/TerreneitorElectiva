@@ -29,8 +29,14 @@
             "~/*": [
                 "src/*"
             ],
-            "~components/*": [
-                "src/auth/components/*"
+            "~context/*": [
+                "src/products/context/*"
+            ],
+            "~reducers/*": [
+                "src/products/reducers/*"
+            ],
+            "~types/*": [
+                "src/products/types/*"
             ]
         }
     }
