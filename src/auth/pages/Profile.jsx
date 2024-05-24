@@ -14,7 +14,6 @@ export const Profile = (props) => {
   const [error, setError] = useState(null);
   const [isFollowing, setIsFollowing] = useState(false);
   const showProducts = props.show;
-  
 
   useEffect(() => {
     const fetchUserProfile = async (id) => {
@@ -181,37 +180,38 @@ export const Profile = (props) => {
                   <li className="flex border-b py-2">
                     <span className="font-bold w-24">Password:</span>
                     <span className="text-gray-700">
+                      ********
                     </span>
+                    <Link
+                      to={`/ResetPassword/${profileUser.email}`}
+                      className="ml-2 text-sm text-violet-500 hover:underline"
+                    >
+                      Change Password
+                    </Link>
                   </li>
                 ) : (
                   <li></li>
                 )}
-                {isCurrentUser ? (
-                  <li className="flex border-b py-2">
-                    <span className="font-bold w-24">Created At:</span>
-                    <span className="text-gray-700">
-                      {profileUser.createdAt
-                        ? new Date(
+                <li className="flex border-b py-2">
+                  <span className="font-bold w-24">Created At:</span>
+                  <span className="text-gray-700">
+                    {profileUser.createdAt
+                      ? new Date(
                           profileUser.createdAt.seconds * 1000
                         ).toLocaleDateString()
-                        : "N/A"}
-                    </span>
-                  </li>
-                ) : (
-                  <li></li>
-                )}
-                {isCurrentUser ? (
-                  <li className="flex border-b py-2">
-                    <span className="font-bold w-24">Updated At:</span>
-                    <span className="text-gray-700">
-                      {profileUser.updatedAt
-                        ? new Date(profileUser.updatedAt.seconds * 1000).toLocaleDateString()
-                        : "N/A"}
-                    </span>
-                  </li>
-                ) : (
-                  <li></li>
-                )}
+                      : "N/A"}
+                  </span>
+                </li>
+                <li className="flex border-b py-2">
+                  <span className="font-bold w-24">Updated At:</span>
+                  <span className="text-gray-700">
+                    {profileUser.updatedAt
+                      ? new Date(
+                          profileUser.updatedAt.seconds * 1000
+                        ).toLocaleDateString()
+                      : "N/A"}
+                  </span>
+                </li>
               </ul>
             </div>
           </div>
