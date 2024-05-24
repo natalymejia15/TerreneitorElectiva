@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import { FirebaseDB } from "~firebase/config";
 import { Link, useParams } from "react-router-dom";
 import { doc, getDoc } from "firebase/firestore/lite";
@@ -30,36 +30,41 @@ export const ProductDetail = () => {
   }, [id]);
 
   if (isLoading) {
-    return <div>Loading...</div>;
+    return <div className="text-center mt-8 text-gray-800">Loading...</div>;
   }
 
   if (!product) {
-    return <div>No product found.</div>;
+    return <div className="text-center mt-8 text-gray-800">No product found.</div>;
   }
 
   return (
-    <div className="bg-white rounded-lg shadow-md p-4">
-      <div className="flex flex-col items-center">
-        <img
-          src={product.image}
-          alt={product.name}
-          className="w-42 h-48 object-cover rounded-lg"
-        />
-        <h3 className="text-lg font-bold mt-4">{product.name}</h3>
-        <p className="text-gray-600">Description: {product.description}</p>
-        <p className="text-gray-600">
-          User: 
-          <Link to={`/users/${product.userId}`} className="text-gray-600">
-            {product.displayName}
-          </Link>
-        </p>
-        <p className="text-gray-600">Rate: {product.rate}</p>
-        <a href={product.url} target="blank" className="text-gray-600 ">
-          {product.url}
-        </a>
+    <div className="container mx-auto max-w-5xl mt-8 p-8 bg-white rounded-lg shadow-xl">
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-8 items-center">
+      <div className="flex justify-center md:justify-end max-w-sm">
+          <img
+            src={product.image}
+            alt={product.name}
+            className="w-full max-w-md rounded-lg shadow-md"
+          />
+        </div>
+        <div>
+          <h2 className="text-3xl font-bold text-gray-900 mb-4">{product.name}</h2>
+          <p className="text-gray-700 mb-6">{product.description}</p>
+          <div className="flex items-center text-gray-700 mb-4">
+            <span className="mr-2">User:</span>
+            <Link to={`/users/${product.userId}`} className="text-violet-700 hover:underline">
+              {product.displayName}
+            </Link>
+          </div>
+          <p className="text-gray-700 mb-4">Rate: {product.rate}</p>
+          <a href={product.url} target="_blank" rel="noopener noreferrer" className="text-violet-700 hover:underline">
+            Visit Website
+          </a>
+        </div>
       </div>
-      <br />
-      <Comments productId={id} />
+      <div className="mt-8">
+        <Comments productId={id} />
+      </div>
     </div>
   );
 };
