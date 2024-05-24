@@ -204,34 +204,7 @@ export const Profile = (props) => {
                 ) : (
                   <li></li>
                 )}
-                {isCurrentUser ? (
-                  <li className="flex border-b py-2">
-                    <span className="font-bold w-24">Updated At:</span>
-                    <span className="text-gray-700">
-                      {profileUser.updatedAt
-                        ? new Date(
-                            profileUser.updatedAt.seconds * 1000
-                          ).toLocaleDateString()
-                        : "N/A"}
-                    </span>
-                  </li>
-                ) : (
-                  <li></li>
-                )}
-                {isCurrentUser ? (
-                  <li className="flex border-b py-2">
-                    <span className="font-bold w-24">Created At:</span>
-                    <span className="text-gray-700">
-                      {profileUser.createdAt
-                        ? new Date(
-                            profileUser.createdAt.seconds * 1000
-                          ).toLocaleDateString()
-                        : "N/A"}
-                    </span>
-                  </li>
-                ) : (
-                  <li></li>
-                )}
+
               </ul>
             </div>
           </div>

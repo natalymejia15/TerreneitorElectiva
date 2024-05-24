@@ -9,11 +9,12 @@ import myIcon from "../../image/icono.png";
 import logo from "../../image/logosmall.png";
 import { FirebaseDB } from "../../firebase/config";
 import { collection, query, where, getDocs } from "firebase/firestore/lite";
+import { CategoriesDropdown } from "~products/components/CategoriesDropdown";
 
 export const Navbar = () => {
   const { user, logout } = useContext(AuthContext);
   const navigate = useNavigate();
-  const location = useLocation(); // Obtiene la ubicación actual
+  const location = useLocation();
   const [searchText, setSearchText] = useState("");
   const [searchResults, setSearchResults] = useState([]);
   const [clickedSearch, setClickedSearch] = useState(false);
@@ -25,11 +26,10 @@ export const Navbar = () => {
     });
   };
 
-  // Limpiar el input y los resultados cuando cambia la ubicación
   useEffect(() => {
-    setSearchText(""); // Limpiar el estado del input
-    setSearchResults([]); // Limpiar el estado de los resultados de búsqueda
-  }, [location]); // Se ejecutará cada vez que cambie la ubicación
+    setSearchText("");
+    setSearchResults([]);
+  }, [location]);
 
   useEffect(() => {
     const handleSearch = async (searchQuery) => {
@@ -51,18 +51,25 @@ export const Navbar = () => {
     };
 
     if (searchText !== "") {
-      // Solo buscar si hay texto en el campo de búsqueda
       const timer = setTimeout(() => {
         handleSearch(searchText);
       }, 300);
 
       return () => clearTimeout(timer);
     }
-  }, [searchText]); // Solo depende de searchText
+  }, [searchText]);
 
   const handleSearchClick = () => {
     setClickedSearch(true);
   };
+  const categories = [
+    { name: "Artificial Intelligence", href: "/products/:" },
+    { name: "Business Software", href: "/products/:software" },
+    { name: "Hardware", href: "/products/&{name}" },
+    { name: "Mobile technology", href: "/products/:mobil" },
+    { name: "Technological Architecture", href: "/products/&{name}" },
+    { name: "Business Intelligence", href: "/products/&{name}" },
+  ];
 
   const menu = () => {
     return (
@@ -158,7 +165,10 @@ export const Navbar = () => {
                 </div>
               </div>
             </div>
-            <div>Products</div>
+            <div className="px-4 ">
+              <CategoriesDropdown categories={categories} />
+            </div>
+
             <div className="relative hidden md:block">
               <div className="absolute inset-y-0 start-0 flex items-center ps-3 pointer-events-none">
                 <svg
