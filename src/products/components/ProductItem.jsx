@@ -31,7 +31,7 @@ export const ProductItem = ({
             />
           </div>
           <div className="flex-1 p-4">
-            <div className="uppercase tracking-wide font-semibold text-violet-600 hover:text-blue-600">
+            <div className="uppercase tracking-wide font-semibold text-violet-600 hover:text-violet-600">
               <NavLink
                 to={`/products/${id}`}
                 className="uppercase tracking-wide font-semibold text-violet-600 hover:text-violet-900"
