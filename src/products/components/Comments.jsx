@@ -187,7 +187,7 @@ export const Comments = ({ productId }) => {
                   <div className="font-semibold">
                     <Link
                       to={`/users/${comment.userId}`}
-                      className="text-blue-500"
+                      className="text-violet-700"
                     >
                       {comment.userName}
                     </Link>
