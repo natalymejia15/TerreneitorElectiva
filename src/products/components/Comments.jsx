@@ -26,14 +26,14 @@ const initialComment = {
 
 export const Comments = ({ productId }) => {
   const { saveComment } = useContext(ProductContext);
+  const { updateProductRate} = useContext(ProductContext);
   const { user } = useContext(AuthContext);
   const [currentDate] = useState(new Date());
   const [comments, setComments] = useState([]);
   const [commentError, setCommentError] = useState("");
   const [rateError, setRateError] = useState("");
-
   const { comment, rate, onInputChange, resetForm } = useForm(initialComment);
-
+ 
   const formatDate = (date) => {
     if (!(date instanceof Date) || isNaN(date.getTime())) {
       return "Fecha inválida";
@@ -52,14 +52,19 @@ export const Comments = ({ productId }) => {
         where("productId", "==", productId),
         orderBy(orderByField)
       );
-
       const querySnapshot = await getDocs(queryProduct);
       const docs = [];
+      let totalRate = 0; 
       querySnapshot.forEach((doc) => {
+        const data = doc.data();
+        const rateA = Number(data.rate); 
+        if (!isNaN(rateA)) { 
+          totalRate += rateA;
+        }
         docs.push({ ...doc.data(), id: doc.id });
       });
       setComments(docs);
-      return docs;
+      return { docs, totalRate};
     } catch (error) {
       console.log(error);
     }
@@ -100,9 +105,14 @@ export const Comments = ({ productId }) => {
       createdAt: currentDate,
       updatedAt: currentDate,
     };
+    const { docs, totalRate } = await getComments();
+    const newRate = parseInt(rate);
+    const ntotalRate = totalRate + newRate;
+    const average = (ntotalRate / (comments.length + 1)).toFixed(1);    
+    await updateProductRate(productId,average);
     await saveComment(newCommentUser);
     const updatedComments = await getComments();
-    setComments(updatedComments);
+    setComments(updatedComments.docs);
     resetForm();
   };
 
