@@ -110,6 +110,9 @@ export const Navbar = () => {
                 </div>
               </div>
             </div>
+            <div>
+              Products
+            </div>
             <div className="relative hidden md:block">
               <div className="absolute inset-y-0 start-0 flex items-center ps-3 pointer-events-none">
                 <svg
