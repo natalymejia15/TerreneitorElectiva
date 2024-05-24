@@ -41,11 +41,16 @@ export const ProductDetail = () => {
     <div className="container mx-auto max-w-5xl mt-8 p-8 bg-white rounded-lg shadow-xl">
       <div className="grid grid-cols-1 md:grid-cols-2 gap-8 items-center">
       <div className="flex justify-center md:justify-end max-w-sm">
-          <img
-            src={product.image}
-            alt={product.name}
-            className="w-full max-w-md rounded-lg shadow-md"
-          />
+      <div className="w-25 h-50">
+      <img
+  src={product.image}
+  alt={product.name}
+  style={{ width: "350px", height: "320px" }}
+  className="object-cover rounded-lg shadow-md"
+/>
+
+</div>
+
         </div>
         <div>
           <h2 className="text-3xl font-bold text-gray-900 mb-4">{product.name}</h2>
