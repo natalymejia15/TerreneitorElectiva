@@ -12,7 +12,7 @@ const initForm = {
 };
 
 export const LoginPage = () => {
-  const { login, loginGoogle, erorrMessage } = useContext(AuthContext);
+  const { login, loginGoogle } = useContext(AuthContext);
   const navigate = useNavigate();
   const { email, password, onInputChange } = useForm(initForm);
   const [showModal, setShowModal] = useState(false);

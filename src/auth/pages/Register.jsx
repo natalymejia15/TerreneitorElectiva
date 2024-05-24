@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import { useContext, useState } from "react";
 import { AuthContext } from "../context";
 import { useForm } from "../../hooks";
 import logo from "../../image/logo.png";
@@ -45,7 +45,7 @@ export const Register = () => {
     } else {
       setPasswordError("");
     }
-    
+
     if (hasError) {
       return;
     }

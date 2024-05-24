@@ -1,14 +1,13 @@
 import { useState, useEffect, useContext } from "react";
 import { ProductContext } from "~products/context";
 import { useForm } from "~hooks/useForm";
-import { Link } from 'react-router-dom';
+import { Link } from "react-router-dom";
 import icono from "../../image/icono.png";
 import { AuthContext } from "~auth/context";
 import { FirebaseDB } from "~firebase/config";
 import {
   collection,
   getDocs,
-  doc,
   query,
   orderBy,
   where,
@@ -27,14 +26,14 @@ const initialComment = {
 
 export const Comments = ({ productId }) => {
   const { saveComment } = useContext(ProductContext);
-  const { updateProductRate} = useContext(ProductContext);
+  const { updateProductRate } = useContext(ProductContext);
   const { user } = useContext(AuthContext);
   const [currentDate] = useState(new Date());
   const [comments, setComments] = useState([]);
   const [commentError, setCommentError] = useState("");
   const [rateError, setRateError] = useState("");
   const { comment, rate, onInputChange, resetForm } = useForm(initialComment);
- 
+
   const formatDate = (date) => {
     if (!(date instanceof Date) || isNaN(date.getTime())) {
       return "Fecha inválida";
@@ -55,17 +54,17 @@ export const Comments = ({ productId }) => {
       );
       const querySnapshot = await getDocs(queryProduct);
       const docs = [];
-      let totalRate = 0; 
+      let totalRate = 0;
       querySnapshot.forEach((doc) => {
         const data = doc.data();
-        const rateA = Number(data.rate); 
-        if (!isNaN(rateA)) { 
+        const rateA = Number(data.rate);
+        if (!isNaN(rateA)) {
           totalRate += rateA;
         }
         docs.push({ ...doc.data(), id: doc.id });
       });
       setComments(docs);
-      return { docs, totalRate};
+      return { docs, totalRate };
     } catch (error) {
       console.log(error);
     }
@@ -107,11 +106,11 @@ export const Comments = ({ productId }) => {
       createdAt: currentDate,
       updatedAt: currentDate,
     };
-    const { docs, totalRate } = await getComments();
+    const { totalRate } = await getComments();
     const newRate = parseInt(rate);
     const ntotalRate = totalRate + newRate;
-    const average = (ntotalRate / (comments.length + 1)).toFixed(1);    
-    await updateProductRate(productId,average);
+    const average = (ntotalRate / (comments.length + 1)).toFixed(1);
+    await updateProductRate(productId, average);
     await saveComment(newCommentUser);
     const updatedComments = await getComments();
     setComments(updatedComments.docs);
@@ -133,7 +132,7 @@ export const Comments = ({ productId }) => {
             className="w-full p-2 border rounded-md"
           />
           {commentError && <p className="text-red-500">{commentError}</p>}
-  
+
           <select
             id="rate"
             name="rate"
@@ -151,7 +150,7 @@ export const Comments = ({ productId }) => {
             <option value="5">5</option>
           </select>
           {rateError && <p className="text-red-500">{rateError}</p>}
-  
+
           <button
             onClick={onCreateNewComment}
             className="mt-2 bg-violet-500 text-white px-4 py-2 rounded-md"
@@ -170,26 +169,26 @@ export const Comments = ({ productId }) => {
                 className="flex p-4 bg-white rounded-2xl shadow-lg mb-4"
               >
                 <div className="w-16 mr-4">
-                  {
-                    comment.userPhotoURL ? (
-                      <img
+                  {comment.userPhotoURL ? (
+                    <img
                       src={comment.userPhotoURL}
                       alt="icono"
                       className="rounded-full w-full"
                     />
-                    ):(
-                      <img
+                  ) : (
+                    <img
                       src={icono}
                       alt="icono"
                       className="rounded-full w-full"
                     />
-                    )
-                  }
-                 
+                  )}
                 </div>
                 <div className="flex flex-col">
                   <div className="font-semibold">
-                    <Link to={`/users/${comment.userId}`} className="text-blue-500">
+                    <Link
+                      to={`/users/${comment.userId}`}
+                      className="text-blue-500"
+                    >
                       {comment.userName}
                     </Link>
                   </div>
@@ -200,7 +199,7 @@ export const Comments = ({ productId }) => {
                     {formatDate(
                       new Date(
                         comment.createdAt.seconds * 1000 +
-                        comment.createdAt.nanoseconds / 1000000
+                          comment.createdAt.nanoseconds / 1000000
                       )
                     )}
                   </div>

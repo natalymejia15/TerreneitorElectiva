@@ -4,7 +4,7 @@ import { authReducer } from "../reducers";
 import { authTypes } from "../types";
 import { logoutUser, registerUser, signInUser, signInWithGoogle } from "../../firebase/providers";
 import { doc, getDoc, setDoc, updateDoc } from "firebase/firestore/lite";
-import { FirebaseAuth, FirebaseDB } from "~firebase/config";
+import { FirebaseDB } from "~firebase/config";
 import { getAuth, updateProfile as updateFirebaseProfile } from "firebase/auth";
 
 const initialState = { logged: false };
