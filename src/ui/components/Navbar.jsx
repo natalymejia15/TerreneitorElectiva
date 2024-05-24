@@ -22,11 +22,11 @@ export const Navbar = () => {
 
   const categories = [
     { name: "Artificial Intelligence", href:"/products/:"},
-    { name: "Business Software", href:"/products/:software"},
-    { name: "Hardware",href:"/products/&{name}" },
-    { name: "Mobile technology", href:"/products/:mobil" },
-    { name: "Technological Architecture", href:"/products/&{name}" },
-    { name: "Business Intelligence", href:"/products/&{name}"},
+    { name: "Business Software", href:"/products/$software"},
+    { name: "Hardware",href:"/products/$Hardware" },
+    { name: "Mobile technology", href:"/products/$mobil" },
+    { name: "Technological Architecture", href:"/products/$Technological" },
+    { name: "Business Intelligence", href:"/products/$Business"},
   ];
 
   const menu = () => {

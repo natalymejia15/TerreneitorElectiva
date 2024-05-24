@@ -3,9 +3,11 @@ import { AuthContext } from "../../auth/context/AuthContext";
 import { collection, getDocs, query, where, orderBy } from "firebase/firestore/lite";
 import { FirebaseDB } from "~firebase/config";
 import { ProductItemLogin } from "./ProductItemLogin";
+import { useParams } from "react-router-dom";
 
-export const Products = ({ userId, showProducts, showHunter, category }) => {
+export const Products = ({ userId, showProducts, showHunter }) => {
   const [products, setProducts] = useState([]);
+  const { category }=useParams();
   const { user } = useContext(AuthContext);
 
   useEffect(() => {
