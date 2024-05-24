@@ -53,9 +53,9 @@ export const Profile = (props) => {
       setError("You must be logged in to follow users.");
       return;
     }
-
+  
     const followRef = doc(FirebaseDB, "follows", `${user.uid}_${profileUser.id}`);
-
+  
     try {
       if (isFollowing) {
         await deleteDoc(followRef);
@@ -68,11 +68,15 @@ export const Profile = (props) => {
         });
         setIsFollowing(true);
       }
+      
+      // Reload the page after follow/unfollow
+      window.location.reload();
     } catch (err) {
       setError(`Failed to ${isFollowing ? 'unfollow' : 'follow'} user: ${err.message}`);
     }
   };
-
+  
+  
   if (error) {
     return <div>Error: {error}</div>;
   }
