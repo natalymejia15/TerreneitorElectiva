@@ -14,6 +14,7 @@ export const Profile = (props) => {
   const [error, setError] = useState(null);
   const [isFollowing, setIsFollowing] = useState(false);
   const showProducts = props.show;
+  
 
   useEffect(() => {
     const fetchUserProfile = async (id) => {
