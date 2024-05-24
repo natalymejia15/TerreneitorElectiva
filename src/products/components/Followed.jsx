@@ -12,9 +12,10 @@ import { FirebaseDB } from "../../firebase/config";
 export const Followed = ({ userId }) => {
   const [followedUsers, setFollowedUsers] = useState([]);
   const [followersUsers, setFollowersUsers] = useState([]);
-
   const [showFollowedUsers, setShowFollowedUsers] = useState(false);
   const [showFollowersUsers, setShowFollowersUsers] = useState(false);
+  const [followedCount, setFollowedCount] = useState(0);
+  const [followersCount, setFollowersCount] = useState(0);
 
   const fetchUserData = async (userId) => {
     const userDoc = doc(FirebaseDB, "users", userId);
@@ -27,7 +28,7 @@ export const Followed = ({ userId }) => {
     }
   };
 
-  const handleFollowedClick = async () => {
+  const fetchFollowedUsers = async () => {
     if (userId) {
       try {
         const followedQuery = query(
@@ -45,20 +46,22 @@ export const Followed = ({ userId }) => {
             followedUsersData.push(userData);
             console.log(`Followed user: ${userData.displayName}`);
           } else {
-            console.log("Followed user data not found for ID:", followedData.followingId);
+            console.log(
+              "Followed user data not found for ID:",
+              followedData.followingId
+            );
           }
         }
 
         setFollowedUsers(followedUsersData);
-        setShowFollowedUsers(true);
-        setShowFollowersUsers(false);
+        setFollowedCount(followedUsersData.length);
       } catch (err) {
         console.error("Failed to fetch followed users:", err.message);
       }
     }
   };
 
-  const handleFollowersClick = async () => {
+  const fetchFollowersUsers = async () => {
     if (userId) {
       try {
         const followersQuery = query(
@@ -74,15 +77,16 @@ export const Followed = ({ userId }) => {
           const userData = await fetchUserData(followersData.followerId);
           if (userData) {
             followersUsersData.push(userData);
-            console.log(`Follower user: ${userData.displayName}`);
           } else {
-            console.log("Follower user data not found for ID:", followersData.followerId);
+            console.log(
+              "Follower user data not found for ID:",
+              followersData.followerId
+            );
           }
         }
 
         setFollowersUsers(followersUsersData);
-        setShowFollowersUsers(true);
-        setShowFollowedUsers(false);
+        setFollowersCount(followersUsersData.length);
       } catch (err) {
         console.error("Failed to fetch followers users:", err.message);
       }
@@ -90,23 +94,65 @@ export const Followed = ({ userId }) => {
   };
 
   useEffect(() => {
-    handleFollowedClick();
-    handleFollowersClick();
+    fetchFollowedUsers();
+    fetchFollowersUsers();
   }, [userId]);
+
+  const handleFollowedClick = async () => {
+    if (!showFollowedUsers) {
+      setShowFollowedUsers(true);
+      setShowFollowersUsers(false);
+    } else {
+      setShowFollowedUsers(false);
+    }
+  };
+
+  const handleFollowersClick = async () => {
+    if (!showFollowersUsers) {
+      setShowFollowersUsers(true);
+      setShowFollowedUsers(false);
+    } else {
+      setShowFollowersUsers(false);
+    }
+  };
 
   return (
     <div>
-      <button className="text-gray-700" onClick={handleFollowedClick}>
-        Followed: {followedUsers.length}
-      </button>
-      {showFollowedUsers &&
-        followedUsers.map((user) => <div key={user.id}>{user.displayName}</div>)}
+      <div className="flex justify-center lg:pt-4 pt-8 pb-0">
+        <div className="p-3 text-center">
+          <span className="text-xl font-bold block uppercase tracking-wide text-slate-700">
+            {followedCount}
+          </span>
+          <button
+            className="text-sm text-slate-400"
+            onClick={handleFollowedClick}
+          >
+            Followed
+          </button>
+        </div>
 
-      <button className="text-gray-700" onClick={handleFollowersClick}>
-        Followers: {followersUsers.length}
-      </button>
+        <div className="p-3 text-center">
+          <span className="text-xl font-bold block uppercase tracking-wide text-slate-700">
+            {followersCount}
+          </span>
+          <button
+            className="text-sm text-slate-400"
+            onClick={handleFollowersClick}
+          >
+            Followers
+          </button>
+        </div>
+      </div>
+
+      {showFollowedUsers &&
+        followedUsers.map((user) => (
+          <div key={user.id}>{user.displayName}</div>
+        ))}
+
       {showFollowersUsers &&
-        followersUsers.map((user) => <div key={user.id}>{user.displayName}</div>)}
+        followersUsers.map((user) => (
+          <div key={user.id}>{user.displayName}</div>
+        ))}
     </div>
   );
 };

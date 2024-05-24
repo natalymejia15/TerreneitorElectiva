@@ -81,7 +81,7 @@ export const Register = () => {
             type="text"
             name="displayName"
             id="displayName"
-            className="w-full border border-gray-300 rounded-md py-2 px-3 focus:outline-none focus:border-blue-500"
+            className="w-full border border-gray-300 rounded-md py-2 px-3 focus:outline-none focus:border-violet-500"
             value={displayName}
             onChange={onInputChange}
           />
@@ -93,7 +93,7 @@ export const Register = () => {
           </label>
           <input
             type="email"
-            className="w-full border border-gray-300 rounded-md py-2 px-3 focus:outline-none focus:border-blue-500"
+            className="w-full border border-gray-300 rounded-md py-2 px-3 focus:outline-none focus:border-violet-500"
             id="email"
             name="email"
             value={email}
@@ -107,7 +107,7 @@ export const Register = () => {
           </label>
           <input
             type="password"
-            className="w-full border border-gray-300 rounded-md py-2 px-3 focus:outline-none focus:border-blue-500"
+            className="w-full border border-gray-300 rounded-md py-2 px-3 focus:outline-none focus:border-violet-500"
             id="password"
             name="password"
             value={password}
