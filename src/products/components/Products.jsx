@@ -4,7 +4,7 @@ import { collection, getDocs, query, where, orderBy } from "firebase/firestore/l
 import { FirebaseDB } from "~firebase/config";
 import { ProductItemLogin } from "./ProductItemLogin";
 
-export const Products = ({ userId, showProducts, showHunter }) => {
+export const Products = ({ userId, showProducts, showHunter, category }) => {
   const [products, setProducts] = useState([]);
   const { user } = useContext(AuthContext);
 
@@ -12,8 +12,16 @@ export const Products = ({ userId, showProducts, showHunter }) => {
     const getList = async () => {
       try {
         let queryProduct;
+        let fieldName;       
+        console.log("Nombre categoria", category);
         if (showHunter) {
-          queryProduct = query(collection(FirebaseDB, 'products'), orderBy('userId'));
+          if (category =="") {
+            fieldName = 'userId';
+            queryProduct = query(collection(FirebaseDB, 'products'), orderBy(fieldName));
+          } else {
+            fieldName = 'category';
+            queryProduct = query(collection(FirebaseDB, 'products'), orderBy(fieldName));
+          }
         } else {
           const fieldName = 'userId';
           const searchValue = userId || user.uid;
@@ -31,7 +39,7 @@ export const Products = ({ userId, showProducts, showHunter }) => {
     };
 
     getList();
-  }, [userId, user, showHunter]);
+  }, [userId, user, showHunter, category]);
 
   return (
     <div className="mr-10 ml-10 mb-2">
