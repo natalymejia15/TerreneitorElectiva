@@ -63,13 +63,14 @@ export const Navbar = () => {
     setClickedSearch(true);
   };
   const categories = [
-    { name: "Artificial Intelligence", href: "/products/:" },
-    { name: "Business Software", href: "/products/:software" },
-    { name: "Hardware", href: "/products/&{name}" },
-    { name: "Mobile technology", href: "/products/:mobil" },
-    { name: "Technological Architecture", href: "/products/&{name}" },
-    { name: "Business Intelligence", href: "/products/&{name}" },
+    { name: "Artificial Intelligence", href: "/products/IA" },
+    { name: "Business Software", href: "/products/software" },
+    { name: "Hardware", href: "/products/hardware" },
+    { name: "Mobile technology", href: "/products/mobil" },
+    { name: "Technological Architecture", href: "/products/arhitecture" },
+    { name: "Business Intelligence", href: "/products/business" },
   ];
+  
 
   const menu = () => {
     return (
