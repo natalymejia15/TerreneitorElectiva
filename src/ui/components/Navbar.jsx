@@ -21,12 +21,12 @@ export const Navbar = () => {
   };
 
   const categories = [
-    { name: "Artificial Intelligence", href:"/HomeProduct/"},
-    { name: "Business Software"},
-    { name: "Hardware" },
-    { name: "Mobile technology" },
-    { name: "Technological Architecture" },
-    { name: "Business Intelligence" },
+    { name: "Artificial Intelligence", href:"/products/:"},
+    { name: "Business Software", href:"/products/:software"},
+    { name: "Hardware",href:"/products/&{name}" },
+    { name: "Mobile technology", href:"/products/:mobil" },
+    { name: "Technological Architecture", href:"/products/&{name}" },
+    { name: "Business Intelligence", href:"/products/&{name}"},
   ];
 
   const menu = () => {
@@ -120,7 +120,10 @@ export const Navbar = () => {
                 </div>
               </div>
             </div>
-            <CategoriesDropdown categories={categories} />
+            <div className="px-4 ">
+              <CategoriesDropdown categories={categories} />
+            </div>
+            
             <div className="relative hidden md:block">
               <div className="absolute inset-y-0 start-0 flex items-center ps-3 pointer-events-none">
                 <svg

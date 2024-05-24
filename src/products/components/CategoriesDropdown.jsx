@@ -1,5 +1,6 @@
 import { Fragment } from "react";
 import { Menu, Transition } from "@headlessui/react";
+import { NavLink } from "react-router-dom";
 
 export const CategoriesDropdown = ({ categories }) => {
   return (
@@ -36,12 +37,12 @@ export const CategoriesDropdown = ({ categories }) => {
             {categories.map((category) => (
               <Menu.Item key={category.name}>
                 {({ active }) => (
-                  <a
-                    href={category.href}
-                    className={`${active ? "bg-gray-100" : ""} block px-4 py-2 text-sm text-gray-700`}
-                  >
-                    {category.name}
-                  </a>
+                  <NavLink
+                  to={category.href}
+                  className={`${active ? "bg-gray-100" : ""} block px-4 py-2 text-sm text-gray-700`}
+                >
+                  {category.name}
+                </NavLink>
                 )}
               </Menu.Item>
             ))}
