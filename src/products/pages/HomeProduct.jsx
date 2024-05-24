@@ -1,6 +1,6 @@
-import React, { useState } from "react";
-import { HeaderProduct } from '~products/components/HeaderProduct';
-import  {Products}  from '~products/components/Products'
+import { useState } from "react";
+import { HeaderProduct } from "~products/components/HeaderProduct";
+import { Products } from "~products/components/Products";
 
 export const HomeProduct = () => {
   const [showProducts, setShowProducts] = useState(true);
@@ -8,7 +8,7 @@ export const HomeProduct = () => {
     <>
       <HeaderProduct />
       <hr />
-      <Products showHunter={showProducts}/>
+      <Products showHunter={showProducts} />
     </>
-  )
-}
+  );
+};
