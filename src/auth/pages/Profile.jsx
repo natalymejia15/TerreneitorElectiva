@@ -184,14 +184,8 @@ export const Profile = (props) => {
                   <li className="flex border-b py-2">
                     <span className="font-bold w-24">Password:</span>
                     <span className="text-gray-700">
-                      ********
+                      
                     </span>
-                    <Link
-                      to={`/ResetPassword/${profileUser.email}`}
-                      className="ml-2 text-sm text-violet-500 hover:underline"
-                    >
-                      Change Password
-                    </Link>
                   </li>
                 ) : (
                   <li></li>
