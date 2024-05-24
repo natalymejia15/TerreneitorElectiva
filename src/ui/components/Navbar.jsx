@@ -6,6 +6,7 @@ import { AuthContext } from "../../auth";
 import { BellIcon } from "@heroicons/react/24/outline";
 import myIcon from "../../image/icono.png";
 import logo from "../../image/logosmall.png";
+import { CategoriesDropdown } from "~products/components/CategoriesDropdown";
 
 export const Navbar = () => {
   const { user, logout } = useContext(AuthContext);
@@ -18,6 +19,15 @@ export const Navbar = () => {
       replace: true,
     });
   };
+
+  const categories = [
+    { name: "Artificial Intelligence", href:"/products/:"},
+    { name: "Business Software", href:"/products/:software"},
+    { name: "Hardware",href:"/products/&{name}" },
+    { name: "Mobile technology", href:"/products/:mobil" },
+    { name: "Technological Architecture", href:"/products/&{name}" },
+    { name: "Business Intelligence", href:"/products/&{name}"},
+  ];
 
   const menu = () => {
     return (
@@ -110,9 +120,10 @@ export const Navbar = () => {
                 </div>
               </div>
             </div>
-            <div>
-              Products
+            <div className="px-4 ">
+              <CategoriesDropdown categories={categories} />
             </div>
+            
             <div className="relative hidden md:block">
               <div className="absolute inset-y-0 start-0 flex items-center ps-3 pointer-events-none">
                 <svg
