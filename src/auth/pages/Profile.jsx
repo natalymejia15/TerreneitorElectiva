@@ -5,13 +5,15 @@ import { doc, getDoc, setDoc, deleteDoc } from "firebase/firestore/lite";
 import { FirebaseDB } from "../../firebase/config";
 import icono from "../../image/icono.png";
 import { Followed } from "~products/components/Followed";
+import { Products } from "~products/components";
 
-export const Profile = () => {
+export const Profile = (props) => {
   const { userId } = useParams();
   const { user, logout } = useContext(AuthContext);
   const [profileUser, setProfileUser] = useState(null);
   const [error, setError] = useState(null);
   const [isFollowing, setIsFollowing] = useState(false);
+  const showProducts = props.show;
 
   useEffect(() => {
     const fetchUserProfile = async (id) => {
@@ -74,6 +76,8 @@ export const Profile = () => {
         });
         setIsFollowing(true);
       }
+
+      // Reload the page after follow/unfollow
       window.location.reload();
     } catch (err) {
       setError(
@@ -195,42 +199,46 @@ export const Profile = () => {
                 {isCurrentUser ? (
                   <li className="flex border-b py-2">
                     <span className="font-bold w-24">Password:</span>
+                    <span className="text-gray-700"></span>
+                  </li>
+                ) : (
+                  <li></li>
+                )}
+                {isCurrentUser ? (
+                  <li className="flex border-b py-2">
+                    <span className="font-bold w-24">Updated At:</span>
                     <span className="text-gray-700">
-                      {profileUser.password}
+                      {profileUser.updatedAt
+                        ? new Date(
+                            profileUser.updatedAt.seconds * 1000
+                          ).toLocaleDateString()
+                        : "N/A"}
                     </span>
                   </li>
                 ) : (
                   <li></li>
                 )}
-                <li className="flex border-b py-2">
-                  <span className="font-bold w-24">Created At:</span>
-                  <span className="text-gray-700">
-                    {profileUser.createdAt
-                      ? new Date(
-                          profileUser.createdAt.seconds * 1000
-                        ).toLocaleDateString()
-                      : "N/A"}
-                  </span>
-                </li>
-                <li className="flex border-b py-2">
-                  <span className="font-bold w-24">Updated At:</span>
-                  <span className="text-gray-700">
-                    {profileUser.updatedAt
-                      ? new Date(
-                          profileUser.updatedAt.seconds * 1000
-                        ).toLocaleDateString()
-                      : "N/A"}
-                  </span>
-                </li>
+                {isCurrentUser ? (
+                  <li className="flex border-b py-2">
+                    <span className="font-bold w-24">Created At:</span>
+                    <span className="text-gray-700">
+                      {profileUser.createdAt
+                        ? new Date(
+                            profileUser.createdAt.seconds * 1000
+                          ).toLocaleDateString()
+                        : "N/A"}
+                    </span>
+                  </li>
+                ) : (
+                  <li></li>
+                )}
               </ul>
             </div>
           </div>
           <div className="my-4">
             <div className="bg-white rounded-lg shadow-xl p-8">
-              <h4 className="text-xl text-gray-900 font-bold">Biography</h4>
-              <p className="mt-2 text-gray-700">
-                {profileUser.biography || "No biography available"}
-              </p>
+              <h4 className="text-xl text-gray-900 font-bold">Products</h4>
+              <Products userId={profileUser.id} showProducts={showProducts} />
             </div>
           </div>
         </div>
