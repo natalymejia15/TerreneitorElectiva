@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { FirebaseDB } from "~firebase/config";
-import { useParams } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import { doc, getDoc } from "firebase/firestore/lite";
 import { Comments } from "./Comments";
 
@@ -47,14 +47,19 @@ export const ProductDetail = () => {
         />
         <h3 className="text-lg font-bold mt-4">{product.name}</h3>
         <p className="text-gray-600">Description: {product.description}</p>
-        <p className="text-gray-600">User: {product.displayName}</p>
+        <p className="text-gray-600">
+          User: 
+          <Link to={`/users/${product.userId}`} className="text-gray-600">
+            {product.displayName}
+          </Link>
+        </p>
         <p className="text-gray-600">Rate: {product.rate}</p>
         <a href={product.url} target="blank" className="text-gray-600 ">
           {product.url}
         </a>
       </div>
       <br />
-      <Comments productId={id}  />
+      <Comments productId={id} />
     </div>
   );
 };

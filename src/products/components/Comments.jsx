@@ -18,6 +18,7 @@ const initialComment = {
   productId: "",
   comment: "",
   rate: "",
+  userPhotoURL: "",
   userId: "",
   userName: "",
   createdAt: "",
@@ -102,6 +103,7 @@ export const Comments = ({ productId }) => {
       userName: user.displayName,
       rate,
       userId: user.uid,
+      userPhotoURL: user.photoURL,
       createdAt: currentDate,
       updatedAt: currentDate,
     };
@@ -168,11 +170,22 @@ export const Comments = ({ productId }) => {
                 className="flex p-4 bg-white rounded-2xl shadow-lg mb-4"
               >
                 <div className="w-16 mr-4">
-                  <img
-                    src={icono}
-                    alt="icono"
-                    className="rounded-full w-full"
-                  />
+                  {
+                    comment.userPhotoURL ? (
+                      <img
+                      src={comment.userPhotoURL}
+                      alt="icono"
+                      className="rounded-full w-full"
+                    />
+                    ):(
+                      <img
+                      src={icono}
+                      alt="icono"
+                      className="rounded-full w-full"
+                    />
+                    )
+                  }
+                 
                 </div>
                 <div className="flex flex-col">
                   <div className="font-semibold">
