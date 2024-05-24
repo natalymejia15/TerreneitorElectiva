@@ -206,32 +206,34 @@ export const Profile = (props) => {
                 )}
                 {isCurrentUser ? (
                   <li className="flex border-b py-2">
-                    <span className="font-bold w-24">Updated At:</span>
+                    <span className="font-bold w-24">Updated:</span>
                     <span className="text-gray-700">
-                      {profileUser.updatedAt
-                        ? new Date(
-                            profileUser.updatedAt.seconds * 1000
-                          ).toLocaleDateString()
-                        : "N/A"}
+                      {profileUser.updatedAt instanceof Date
+                        ? `${profileUser.updatedAt.getFullYear()}-${(profileUser.updatedAt.getMonth() + 1).toString().padStart(2, '0')}-${profileUser.updatedAt.getDate().toString().padStart(2, '0')}`
+                        : profileUser.updatedAt
+                          ? new Date(profileUser.updatedAt).toISOString().slice(0, 10)
+                          : "N/A"}
                     </span>
                   </li>
                 ) : (
                   <li></li>
                 )}
+
                 {isCurrentUser ? (
                   <li className="flex border-b py-2">
-                    <span className="font-bold w-24">Created At:</span>
+                    <span className="font-bold w-24">Created:</span>
                     <span className="text-gray-700">
-                      {profileUser.createdAt
-                        ? new Date(
-                            profileUser.createdAt.seconds * 1000
-                          ).toLocaleDateString()
-                        : "N/A"}
+                      {profileUser.createdAt instanceof Date
+                        ? `${profileUser.createdAt.getFullYear()}-${(profileUser.createdAt.getMonth() + 1).toString().padStart(2, '0')}-${profileUser.createdAt.getDate().toString().padStart(2, '0')}`
+                        : profileUser.createdAt
+                          ? new Date(profileUser.createdAt).toISOString().slice(0, 10)
+                          : "N/A"}
                     </span>
                   </li>
                 ) : (
                   <li></li>
                 )}
+
               </ul>
             </div>
           </div>
