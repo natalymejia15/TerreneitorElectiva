@@ -5,13 +5,15 @@ import { doc, getDoc, setDoc, deleteDoc } from "firebase/firestore/lite";
 import { FirebaseDB } from "../../firebase/config";
 import icono from "../../image/icono.png";
 import { Followed } from "~products/components/Followed";
+import { Products } from "~products/components";
 
-export const Profile = () => {
+export const Profile = (props) => {
   const { userId } = useParams();
   const { user, logout } = useContext(AuthContext);
   const [profileUser, setProfileUser] = useState(null);
   const [error, setError] = useState(null);
   const [isFollowing, setIsFollowing] = useState(false);
+  const showProducts = props.show;
 
   useEffect(() => {
     const fetchUserProfile = async (id) => {
@@ -37,11 +39,7 @@ export const Profile = () => {
   useEffect(() => {
     const checkIfFollowing = async () => {
       if (user && profileUser) {
-        const followRef = doc(
-          FirebaseDB,
-          "follows",
-          `${user.uid}_${profileUser.id}`
-        );
+        const followRef = doc(FirebaseDB, "follows", `${user.uid}_${profileUser.id}`);
         const followDoc = await getDoc(followRef);
         setIsFollowing(followDoc.exists());
       }
@@ -56,11 +54,7 @@ export const Profile = () => {
       return;
     }
 
-    const followRef = doc(
-      FirebaseDB,
-      "follows",
-      `${user.uid}_${profileUser.id}`
-    );
+    const followRef = doc(FirebaseDB, "follows", `${user.uid}_${profileUser.id}`);
 
     try {
       if (isFollowing) {
@@ -70,15 +64,12 @@ export const Profile = () => {
         await setDoc(followRef, {
           followerId: user.uid,
           followingId: profileUser.id,
-          followedAt: new Date(),
+          followedAt: new Date()
         });
         setIsFollowing(true);
       }
-      window.location.reload();
     } catch (err) {
-      setError(
-        `Failed to ${isFollowing ? "unfollow" : "follow"} user: ${err.message}`
-      );
+      setError(`Failed to ${isFollowing ? 'unfollow' : 'follow'} user: ${err.message}`);
     }
   };
 
@@ -90,8 +81,7 @@ export const Profile = () => {
     return <div>Loading...</div>;
   }
 
-  const isCurrentUser =
-    user && (userId ? user.uid === userId : user.uid === profileUser.uid);
+  const isCurrentUser = user && (userId ? user.uid === userId : user.uid === profileUser.uid);
 
   return (
     <div className="bg-violet-200">
@@ -104,10 +94,7 @@ export const Profile = () => {
                 src={profileUser.photoURL}
                 className="w-40 border-4 border-white rounded-full"
                 alt="Profile"
-                onError={(e) => {
-                  e.target.onerror = null;
-                  e.target.src = icono;
-                }}
+                onError={(e) => { e.target.onerror = null; e.target.src = icono; }}
               />
             ) : (
               <img
@@ -144,10 +131,7 @@ export const Profile = () => {
           <div className="flex-1 flex flex-col items-center lg:items-end justify-end px-8 mt-2">
             <div className="flex items-center space-x-4 mt-2">
               {isCurrentUser ? (
-                <Link
-                  to={`/EditProfile/${profileUser.uid}`}
-                  className="flex items-center bg-violet-900 hover:bg-violet-700 text-gray-100 px-4 py-2 rounded text-sm space-x-2 transition duration-100"
-                >
+                <Link to={`/EditProfile/${profileUser.uid}`} className="flex items-center bg-violet-900 hover:bg-violet-700 text-gray-100 px-4 py-2 rounded text-sm space-x-2 transition duration-100">
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
                     className="h-4 w-4"
@@ -171,7 +155,7 @@ export const Profile = () => {
                   >
                     <path d="M8 9a3 3 0 100-6 3 3 0 000 6zM8 11a6 6 0 016 6H2a6 6 0 016-6zM16 7a1 1 0 10-2 0v1h-1a1 1 0 100 2h1v1a1 1 0 102 0v-1h1a1 1 0 100-2h-1V7z"></path>
                   </svg>
-                  <span>{isFollowing ? "Unfollow" : "Follow"}</span>
+                  <span>{isFollowing ? 'Unfollow' : 'Follow'}</span>
                 </button>
               )}
             </div>
@@ -196,8 +180,14 @@ export const Profile = () => {
                   <li className="flex border-b py-2">
                     <span className="font-bold w-24">Password:</span>
                     <span className="text-gray-700">
-                      {profileUser.password}
+                      ********
                     </span>
+                    <Link
+                      to={`/ResetPassword/${profileUser.email}`}
+                      className="ml-2 text-sm text-violet-500 hover:underline"
+                    >
+                      Change Password
+                    </Link>
                   </li>
                 ) : (
                   <li></li>
@@ -227,10 +217,8 @@ export const Profile = () => {
           </div>
           <div className="my-4">
             <div className="bg-white rounded-lg shadow-xl p-8">
-              <h4 className="text-xl text-gray-900 font-bold">Biography</h4>
-              <p className="mt-2 text-gray-700">
-                {profileUser.biography || "No biography available"}
-              </p>
+              <h4 className="text-xl text-gray-900 font-bold">Products</h4>
+              <Products userId={profileUser.id} showProducts={showProducts} />
             </div>
           </div>
         </div>
