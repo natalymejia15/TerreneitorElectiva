@@ -39,7 +39,11 @@ export const Profile = (props) => {
   useEffect(() => {
     const checkIfFollowing = async () => {
       if (user && profileUser) {
-        const followRef = doc(FirebaseDB, "follows", `${user.uid}_${profileUser.id}`);
+        const followRef = doc(
+          FirebaseDB,
+          "follows",
+          `${user.uid}_${profileUser.id}`
+        );
         const followDoc = await getDoc(followRef);
         setIsFollowing(followDoc.exists());
       }
@@ -53,9 +57,13 @@ export const Profile = (props) => {
       setError("You must be logged in to follow users.");
       return;
     }
-  
-    const followRef = doc(FirebaseDB, "follows", `${user.uid}_${profileUser.id}`);
-  
+
+    const followRef = doc(
+      FirebaseDB,
+      "follows",
+      `${user.uid}_${profileUser.id}`
+    );
+
     try {
       if (isFollowing) {
         await deleteDoc(followRef);
@@ -64,19 +72,20 @@ export const Profile = (props) => {
         await setDoc(followRef, {
           followerId: user.uid,
           followingId: profileUser.id,
-          followedAt: new Date()
+          followedAt: new Date(),
         });
         setIsFollowing(true);
       }
-      
+
       // Reload the page after follow/unfollow
       window.location.reload();
     } catch (err) {
-      setError(`Failed to ${isFollowing ? 'unfollow' : 'follow'} user: ${err.message}`);
+      setError(
+        `Failed to ${isFollowing ? "unfollow" : "follow"} user: ${err.message}`
+      );
     }
   };
-  
-  
+
   if (error) {
     return <div>Error: {error}</div>;
   }
@@ -85,7 +94,8 @@ export const Profile = (props) => {
     return <div>Loading...</div>;
   }
 
-  const isCurrentUser = user && (userId ? user.uid === userId : user.uid === profileUser.uid);
+  const isCurrentUser =
+    user && (userId ? user.uid === userId : user.uid === profileUser.uid);
 
   return (
     <div className="bg-violet-200">
@@ -98,7 +108,10 @@ export const Profile = (props) => {
                 src={profileUser.photoURL}
                 className="w-40 border-4 border-white rounded-full"
                 alt="Profile"
-                onError={(e) => { e.target.onerror = null; e.target.src = icono; }}
+                onError={(e) => {
+                  e.target.onerror = null;
+                  e.target.src = icono;
+                }}
               />
             ) : (
               <img
@@ -135,7 +148,10 @@ export const Profile = (props) => {
           <div className="flex-1 flex flex-col items-center lg:items-end justify-end px-8 mt-2">
             <div className="flex items-center space-x-4 mt-2">
               {isCurrentUser ? (
-                <Link to={`/EditProfile/${profileUser.uid}`} className="flex items-center bg-violet-900 hover:bg-violet-700 text-gray-100 px-4 py-2 rounded text-sm space-x-2 transition duration-100">
+                <Link
+                  to={`/EditProfile/${profileUser.uid}`}
+                  className="flex items-center bg-violet-900 hover:bg-violet-700 text-gray-100 px-4 py-2 rounded text-sm space-x-2 transition duration-100"
+                >
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
                     className="h-4 w-4"
@@ -159,7 +175,7 @@ export const Profile = (props) => {
                   >
                     <path d="M8 9a3 3 0 100-6 3 3 0 000 6zM8 11a6 6 0 016 6H2a6 6 0 016-6zM16 7a1 1 0 10-2 0v1h-1a1 1 0 100 2h1v1a1 1 0 102 0v-1h1a1 1 0 100-2h-1V7z"></path>
                   </svg>
-                  <span>{isFollowing ? 'Unfollow' : 'Follow'}</span>
+                  <span>{isFollowing ? "Unfollow" : "Follow"}</span>
                 </button>
               )}
             </div>
@@ -183,33 +199,39 @@ export const Profile = (props) => {
                 {isCurrentUser ? (
                   <li className="flex border-b py-2">
                     <span className="font-bold w-24">Password:</span>
+                    <span className="text-gray-700"></span>
+                  </li>
+                ) : (
+                  <li></li>
+                )}
+                {isCurrentUser ? (
+                  <li className="flex border-b py-2">
+                    <span className="font-bold w-24">Updated At:</span>
                     <span className="text-gray-700">
-                      
+                      {profileUser.updatedAt
+                        ? new Date(
+                            profileUser.updatedAt.seconds * 1000
+                          ).toLocaleDateString()
+                        : "N/A"}
                     </span>
                   </li>
                 ) : (
                   <li></li>
                 )}
-                <li className="flex border-b py-2">
-                  <span className="font-bold w-24">Created At:</span>
-                  <span className="text-gray-700">
-                    {profileUser.createdAt
-                      ? new Date(
-                          profileUser.createdAt.seconds * 1000
-                        ).toLocaleDateString()
-                      : "N/A"}
-                  </span>
-                </li>
-                <li className="flex border-b py-2">
-                  <span className="font-bold w-24">Updated At:</span>
-                  <span className="text-gray-700">
-                    {profileUser.updatedAt
-                      ? new Date(
-                          profileUser.updatedAt.seconds * 1000
-                        ).toLocaleDateString()
-                      : "N/A"}
-                  </span>
-                </li>
+                {isCurrentUser ? (
+                  <li className="flex border-b py-2">
+                    <span className="font-bold w-24">Created At:</span>
+                    <span className="text-gray-700">
+                      {profileUser.createdAt
+                        ? new Date(
+                            profileUser.createdAt.seconds * 1000
+                          ).toLocaleDateString()
+                        : "N/A"}
+                    </span>
+                  </li>
+                ) : (
+                  <li></li>
+                )}
               </ul>
             </div>
           </div>
